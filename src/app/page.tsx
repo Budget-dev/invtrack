@@ -25,8 +25,8 @@ import {
 } from '@/data/mock-data';
 import { 
   Warehouse as WarehouseIcon, Boxes, ShieldAlert, FileText, 
-  Camera, CheckCircle, Plus, ClipboardList, Info, HelpCircle, 
-  MapPin, CheckCircle2, AlertTriangle, ArrowUpRight, TrendingUp, Sliders 
+  Camera, CheckCircle, Plus, ClipboardList, Info, 
+  MapPin, CheckCircle2, Users, UserCheck, Building2, TrendingUp, Sliders 
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area, BarChart, Bar, Legend } from 'recharts';
 
@@ -1190,7 +1190,7 @@ export default function InvTrackMainApp() {
                 <Table>
                   <TableHeader className="bg-[#F7F9FC]">
                     <TableRow>
-                      <table-head>Location description</table-head>
+                      <TableHead>Location description</TableHead>
                       <TableHead>Client partner</TableHead>
                       <TableHead>Code</TableHead>
                       <TableHead>City Node</TableHead>
