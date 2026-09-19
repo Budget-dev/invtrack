@@ -30,6 +30,9 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 
+import HowItWorks from "@/components/ui/how-it-works";
+import { FloatingDataDecoration } from "@/components/ui/chart-tooltip";
+
 import { 
   clients, warehouses, inventoryItems, audits, 
   countLinesForAud002, discrepancies, auditRequests, auditors, 
@@ -454,18 +457,25 @@ export default function InvTrackMainApp() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    {[
-                      { val: "99.2%", label: "Average stock accuracy after first full count" },
-                      { val: "6 hrs", label: "Typical turnaround from start to signed report" },
-                      { val: "1,842", label: "SKUs counted in a single day at one location" },
-                      { val: "4 Roles", label: "Operational personas inside one cohesive platform" }
-                    ].map((stat, i) => (
-                      <div key={i} className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm text-left">
-                        <div className="text-3xl font-headline font-bold text-[#16202E] mb-2 tabular-nums">{stat.val}</div>
-                        <div className="text-xs text-[#5A6B80] leading-normal">{stat.label}</div>
-                      </div>
-                    ))}
+                  <div className="relative group">
+                    {/* Floating decorations */}
+                    <div className="absolute -inset-4 pointer-events-none hidden lg:block">
+                      <FloatingDataDecoration />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 relative z-10">
+                      {[
+                        { val: "99.2%", label: "Average stock accuracy after first full count" },
+                        { val: "6 hrs", label: "Typical turnaround from start to signed report" },
+                        { val: "1,842", label: "SKUs counted in a single day at one location" },
+                        { val: "4 Roles", label: "Operational personas inside one cohesive platform" }
+                      ].map((stat, i) => (
+                        <div key={i} className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-card text-left transition-transform hover:-translate-y-1">
+                          <div className="text-3xl font-headline font-bold text-[#16202E] mb-2 tabular-nums">{stat.val}</div>
+                          <div className="text-xs text-[#5A6B80] leading-normal">{stat.label}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
@@ -505,6 +515,31 @@ export default function InvTrackMainApp() {
                     </div>
                   </div>
                 </div>
+
+                <div className="py-12 border-y border-[#E3EAF2] bg-white -mx-6 md:-mx-8">
+                  <div className="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row justify-between gap-8 text-center md:text-left">
+                    <div className="flex-1 space-y-2">
+                      <div className="w-12 h-12 rounded-full bg-[#EEF5FF] text-[#2B7CE9] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold Sora">1</div>
+                      <h4 className="font-headline font-bold text-[#16202E]">Track</h4>
+                      <p className="text-xs text-[#5A6B80]">Monitor your inventory with real-time sync across all warehouses.</p>
+                    </div>
+                    <div className="flex-1 space-y-2">
+                      <div className="w-12 h-12 rounded-full bg-[#E8F6EF] text-[#12855A] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold Sora">2</div>
+                      <h4 className="font-headline font-bold text-[#16202E]">Verify</h4>
+                      <p className="text-xs text-[#5A6B80]">Ensure accurate counts with high-density field auditor workflows.</p>
+                    </div>
+                    <div className="flex-1 space-y-2">
+                      <div className="w-12 h-12 rounded-full bg-[#FDF0E3] text-[#E0762B] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold Sora">3</div>
+                      <h4 className="font-headline font-bold text-[#16202E]">Reconcile</h4>
+                      <p className="text-xs text-[#5A6B80]">Identify discrepancies instantly with smart variance tracking.</p>
+                    </div>
+                    <div className="flex-1 space-y-2">
+                      <div className="w-12 h-12 rounded-full bg-[#F0EBFB] text-[#6D4BC6] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold Sora">4</div>
+                      <h4 className="font-headline font-bold text-[#16202E]">Grow</h4>
+                      <p className="text-xs text-[#5A6B80]">Build a stronger business with data that finance teams trust.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -520,6 +555,42 @@ export default function InvTrackMainApp() {
                 <p className="text-[#5A6B80] text-sm leading-relaxed">
                   We built InvTrack to replace this administrative breakdown with a single secure ledger. Today, our application powers operations across retail chains and medical logistics networks throughout India.
                 </p>
+              </div>
+            )}
+
+            {tab === 'how_it_works' && (
+              <div className="space-y-12 py-12">
+                <div className="max-w-[800px] mx-auto text-center space-y-4">
+                  <h2 className="text-4xl font-headline font-bold text-[#16202E]">The 5-Stage Audit Lifecycle</h2>
+                  <p className="text-[#5A6B80] text-lg">Replacing chaotic spreadsheets with a single secure ledger of truth.</p>
+                </div>
+                <HowItWorks features={[
+                  {
+                    title: "Request the Audit",
+                    description: "Clients initiate a count sequence by selecting a warehouse and audit type from their portal.",
+                    colorTheme: "blue"
+                  },
+                  {
+                    title: "Admin Approval",
+                    description: "InvTrack operators verify details, freeze system quantities, and assign a qualified field auditor.",
+                    colorTheme: "purple"
+                  },
+                  {
+                    title: "On-Site Counting",
+                    description: "Auditors use tablet-optimized count sheets to verify physical stock against book quantities.",
+                    colorTheme: "orange"
+                  },
+                  {
+                    title: "Reconciliation",
+                    description: "Every variance is automatically flagged and routed to management for immediate review and approval.",
+                    colorTheme: "blue"
+                  },
+                  {
+                    title: "Final Sign-off",
+                    description: "A secure, verified report is generated and signed off, updating the master inventory record.",
+                    colorTheme: "blue"
+                  }
+                ]} />
               </div>
             )}
 
