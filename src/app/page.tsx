@@ -591,9 +591,38 @@ export default function InvTrackMainApp() {
                 </Card>
               </div>
             )}
+            {tab === 'settings' && (
+              <div className="max-w-[800px] mx-auto space-y-6">
+                <header><h2 className="text-3xl font-headline font-bold">System Setup</h2><p className="text-[#5A6B80]">Configure operational parameters and thresholds.</p></header>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Card className="border-[#E3EAF2]">
+                    <CardHeader className="p-4"><CardTitle className="text-sm font-bold uppercase tracking-wider">Variance Tolerance</CardTitle></CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-[#5A6B80]">Global Standard:</span>
+                        <Badge className="bg-black text-white">{VARIANCE_TOLERANCE_PERCENT}%</Badge>
+                      </div>
+                      <p className="text-[10px] text-muted-foreground">Counts exceeding this threshold will trigger mandatory auditor notes and manager escalations.</p>
+                      <Button variant="outline" size="sm" className="w-full">Update Threshold</Button>
+                    </CardContent>
+                  </Card>
+                  <Card className="border-[#E3EAF2]">
+                    <CardHeader className="p-4"><CardTitle className="text-sm font-bold uppercase tracking-wider text-[#16202E]">Operational Escalations Routing Inbox</CardTitle><CardDescription className="text-xs pt-1">Who is notified immediately when a critical severity discrepancy ledger breaches tolerance parameters during active floor verify shifts.</CardDescription></CardHeader>
+                    <CardContent className="p-4 space-y-4">
+                      <div>
+                        <span className="text-xs text-[#5A6B80] block mb-1">Operations Inbox Email:</span>
+                        <Input defaultValue="ops-escalations@invtrack.in" className="h-9 text-sm" />
+                      </div>
+                      <Button className="w-full bg-[#2B7CE9] text-white">Save Routing</Button>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
     </PortalShell>
   );
 }
+
