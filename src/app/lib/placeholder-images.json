@@ -1,0 +1,23 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "warehouse-hero",
+      "description": "A modern warehouse interior with high shelving and organized stock.",
+      "imageUrl": "https://picsum.photos/seed/invtrack1/1200/600",
+      "imageHint": "warehouse logistics"
+    },
+    {
+      "id": "auditor-profile",
+      "description": "A professional portrait for an auditor.",
+      "imageUrl": "https://picsum.photos/seed/auditor1/100/100",
+      "imageHint": "professional portrait"
+    },
+    {
+      "id": "inventory-item",
+      "description": "Standard packaged goods for inventory counting.",
+      "imageUrl": "https://picsum.photos/seed/item1/400/400",
+      "imageHint": "product box"
+    }
+  ]
+}
