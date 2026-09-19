@@ -1,19 +1,9 @@
-
 "use client";
 
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, FileText, Download, TrendingDown, TrendingUp } from "lucide-react";
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer 
-} from "recharts";
 
 const data = [
   { item: "SSD 1TB", variance: -12, type: "shortage" },
@@ -129,7 +119,6 @@ export default function DiscrepanciesPage() {
           </CardHeader>
           <CardContent className="flex flex-col items-center py-8">
             <div className="relative w-48 h-48 mb-6">
-               {/* Simplified representation of a radial chart using pure CSS/Tailwind */}
                <div className="absolute inset-0 rounded-full border-[12px] border-secondary" />
                <div className="absolute inset-0 rounded-full border-[12px] border-black border-l-transparent border-t-transparent border-r-transparent transform rotate-45" />
                <div className="absolute inset-0 flex flex-col items-center justify-center">

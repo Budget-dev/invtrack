@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -18,7 +17,7 @@ const navItems = [
   { name: "Analytics", href: "/", icon: LayoutDashboard },
   { name: "Audit Lifecycle", href: "/audits", icon: ClipboardCheck },
   { name: "Discrepancies", href: "/discrepancies", icon: FileWarning },
-  { name: "Operational View", href: "/operations", icon: BarChart3 },
+  { name: "Operational View", href: "/count-sheet", icon: BarChart3 },
   { name: "Administration", href: "/admin", icon: ShieldCheck },
 ];
 
@@ -56,7 +55,7 @@ export function SidebarNav() {
 
       <div className="p-4 border-t space-y-1">
         <Link
-          href="/settings"
+          href="/"
           className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground rounded-md transition-all"
         >
           <Settings size={18} strokeWidth={1.75} />

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -34,31 +33,11 @@ const categoryDiscrepancyData = [
 ];
 
 const stats = [
-  { label: "Global Stock Accuracy", value: "98.7%", icon: ShieldCheck, change: "+0.4%" },
+  { label: "Global Stock Accuracy", value: "98.7%", icon: ClipboardCheck, change: "+0.4%" },
   { label: "Active Audits", value: "14", icon: ClipboardCheck, change: "On Schedule" },
   { label: "High Variance Items", value: "128", icon: AlertCircle, change: "-12 from last week" },
   { label: "Total Sites Covered", value: "42", icon: Package, change: "All Live" },
 ];
-
-function ShieldCheck(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <path d="m9 12 2 2 4-4" />
-    </svg>
-  );
-}
 
 export default function Dashboard() {
   return (
