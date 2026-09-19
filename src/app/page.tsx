@@ -90,7 +90,7 @@ function SeverityBadge({ severity }: { severity: string }) {
 
 function StatCard({ label, value, icon: Icon, colorClass, bgClass, trend }: any) {
   return (
-    <Card className="p-6 flex items-center justify-between border-[#E3EAF2] shadow-sm hover:shadow-md transition-shadow">
+    <Card className="p-6 flex items-center justify-between border-[#E3EAF2] shadow-sm hover:shadow-md transition-shadow bg-white">
       <div>
         <p className="text-[11px] font-bold text-[#5A6B80] uppercase tracking-wider mb-1">{label}</p>
         <div className="flex items-baseline gap-2">
@@ -244,7 +244,7 @@ function PortalShell({
                   </nav>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Button variant="ghost" onClick={() => onRoleChange('client')} className="text-[14px]">Log in</Button>
+                  <Button variant="ghost" onClick={() => { onRoleChange('client'); onTabChange('dashboard'); }} className="text-[14px]">Log in</Button>
                   <Button onClick={() => onTabChange('request_audit')} className="bg-[#2B7CE9] text-white">Request an audit</Button>
                 </div>
               </>
@@ -255,8 +255,8 @@ function PortalShell({
                   <Badge variant="outline" className="text-[9px] uppercase tracking-widest">{userCompanies[currentRole]}</Badge>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Button variant="ghost" size="icon" className="relative"><Bell size={20} /><span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white" /></Button>
-                  <Avatar className="h-8 w-8"><AvatarFallback className="text-[10px] font-bold text-[#2B7CE9]">{initials(userNames[currentRole])}</AvatarFallback></Avatar>
+                  <Button variant="ghost" size="icon" className="relative text-[#8494A8]"><Bell size={20} /><span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white" /></Button>
+                  <Avatar className="h-8 w-8"><AvatarFallback className="text-[10px] font-bold text-[#2B7CE9] bg-[#EEF5FF] border border-[#D9E9FF]">{initials(userNames[currentRole])}</AvatarFallback></Avatar>
                 </div>
               </>
             )}
@@ -337,8 +337,8 @@ export default function InvTrackMainApp() {
                       <h1 className="text-[48px] md:text-[56px] font-headline font-bold text-[#16202E] leading-tight tracking-tight">Accurate inventory audits for a stronger tomorrow</h1>
                       <p className="text-[#5A6B80] text-lg max-w-[540px]">InvTrack replaces chaotic spreadsheets with physical verify cycles. Freeze quantities, track variances live, and produce reconciled reports instantly.</p>
                       <div className="flex items-center gap-4">
-                        <Button onClick={() => setTab('request_audit')} className="bg-[#2B7CE9] text-white px-8 h-12 font-semibold">Request an audit</Button>
-                        <Button variant="outline" onClick={() => setTab('how_it_works')} className="h-12 px-8 font-semibold bg-white">See how it works</Button>
+                        <Button onClick={() => setTab('request_audit')} className="bg-[#2B7CE9] text-white px-8 h-12 font-semibold shadow-lg">Request an audit</Button>
+                        <Button variant="outline" onClick={() => setTab('how_it_works')} className="h-12 px-8 font-semibold bg-white border-[#E3EAF2]">See how it works</Button>
                       </div>
                     </div>
                     <div className="relative flex items-center justify-center">
@@ -371,7 +371,7 @@ export default function InvTrackMainApp() {
             )}
             
             {tab === 'request_audit' && (
-              <div className="max-w-[640px] mx-auto py-12 px-6">
+              <div className="max-w-[640px] mx-auto py-12 px-6 text-left">
                 <Card className="border-[#E3EAF2] bg-white p-8 shadow-premium">
                   <h2 className="text-3xl font-headline font-bold mb-6">Initiate your first count</h2>
                   <form onSubmit={handleLeadSubmit(() => { toast.success("Request sent!"); setTab('home'); })} className="space-y-6">
@@ -384,34 +384,63 @@ export default function InvTrackMainApp() {
                       <Input placeholder="Phone Number" {...regLead('phone')} />
                     </div>
                     <Textarea placeholder="Additional Notes..." {...regLead('notes')} />
-                    <Button type="submit" className="w-full bg-[#2B7CE9] h-12 font-bold uppercase tracking-widest">Send Request</Button>
+                    <Button type="submit" className="w-full bg-[#2B7CE9] h-12 font-bold uppercase tracking-widest text-white shadow-lg">Send Request</Button>
                   </form>
                 </Card>
               </div>
             )}
             
-            <div className="space-y-0">
-              <div className="bg-[#2B7CE9] py-20 px-6">
-                <div className="max-w-[1320px] mx-auto text-center text-white space-y-8">
-                  <h2 className="text-4xl md:text-5xl font-headline font-bold tracking-tight">Ready to clarify your inventory?</h2>
-                  <p className="text-white/80 text-lg max-w-[600px] mx-auto font-medium">Join hundreds of warehouse managers who have eliminated spreadsheet chaos and regained control over their stock accuracy.</p>
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <Button className="bg-white text-[#2B7CE9] hover:bg-white/90 h-12 px-10 font-bold uppercase rounded-md shadow-lg">Request a Free Audit</Button>
-                    <Button variant="outline" className="border-white/40 text-white hover:bg-white/10 h-12 px-10 font-bold uppercase rounded-md">Talk to an Expert</Button>
-                  </div>
+            <div className="bg-[#2B7CE9] py-20 px-6">
+              <div className="max-w-[1320px] mx-auto text-center text-white space-y-8">
+                <h2 className="text-4xl md:text-5xl font-headline font-bold tracking-tight">Ready to clarify your inventory?</h2>
+                <p className="text-white/80 text-lg max-w-[600px] mx-auto font-medium">Join hundreds of warehouse managers who have eliminated spreadsheet chaos and regained control over their stock accuracy.</p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Button className="bg-white text-[#2B7CE9] hover:bg-white/90 h-12 px-10 font-bold uppercase rounded-md shadow-xl" onClick={() => setTab('request_audit')}>Request a Free Audit</Button>
+                  <Button variant="outline" className="border-white/40 text-white hover:bg-white/10 h-12 px-10 font-bold uppercase rounded-md">Talk to an Expert</Button>
                 </div>
               </div>
-              <footer className="bg-white border-t border-[#E3EAF2] pt-20 pb-10">
-                <div className="max-w-[1320px] mx-auto px-6 md:px-8">
-                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
-                    <div className="col-span-2 lg:col-span-2 space-y-8">
-                      <Logo className="scale-110 origin-left" />
-                      <p className="text-[#5A6B80] text-sm max-w-[320px] leading-relaxed font-medium">Enterprise-grade inventory audit management for modern logistics hubs.</p>
+            </div>
+            
+            <footer className="bg-white border-t border-[#E3EAF2] py-16">
+              <div className="max-w-[1320px] mx-auto px-6 md:px-8">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
+                  <div className="col-span-2 lg:col-span-2 space-y-8">
+                    <Logo className="scale-110 origin-left" />
+                    <p className="text-[#5A6B80] text-sm max-w-[320px] leading-relaxed font-medium">Enterprise-grade inventory audit management for modern logistics hubs.</p>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-[#16202E] uppercase text-[12px] tracking-widest mb-6">Product</h5>
+                    <ul className="space-y-4 text-sm text-[#5A6B80] font-medium">
+                      <li><button className="hover:text-[#2B7CE9]">Auditor Portal</button></li>
+                      <li><button className="hover:text-[#2B7CE9]">Inventory Ledger</button></li>
+                      <li><button className="hover:text-[#2B7CE9]">Discrepancy Control</button></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-[#16202E] uppercase text-[12px] tracking-widest mb-6">Company</h5>
+                    <ul className="space-y-4 text-sm text-[#5A6B80] font-medium">
+                      <li><button className="hover:text-[#2B7CE9]">About Us</button></li>
+                      <li><button className="hover:text-[#2B7CE9]">Case Studies</button></li>
+                      <li><button className="hover:text-[#2B7CE9]">Contact</button></li>
+                    </ul>
+                  </div>
+                  <div className="flex flex-col gap-6">
+                    <h5 className="font-bold text-[#16202E] uppercase text-[12px] tracking-widest mb-2">Connect</h5>
+                    <div className="flex gap-4">
+                      <button className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-[#2B7CE9] hover:text-white transition-colors"><Linkedin size={16} /></button>
+                      <button className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-[#2B7CE9] hover:text-white transition-colors"><Twitter size={16} /></button>
                     </div>
                   </div>
                 </div>
-              </footer>
-            </div>
+                <div className="border-t border-[#E3EAF2] pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-[#8494A8] font-medium gap-4">
+                  <p>© 2025 InvTrack India. All rights reserved.</p>
+                  <div className="flex gap-6 uppercase tracking-tight">
+                    <button className="hover:text-[#16202E]">Privacy Policy</button>
+                    <button className="hover:text-[#16202E]">Terms of Service</button>
+                  </div>
+                </div>
+              </div>
+            </footer>
           </motion.div>
         )}
 
@@ -480,7 +509,7 @@ export default function InvTrackMainApp() {
                     <div className="space-y-2"><label className="text-xs font-bold uppercase text-[#5A6B80]">Target Warehouse</label><select className="w-full h-10 border rounded-md px-3 bg-white" {...regAudit('warehouseId')}>{warehouses.filter(w => w.clientId === 'cl_abc').map(w => <option key={w.id} value={w.id}>{w.name}</option>)}</select></div>
                     <div className="space-y-2"><label className="text-xs font-bold uppercase text-[#5A6B80]">Audit Type</label><select className="w-full h-10 border rounded-md px-3 bg-white" {...regAudit('type')}><option value="full">Full Wall-to-Wall</option><option value="cycle">Cycle Count</option><option value="spot">Spot Check</option></select></div>
                     <div className="space-y-2"><label className="text-xs font-bold uppercase text-[#5A6B80]">Preferred Date</label><Input type="date" {...regAudit('preferredDate')} /></div>
-                    <Button type="submit" className="w-full bg-[#2B7CE9] h-12 text-white font-bold uppercase tracking-widest">Submit Request</Button>
+                    <Button type="submit" className="w-full bg-[#2B7CE9] h-12 text-white font-bold uppercase tracking-widest shadow-md">Submit Request</Button>
                   </form>
                 </Card>
               </div>
@@ -533,10 +562,34 @@ export default function InvTrackMainApp() {
               <div className="space-y-6">
                 <header><h2 className="text-3xl font-headline font-bold">Auditor Dashboard</h2><p className="text-[#5A6B80]">Active and upcoming floor verify assignments.</p></header>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <StatCard label="Today" value="01" icon={Activity} bgClass="bg-[#FDF0E3]" colorClass="text-[#E0762B]" />
+                  <StatCard label="Today's Shifts" value="01" icon={Activity} bgClass="bg-[#FDF0E3]" colorClass="text-[#E0762B]" />
                   <StatCard label="Upcoming" value="02" icon={Clock} bgClass="bg-[#FDF0E3]" colorClass="text-[#E0762B]" />
                   <StatCard label="Completed" value="14" icon={CheckIcon} bgClass="bg-[#FDF0E3]" colorClass="text-[#E0762B]" />
                 </div>
+                <Card className="border-[#E3EAF2] overflow-hidden">
+                   <div className="p-4 bg-slate-50 border-b font-bold text-xs uppercase text-[#5A6B80]">Active Assignments</div>
+                   <Table>
+                      <TableHeader><TableRow><TableHead>Reference</TableHead><TableHead>Warehouse</TableHead><TableHead>Target Qty</TableHead><TableHead className="text-right">Action</TableHead></TableRow></TableHeader>
+                      <TableBody>
+                        <TableRow><TableCell className="font-bold">AUD-002</TableCell><TableCell>XYZ Retail (MUM-01)</TableCell><TableCell>820 SKUs</TableCell><TableCell className="text-right"><Button variant="outline" size="sm" onClick={() => setTab('count_sheet')}>Begin Count</Button></TableCell></TableRow>
+                      </TableBody>
+                   </Table>
+                </Card>
+              </div>
+            )}
+            {tab === 'today' && (
+              <div className="space-y-6">
+                <header><h2 className="text-3xl font-headline font-bold">Today's Audits</h2><p className="text-[#5A6B80]">Your assigned shifts for the next 24 hours.</p></header>
+                <Card className="p-6 border-[#E3EAF2] flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600"><Clock size={24} /></div>
+                    <div>
+                      <h4 className="font-bold">AUD-002 &middot; Bhiwandi Hub</h4>
+                      <p className="text-sm text-muted-foreground">Start Time: 09:00 AM &middot; Zone A-F</p>
+                    </div>
+                  </div>
+                  <Button className="bg-[#2B7CE9] text-white" onClick={() => setTab('count_sheet')}>Start Verify</Button>
+                </Card>
               </div>
             )}
             {tab === 'count_sheet' && (
@@ -562,6 +615,21 @@ export default function InvTrackMainApp() {
                   </Table>
                 </Card>
                 <div className="flex justify-end pt-8"><Button className="bg-[#16202E] text-white px-8 h-12" onClick={() => { toast.success("Count submitted!"); setTab('dashboard'); }}>Finish Shift</Button></div>
+              </div>
+            )}
+            {tab === 'completed' && (
+              <div className="space-y-6">
+                 <header><h2 className="text-3xl font-headline font-bold">Completed Logs</h2><p className="text-[#5A6B80]">History of your recently verified audit shifts.</p></header>
+                 <Card className="border-[#E3EAF2] overflow-hidden">
+                    <Table>
+                       <TableHeader><TableRow><TableHead>Audit Reference</TableHead><TableHead>Warehouse</TableHead><TableHead>Date</TableHead><TableHead className="text-right">Accuracy</TableHead></TableRow></TableHeader>
+                       <TableBody>
+                         {audits.filter(a => a.auditorId === 'aud_naveen' && a.status === 'completed').map(a => (
+                           <TableRow key={a.id}><TableCell className="font-bold">{a.reference}</TableCell><TableCell className="text-sm">{warehouses.find(w => w.id === a.warehouseId)?.name}</TableCell><TableCell className="text-xs">{a.scheduledDate}</TableCell><TableCell className="text-right font-bold">{a.accuracy}%</TableCell></TableRow>
+                         ))}
+                       </TableBody>
+                    </Table>
+                 </Card>
               </div>
             )}
           </motion.div>
@@ -591,13 +659,43 @@ export default function InvTrackMainApp() {
                 </Card>
               </div>
             )}
+            {tab === 'clients' && (
+              <div className="space-y-6">
+                <header><h2 className="text-3xl font-headline font-bold">Client Management</h2><p className="text-[#5A6B80]">Global organization registry and onboarding status.</p></header>
+                <Card className="border-[#E3EAF2] overflow-hidden">
+                   <Table>
+                      <TableHeader><TableRow><TableHead>Organization</TableHead><TableHead>Industry</TableHead><TableHead>Sites</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+                      <TableBody>
+                        {clients.map(c => (
+                          <TableRow key={c.id}><TableCell className="font-bold">{c.name}</TableCell><TableCell className="text-xs uppercase font-medium">{c.industry}</TableCell><TableCell className="tabular-nums">{c.warehouseCount}</TableCell><TableCell><Badge variant="outline" className="capitalize">{c.status}</Badge></TableCell></TableRow>
+                        ))}
+                      </TableBody>
+                   </Table>
+                </Card>
+              </div>
+            )}
+            {tab === 'auditors' && (
+              <div className="space-y-6">
+                <header><h2 className="text-3xl font-headline font-bold">Field Agents</h2><p className="text-[#5A6B80]">Certified auditor roster and availability.</p></header>
+                <Card className="border-[#E3EAF2] overflow-hidden">
+                   <Table>
+                      <TableHeader><TableRow><TableHead>Auditor Name</TableHead><TableHead>Contact</TableHead><TableHead>Last Active</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+                      <TableBody>
+                        {auditors.map(a => (
+                          <TableRow key={a.id}><TableCell className="font-bold">{a.name}</TableCell><TableCell className="text-xs font-mono">{a.email}</TableCell><TableCell className="text-[10px] text-muted-foreground">{a.lastActiveDate}</TableCell><TableCell><Badge className="bg-green-100 text-green-700 hover:bg-green-100 capitalize">{a.status}</Badge></TableCell></TableRow>
+                        ))}
+                      </TableBody>
+                   </Table>
+                </Card>
+              </div>
+            )}
             {tab === 'settings' && (
-              <div className="max-w-[800px] mx-auto space-y-6">
+              <div className="max-w-[800px] mx-auto space-y-6 text-left">
                 <header><h2 className="text-3xl font-headline font-bold">System Setup</h2><p className="text-[#5A6B80]">Configure operational parameters and thresholds.</p></header>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Card className="border-[#E3EAF2]">
-                    <CardHeader className="p-4"><CardTitle className="text-sm font-bold uppercase tracking-wider">Variance Tolerance</CardTitle></CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardHeader className="p-4"><CardTitle className="text-sm font-bold uppercase tracking-wider text-[#16202E]">Variance Tolerance</CardTitle></CardHeader>
+                    <CardContent className="space-y-4 p-4">
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-[#5A6B80]">Global Standard:</span>
                         <Badge className="bg-black text-white">{VARIANCE_TOLERANCE_PERCENT}%</Badge>
@@ -625,4 +723,3 @@ export default function InvTrackMainApp() {
     </PortalShell>
   );
 }
-

@@ -1,8 +1,7 @@
 
 /**
- * Root redirection neutralized to prevent build manifest collision.
- * The entry point is now exclusively managed by src/app/page.tsx
+ * Route group entry point neutralized to fix build collisions with root src/app/page.tsx
  */
-export default function NeutralPage() {
+export default function DashboardRootPlaceholder() {
   return null;
 }

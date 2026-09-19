@@ -1,3 +1,4 @@
+
 "use client";
 
 import { CSSProperties, ComponentProps } from "react";
@@ -5,7 +6,6 @@ import { cn } from "@/lib/utils";
 
 /**
  * High-fidelity Tooltip component for data visualization highlights.
- * Used for decorative "live-data" feel on marketing pages.
  */
 export function TooltipDemo({
   indicator = "dot",
@@ -24,8 +24,6 @@ export function TooltipDemo({
     value: number | string;
     fill: string;
   }[];
-  nameKey?: string;
-  labelKey?: string;
 } & ComponentProps<"div">) {
   const tooltipLabel = hideLabel ? null : (
     <div className="font-headline font-semibold text-[10px] uppercase tracking-wider text-[#5A6B80] mb-1.5">{label}</div>
@@ -89,7 +87,7 @@ export function TooltipDemo({
                     <span className="text-[#5A6B80] font-medium text-[12px]">{item.name}</span>
                   </div>
                   <span className="font-code font-bold text-[#16202E] tabular-nums text-[12px]">
-                    {typeof item.value === 'number' && item.name !== 'Shortage' ? item.value.toLocaleString() : item.value}
+                    {item.value.toLocaleString()}
                   </span>
                 </div>
               </>
@@ -104,9 +102,9 @@ export function TooltipDemo({
 export function FloatingDataDecoration({ className }: { className?: string }) {
   return (
     <div className={cn("relative h-full w-full", className)}>
-      {/* Live Variance Tooltip (Top Left) pointing to 99.2% */}
+      {/* Live Variance Tooltip */}
       <div className="absolute top-[0%] left-[-10%] z-20">
-        <div className="relative group">
+        <div className="relative">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 193 40"
@@ -127,41 +125,14 @@ export function FloatingDataDecoration({ className }: { className?: string }) {
               { name: "Value Impact", value: "₹12,750", fill: "#16202E" },
             ]}
             indicator="dot"
-            className="w-[10rem] border-[#E3EAF2]"
+            className="w-[10rem]"
           />
         </div>
       </div>
 
-      {/* Current Count Tooltip (Right Side) pointing to 4 Roles */}
-      <div className="absolute top-[40%] -right-[15%] z-20">
-        <div className="relative group">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="60"
-            fill="none"
-            viewBox="0 0 75 175"
-            className="absolute -bottom-10 -left-10 z-10 rotate-[220deg] text-[#E0762B] opacity-30"
-          >
-            <path
-              fill="currentColor"
-              d="M20.187 175c-4.439-2.109-7.186-2.531-8.032-4.008-3.17-5.484-6.763-10.968-8.454-17.084-5.073-16.242-4.439-32.694-1.057-49.146 5.707-28.053 18.388-52.942 34.24-76.565 1.692-2.531 3.171-5.063 4.862-7.805 0-.21-.211-.632-.634-1.265-4.65 1.265-9.511 2.53-14.161 3.585-2.537.422-5.496.422-8.032-.421-1.48-.422-3.593-2.742-3.593-4.219 0-1.898 1.48-4.218 2.747-5.906 1.057-1.054 2.96-1.265 4.65-1.687C35.406 7.315 48.088 3.729 60.98.776c10.99-2.53 14.584 1.055 13.95 11.812-.634 11.18-.846 22.358-1.268 33.326-.212 3.375-.846 6.96-1.268 10.757-8.878-4.007-8.878-4.007-12.048-38.177C47.03 33.259 38.153 49.289 29.91 65.741 21.667 82.193 16.17 99.49 13.212 117.84c-2.959 18.984.634 36.912 6.975 57.161Z"
-            />
-          </svg>
-          <TooltipDemo
-            label="Current Count"
-            payload={[
-              { name: "AUD-002", value: "62%", fill: "#E0762B" },
-            ]}
-            indicator="dashed"
-            className="w-[9rem] border-[#E3EAF2]"
-          />
-        </div>
-      </div>
-
-      {/* Accuracy Tooltip (Bottom Right) */}
+      {/* Accuracy Tooltip */}
       <div className="absolute bottom-[-10%] right-[0%] z-20">
-        <div className="relative group">
+        <div className="relative">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="40"
@@ -182,7 +153,7 @@ export function FloatingDataDecoration({ className }: { className?: string }) {
               { name: "Lines", value: 1842, fill: "#2B7CE9" },
             ]}
             indicator="line"
-            className="w-[10rem] border-[#E3EAF2]"
+            className="w-[10rem]"
           />
         </div>
       </div>

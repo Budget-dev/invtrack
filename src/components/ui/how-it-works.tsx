@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface CardProps {
@@ -125,7 +125,6 @@ export default function HowItWorks({
 
   return (
     <div className={cn("relative py-24 bg-white overflow-hidden", className)}>
-      {/* Background Grid Styling matches Hero */}
       <div 
         className="absolute inset-0 pointer-events-none opacity-[0.08]"
         style={{
