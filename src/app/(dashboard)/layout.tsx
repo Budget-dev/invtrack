@@ -1,7 +1,4 @@
 
-/**
- * Simplified dashboard layout to prevent route group interference.
- */
 export default function DashboardLayout({
   children,
 }: {

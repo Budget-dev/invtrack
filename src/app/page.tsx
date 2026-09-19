@@ -17,9 +17,9 @@ import {
   Menu, FilePlus, FileCheck2, PlaySquare, MoreVertical, LayoutDashboard,
   BarChart3, Calendar as CalendarIcon, FileBarChart, UserCog, ListChecks,
   FileWarning, ActivitySquare, PlusSquare, Trash2, CheckCircle2 as CheckIcon,
-  Globe, Mail, Phone, Linkedin, Twitter, Facebook
+  Globe, Mail, Phone, Linkedin, Twitter, Facebook, ExternalLink, Eye, ChevronRight
 } from 'lucide-react';
-import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area, BarChart, Bar, Legend, LineChart, Line } from 'recharts';
+import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area, BarChart, Bar, Legend, LineChart, Line, PieChart as RePie, Pie, Cell } from 'recharts';
 import { cn, formatCurrency, formatNumber, initials } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -41,7 +41,7 @@ import {
   accuracyTrend, varianceByCategory, VARIANCE_TOLERANCE_PERCENT 
 } from '@/data/mock-data';
 
-// --- SHARED COMPONENTS (Top Level to avoid ReferenceErrors) ---
+// --- SHARED UI COMPONENTS ---
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
@@ -58,97 +58,6 @@ export function Logo({ className = "" }: { className?: string }) {
     </div>
   );
 }
-
-function MarketingFooter() {
-  return (
-    <div className="space-y-0">
-      <div className="bg-[#2B7CE9] py-20 px-6">
-        <div className="max-w-[1320px] mx-auto text-center text-white space-y-8">
-          <h2 className="text-4xl md:text-5xl font-headline font-bold tracking-tight">Ready to clarify your inventory?</h2>
-          <p className="text-white/80 text-lg max-w-[600px] mx-auto font-medium">Join hundreds of warehouse managers who have eliminated spreadsheet chaos and regained control over their stock accuracy.</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button className="bg-white text-[#2B7CE9] hover:bg-white/90 h-12 px-10 font-bold uppercase tracking-widest rounded-md transition-all shadow-lg hover:shadow-xl">
-              Request a Free Audit
-            </Button>
-            <Button variant="outline" className="border-white/40 text-white hover:bg-white/10 h-12 px-10 font-bold uppercase tracking-widest rounded-md backdrop-blur-sm">
-              Talk to an Expert
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <footer className="bg-white border-t border-[#E3EAF2] pt-20 pb-10">
-        <div className="max-w-[1320px] mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
-            <div className="col-span-2 lg:col-span-2 space-y-8">
-              <Logo className="scale-110 origin-left" />
-              <p className="text-[#5A6B80] text-sm max-w-[320px] leading-relaxed font-medium">
-                Enterprise-grade inventory audit management for modern logistics and retail hubs. Accuracy delivered at scale through physical verify cycles.
-              </p>
-              <div className="flex gap-4">
-                <button className="w-10 h-10 rounded-full bg-[#EEF5FF] flex items-center justify-center text-[#2B7CE9] hover:bg-[#2B7CE9] hover:text-white transition-all shadow-sm hover:shadow-md"><Linkedin size={18} /></button>
-                <button className="w-10 h-10 rounded-full bg-[#EEF5FF] flex items-center justify-center text-[#2B7CE9] hover:bg-[#2B7CE9] hover:text-white transition-all shadow-sm hover:shadow-md"><Twitter size={18} /></button>
-                <button className="w-10 h-10 rounded-full bg-[#EEF5FF] flex items-center justify-center text-[#2B7CE9] hover:bg-[#2B7CE9] hover:text-white transition-all shadow-sm hover:shadow-md"><Facebook size={18} /></button>
-              </div>
-            </div>
-            <div className="space-y-6">
-              <h4 className="font-headline font-bold text-[12px] uppercase tracking-[0.2em] text-[#16202E]">Product</h4>
-              <ul className="space-y-4 text-[14px] text-[#5A6B80] font-medium">
-                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer flex items-center gap-2">Features</li>
-                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Mobile Count App</li>
-                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Live Analytics</li>
-                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Integrations</li>
-              </ul>
-            </div>
-            <div className="space-y-6">
-              <h4 className="font-headline font-bold text-[12px] uppercase tracking-[0.2em] text-[#16202E]">Resources</h4>
-              <ul className="space-y-4 text-[14px] text-[#5A6B80] font-medium">
-                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Audit Checklists</li>
-                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Case Studies</li>
-                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Knowledge Base</li>
-                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Support Center</li>
-              </ul>
-            </div>
-            <div className="space-y-6">
-              <h4 className="font-headline font-bold text-[12px] uppercase tracking-[0.2em] text-[#16202E]">Contact</h4>
-              <ul className="space-y-4 text-[14px] text-[#5A6B80] font-medium">
-                <li className="flex items-center gap-3"><Mail size={16} className="text-[#2B7CE9]" /> contact@invtrack.in</li>
-                <li className="flex items-center gap-3"><Phone size={16} className="text-[#2B7CE9]" /> +91 98860 12345</li>
-                <li className="flex items-center gap-3"><Globe size={16} className="text-[#2B7CE9]" /> Global Distribution</li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-10 border-t border-[#E3EAF2] flex flex-col md:flex-row justify-between items-center gap-6 text-[12px] text-[#8494A8] font-bold tracking-tight">
-            <p>© 2024 InvTrack Systems India Pvt Ltd. All rights reserved.</p>
-            <div className="flex flex-wrap justify-center gap-8">
-              <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-[#12855A]" /> SOC2 COMPLIANT</span>
-              <span className="flex items-center gap-2"><Activity size={16} className="text-[#2B7CE9]" /> UPTIME: 99.99%</span>
-              <span className="hover:text-[#16202E] cursor-pointer transition-colors uppercase tracking-widest">Privacy</span>
-              <span className="hover:text-[#16202E] cursor-pointer transition-colors uppercase tracking-widest">Terms</span>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-}
-
-const LeadFormSchema = zod.object({
-  company: zod.string().min(2, { message: 'Company name is required' }),
-  name: zod.string().min(2, { message: 'Contact name is required' }),
-  email: zod.string().email({ message: 'Invalid email address' }),
-  phone: zod.string().min(10, { message: 'Phone must be at least 10 digits' }),
-  city: zod.string().min(2, { message: 'City is required' }),
-  warehousesCount: zod.number().min(1, { message: 'Must be at least 1 warehouse' }),
-  notes: zod.string().optional()
-});
-
-const CreateAuditSchema = zod.object({
-  warehouseId: zod.string().min(1, "Warehouse is required"),
-  type: zod.string().min(1, "Audit type is required"),
-  preferredDate: zod.string().min(1, "Date is required"),
-  notes: zod.string().optional()
-});
 
 function AuditStatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
@@ -179,6 +88,23 @@ function SeverityBadge({ severity }: { severity: string }) {
   );
 }
 
+function StatCard({ label, value, icon: Icon, colorClass, bgClass, trend }: any) {
+  return (
+    <Card className="p-6 flex items-center justify-between border-[#E3EAF2] shadow-sm hover:shadow-md transition-shadow">
+      <div>
+        <p className="text-[11px] font-bold text-[#5A6B80] uppercase tracking-wider mb-1">{label}</p>
+        <div className="flex items-baseline gap-2">
+          <h3 className="text-2xl font-bold text-[#16202E]">{value}</h3>
+          {trend && <span className="text-[10px] font-bold text-green-600">{trend}</span>}
+        </div>
+      </div>
+      <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", bgClass, colorClass)}>
+        <Icon size={20} strokeWidth={2} />
+      </div>
+    </Card>
+  );
+}
+
 // --- PORTAL SHELL ---
 
 function PortalShell({ 
@@ -189,13 +115,12 @@ function PortalShell({
   children 
 }: { 
   currentRole: 'marketing' | 'client' | 'auditor' | 'admin';
-  onRoleChange: (role: 'marketing' | 'client' | 'auditor' | 'admin') => void;
+  onRoleChange: (role: any) => void;
   activeTab: string;
   onTabChange: (tab: string) => void;
   children: React.ReactNode;
 }) {
   const [openSidebar, setOpenSidebar] = useState(true);
-  const [openMobile, setOpenMobile] = useState(false);
 
   const roleLabels = {
     marketing: 'Public Website',
@@ -350,18 +275,35 @@ function PortalShell({
 
 // --- MAIN APP ---
 
+const LeadFormSchema = zod.object({
+  company: zod.string().min(2),
+  name: zod.string().min(2),
+  email: zod.string().email(),
+  phone: zod.string().min(10),
+  city: zod.string().min(2),
+  warehousesCount: zod.number().min(1),
+  notes: zod.string().optional()
+});
+
+const CreateAuditSchema = zod.object({
+  warehouseId: zod.string().min(1),
+  type: zod.string().min(1),
+  preferredDate: zod.string().min(1),
+  notes: zod.string().optional()
+});
+
 export default function InvTrackMainApp() {
   const [role, setRole] = useState<'marketing' | 'client' | 'auditor' | 'admin'>('marketing');
   const [tab, setTab] = useState<string>('home');
   const [liveCountLines, setLiveCountLines] = useState(countLinesForAud002);
   const [activeRequests, setActiveRequests] = useState(auditRequests);
 
-  const { register: regLead, handleSubmit: handleLeadSubmit, formState: { errors: leadErrors }, reset: resetLead } = useForm({
+  const { register: regLead, handleSubmit: handleLeadSubmit, reset: resetLead } = useForm({
     resolver: zodResolver(LeadFormSchema),
     defaultValues: { warehousesCount: 1 }
   });
 
-  const { register: regAudit, handleSubmit: handleAuditSubmit, formState: { errors: auditErrors }, reset: resetAudit } = useForm({
+  const { register: regAudit, handleSubmit: handleAuditSubmit, reset: resetAudit } = useForm({
     resolver: zodResolver(CreateAuditSchema)
   });
 
@@ -448,7 +390,28 @@ export default function InvTrackMainApp() {
               </div>
             )}
             
-            <MarketingFooter />
+            <div className="space-y-0">
+              <div className="bg-[#2B7CE9] py-20 px-6">
+                <div className="max-w-[1320px] mx-auto text-center text-white space-y-8">
+                  <h2 className="text-4xl md:text-5xl font-headline font-bold tracking-tight">Ready to clarify your inventory?</h2>
+                  <p className="text-white/80 text-lg max-w-[600px] mx-auto font-medium">Join hundreds of warehouse managers who have eliminated spreadsheet chaos and regained control over their stock accuracy.</p>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Button className="bg-white text-[#2B7CE9] hover:bg-white/90 h-12 px-10 font-bold uppercase rounded-md shadow-lg">Request a Free Audit</Button>
+                    <Button variant="outline" className="border-white/40 text-white hover:bg-white/10 h-12 px-10 font-bold uppercase rounded-md">Talk to an Expert</Button>
+                  </div>
+                </div>
+              </div>
+              <footer className="bg-white border-t border-[#E3EAF2] pt-20 pb-10">
+                <div className="max-w-[1320px] mx-auto px-6 md:px-8">
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
+                    <div className="col-span-2 lg:col-span-2 space-y-8">
+                      <Logo className="scale-110 origin-left" />
+                      <p className="text-[#5A6B80] text-sm max-w-[320px] leading-relaxed font-medium">Enterprise-grade inventory audit management for modern logistics hubs.</p>
+                    </div>
+                  </div>
+                </div>
+              </footer>
+            </div>
           </motion.div>
         )}
 
@@ -461,17 +424,10 @@ export default function InvTrackMainApp() {
                   <p className="text-[#5A6B80]">Operational status across your registered warehouse sites.</p>
                 </header>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  {[
-                    { label: 'Active Sites', val: '03', icon: WarehouseIcon, color: 'text-[#12855A]', bg: 'bg-[#E8F6EF]' },
-                    { label: 'Total Audits', val: '08', icon: ClipboardList, color: 'text-[#12855A]', bg: 'bg-[#E8F6EF]' },
-                    { label: 'Pending Decisions', val: '12', icon: ShieldAlert, color: 'text-red-600', bg: 'bg-red-50' },
-                    { label: 'Avg Accuracy', val: '98.8%', icon: TrendingUp, color: 'text-[#12855A]', bg: 'bg-[#E8F6EF]' }
-                  ].map((s, i) => (
-                    <Card key={i} className="p-6 flex items-center justify-between border-[#E3EAF2]">
-                      <div><p className="text-xs font-bold text-[#5A6B80] uppercase tracking-wider">{s.label}</p><h3 className="text-3xl font-bold mt-1">{s.val}</h3></div>
-                      <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", s.bg, s.color)}><s.icon size={20} /></div>
-                    </Card>
-                  ))}
+                  <StatCard label="Active Sites" value="03" icon={WarehouseIcon} bgClass="bg-[#E8F6EF]" colorClass="text-[#12855A]" />
+                  <StatCard label="Total Audits" value="08" icon={ClipboardList} bgClass="bg-[#E8F6EF]" colorClass="text-[#12855A]" />
+                  <StatCard label="Pending Decisions" value="12" icon={ShieldAlert} bgClass="bg-red-50" colorClass="text-red-600" />
+                  <StatCard label="Avg Accuracy" value="98.8%" icon={TrendingUp} bgClass="bg-[#E8F6EF]" colorClass="text-[#12855A]" />
                 </div>
                 <Card className="border-[#E3EAF2] overflow-hidden">
                   <div className="p-4 bg-slate-50 border-b font-bold text-xs uppercase text-[#5A6B80]">Recent Audit Status</div>
@@ -479,7 +435,7 @@ export default function InvTrackMainApp() {
                     <TableHeader><TableRow><TableHead>Audit ID</TableHead><TableHead>Site</TableHead><TableHead>Status</TableHead><TableHead className="text-right">Action</TableHead></TableRow></TableHeader>
                     <TableBody>
                       {audits.filter(a => a.clientId === 'cl_abc').map(a => (
-                        <TableRow key={a.id}><TableCell className="font-bold text-xs">{a.reference}</TableCell><TableCell className="text-sm font-medium">{warehouses.find(w => w.id === a.warehouseId)?.name}</TableCell><TableCell><AuditStatusBadge status={a.status} /></TableCell><TableCell className="text-right"><Button variant="outline" size="sm" className="h-8 text-xs font-bold" onClick={() => setTab('my_audits')}>Manage</Button></TableCell></TableRow>
+                        <TableRow key={a.id}><TableCell className="font-bold text-xs">{a.reference}</TableCell><TableCell className="text-sm font-medium">{warehouses.find(w => w.id === a.warehouseId)?.name}</TableCell><TableCell><AuditStatusBadge status={a.status} /></TableCell><TableCell className="text-right"><Button variant="outline" size="sm" onClick={() => setTab('my_audits')}>Manage</Button></TableCell></TableRow>
                       ))}
                     </TableBody>
                   </Table>
@@ -577,13 +533,9 @@ export default function InvTrackMainApp() {
               <div className="space-y-6">
                 <header><h2 className="text-3xl font-headline font-bold">Auditor Dashboard</h2><p className="text-[#5A6B80]">Active and upcoming floor verify assignments.</p></header>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {[
-                    { label: 'Today', val: '01', icon: Activity, tone: 'auditor' },
-                    { label: 'Upcoming', val: '02', icon: Clock, tone: 'auditor' },
-                    { label: 'Completed', val: '14', icon: CheckIcon, tone: 'auditor' }
-                  ].map((s, i) => (
-                    <Card key={i} className="p-6 border-[#E3EAF2] flex justify-between items-center"><div><p className="text-xs font-bold uppercase text-[#5A6B80]">{s.label}</p><h3 className="text-3xl font-bold mt-1 text-[#E0762B]">{s.val}</h3></div><div className="w-10 h-10 bg-[#FDF0E3] text-[#E0762B] rounded-lg flex items-center justify-center"><s.icon size={20} /></div></Card>
-                  ))}
+                  <StatCard label="Today" value="01" icon={Activity} bgClass="bg-[#FDF0E3]" colorClass="text-[#E0762B]" />
+                  <StatCard label="Upcoming" value="02" icon={Clock} bgClass="bg-[#FDF0E3]" colorClass="text-[#E0762B]" />
+                  <StatCard label="Completed" value="14" icon={CheckIcon} bgClass="bg-[#FDF0E3]" colorClass="text-[#E0762B]" />
                 </div>
               </div>
             )}
@@ -595,25 +547,22 @@ export default function InvTrackMainApp() {
                 </Card>
                 <Card className="border-[#E3EAF2] overflow-hidden bg-white">
                   <Table>
-                    <TableHeader className="bg-slate-50"><TableRow><TableHead>SKU ID</TableHead><TableHead>Description</TableHead><TableHead className="text-right">System Book</TableHead><TableHead className="text-center w-[160px]">Physical Count</TableHead><TableHead className="text-right">Variance</TableHead></TableRow></TableHeader>
+                    <TableHeader className="bg-slate-50"><TableRow><TableHead>SKU ID</TableHead><TableHead>Description</TableHead><TableHead className="text-right">Book Qty</TableHead><TableHead className="text-center w-[160px]">Physical Count</TableHead><TableHead className="text-right">Variance</TableHead></TableRow></TableHeader>
                     <TableBody>
                       {liveCountLines.map((line) => (
-                        <TableRow key={line.sku} className={cn("h-16", line.isFlagged ? "bg-red-50 hover:bg-red-100" : "hover:bg-slate-50")}>
+                        <TableRow key={line.sku} className={cn("h-16", line.isFlagged ? "bg-red-50" : "")}>
                           <TableCell className="font-mono text-xs font-bold">{line.sku}</TableCell>
-                          <TableCell><div className="font-semibold text-sm">{line.itemName}</div><Badge variant="outline" className="text-[9px] uppercase font-bold text-[#5A6B80]">{line.zone}</Badge></TableCell>
-                          <TableCell className="text-right font-bold text-sm">{line.systemQty}</TableCell>
-                          <TableCell className="p-2"><Input type="number" placeholder="0" value={line.countedQty ?? ''} onChange={(e) => handleUpdateCount(line.sku, e.target.value)} className="h-10 text-center font-bold text-lg focus:border-[#E0762B] focus:ring-0" /></TableCell>
-                          <TableCell className={cn("text-right font-bold text-base", line.isFlagged ? "text-red-600" : line.variance !== null ? "text-green-600" : "text-slate-300")}>{line.variance !== null ? (line.variance > 0 ? `+${line.variance}` : line.variance) : "-"}</TableCell>
+                          <TableCell><div className="font-semibold text-sm">{line.itemName}</div><Badge variant="outline" className="text-[9px] uppercase">{line.zone}</Badge></TableCell>
+                          <TableCell className="text-right font-bold">{line.systemQty}</TableCell>
+                          <TableCell className="p-2"><Input type="number" placeholder="0" value={line.countedQty ?? ''} onChange={(e) => handleUpdateCount(line.sku, e.target.value)} className="h-10 text-center font-bold text-lg" /></TableCell>
+                          <TableCell className={cn("text-right font-bold", line.isFlagged ? "text-red-600" : "")}>{line.variance !== null ? (line.variance > 0 ? `+${line.variance}` : line.variance) : "-"}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </Card>
-                <div className="flex justify-end pt-8"><Button className="bg-[#16202E] text-white px-8 h-12 font-bold uppercase text-xs" onClick={() => { toast.success("Count submitted!"); setTab('dashboard'); }}>Finish Shift</Button></div>
+                <div className="flex justify-end pt-8"><Button className="bg-[#16202E] text-white px-8 h-12" onClick={() => { toast.success("Count submitted!"); setTab('dashboard'); }}>Finish Shift</Button></div>
               </div>
-            )}
-            {['my_audits', 'today', 'discrepancies', 'completed'].includes(tab) && (
-              <div className="text-left py-20 text-[#5A6B80]"><h3 className="text-xl font-bold mb-2">Auditor Workspace Segment: {tab.replace('_', ' ')}</h3><p>Assignment view details are synchronized with master floor records.</p></div>
             )}
           </motion.div>
         )}
@@ -622,16 +571,12 @@ export default function InvTrackMainApp() {
           <motion.div key="admin" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-8 text-left p-6 md:p-8">
             {tab === 'dashboard' && (
               <div className="space-y-8">
-                <header><h2 className="text-3xl font-headline font-bold">Admin Control Hub</h2><p className="text-[#5A6B80]">Global operational overview and request management.</p></header>
+                <header><h2 className="text-3xl font-headline font-bold">Admin Hub</h2><p className="text-[#5A6B80]">Global operational overview and request management.</p></header>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  {[
-                    { label: 'Active Clients', val: '12', icon: Users, color: 'text-[#6D4BC6]', bg: 'bg-[#F0EBFB]' },
-                    { label: 'Pending Requests', val: '03', icon: FilePlus, color: 'text-orange-600', bg: 'bg-orange-50' },
-                    { label: 'Live Audits', val: '04', icon: Activity, color: 'text-[#6D4BC6]', bg: 'bg-[#F0EBFB]' },
-                    { label: 'Global Accuracy', val: '99.2%', icon: CheckIcon, color: 'text-green-600', bg: 'bg-green-50' }
-                  ].map((s, i) => (
-                    <Card key={i} className="p-6 border-[#E3EAF2] flex justify-between items-center"><div><p className="text-xs font-bold uppercase text-[#5A6B80]">{s.label}</p><h3 className="text-3xl font-bold mt-1">{s.val}</h3></div><div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", s.bg, s.color)}><s.icon size={20} /></div></Card>
-                  ))}
+                  <StatCard label="Active Clients" value="12" icon={Users} bgClass="bg-[#F0EBFB]" colorClass="text-[#6D4BC6]" />
+                  <StatCard label="Pending Requests" value="03" icon={FilePlus} bgClass="bg-orange-50" colorClass="text-orange-600" />
+                  <StatCard label="Live Audits" value="04" icon={Activity} bgClass="bg-[#F0EBFB]" colorClass="text-[#6D4BC6]" />
+                  <StatCard label="Global Accuracy" value="99.2%" icon={CheckIcon} bgClass="bg-green-50" colorClass="text-green-600" />
                 </div>
                 <Card className="border-[#E3EAF2] overflow-hidden">
                   <div className="p-4 bg-slate-50 border-b font-bold text-xs text-[#5A6B80] uppercase">Audit Request Queue</div>
@@ -639,15 +584,12 @@ export default function InvTrackMainApp() {
                     <TableHeader><TableRow><TableHead>Account</TableHead><TableHead>Site</TableHead><TableHead>Target Date</TableHead><TableHead className="text-right">Action</TableHead></TableRow></TableHeader>
                     <TableBody>
                       {activeRequests.map(req => (
-                        <TableRow key={req.id}><TableCell className="font-bold">{req.clientName}</TableCell><TableCell className="text-sm">{req.warehouseName}</TableCell><TableCell className="text-xs font-mono">{req.preferredDate}</TableCell><TableCell className="text-right"><div className="flex justify-end gap-2"><Button size="sm" variant="outline" className="h-8 text-[10px] font-bold">Decline</Button><Button size="sm" className="bg-[#2B7CE9] text-white h-8 text-[10px] font-bold uppercase">Approve</Button></div></TableCell></TableRow>
+                        <TableRow key={req.id}><TableCell className="font-bold">{req.clientName}</TableCell><TableCell className="text-sm">{req.warehouseName}</TableCell><TableCell className="text-xs font-mono">{req.preferredDate}</TableCell><TableCell className="text-right"><div className="flex justify-end gap-2"><Button size="sm" variant="outline">Decline</Button><Button size="sm" className="bg-[#2B7CE9] text-white">Approve</Button></div></TableCell></TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </Card>
               </div>
-            )}
-            {['clients', 'warehouses', 'auditors', 'requests', 'inventory', 'settings'].includes(tab) && (
-              <div className="text-left py-20 text-[#5A6B80]"><h3 className="text-xl font-bold mb-2">Global Operations Control: {tab.replace('_', ' ')}</h3><p>Master record management for {tab} is established for regional oversight.</p></div>
             )}
           </motion.div>
         )}
