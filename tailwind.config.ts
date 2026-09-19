@@ -1,3 +1,4 @@
+
 import type { Config } from 'tailwindcss';
 
 export default {
@@ -15,7 +16,7 @@ export default {
         code: ['monospace'],
       },
       colors: {
-        background: '#F7F9FC',
+        background: '#FFFFFF',
         foreground: '#16202E',
         card: {
           DEFAULT: '#FFFFFF',
@@ -66,13 +67,14 @@ export default {
         danger: '#C0362C',
       },
       borderRadius: {
-        lg: '10px',
+        lg: '12px',
         md: '8px',
         sm: '4px',
         full: '999px',
       },
       boxShadow: {
         card: '0 1px 2px rgba(16,33,57,.06), 0 8px 24px -12px rgba(16,33,57,.18)',
+        premium: '0 1px 2px rgba(16,33,57,.06), 0 8px 24px -12px rgba(16,33,57,.18)',
       },
     },
   },
