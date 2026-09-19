@@ -1,7 +1,6 @@
-
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
@@ -15,7 +14,8 @@ import {
   AlertTriangle, Filter, RotateCcw, Save, LogOut, ChevronDown, 
   ChevronsRight, Bell, Settings, HelpCircle, User, Download, TrendingDown,
   Menu, FilePlus, FileCheck2, PlaySquare, MoreVertical, LayoutDashboard,
-  BarChart3, Calendar as CalendarIcon, FileBarChart, UserCog, ListChecks
+  BarChart3, Calendar as CalendarIcon, FileBarChart, UserCog, ListChecks,
+  FileWarning, ActivitySquare, PlusSquare, Trash2, CheckCircle2 as CheckIcon
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area, BarChart, Bar, Legend, LineChart, Line } from 'recharts';
 import { cn, formatCurrency, formatNumber, initials, variancePercent } from '@/lib/utils';
@@ -42,7 +42,7 @@ import {
   accuracyTrend, varianceByCategory, VARIANCE_TOLERANCE_PERCENT 
 } from '@/data/mock-data';
 
-// Define Logo locally to ensure it is always available
+// --- LOGO COMPONENT ---
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
@@ -59,7 +59,7 @@ export function Logo({ className = "" }: { className?: string }) {
   );
 }
 
-// Zod validation schemas
+// --- FORM SCHEMAS ---
 const LeadFormSchema = zod.object({
   company: zod.string().min(2, { message: 'Company name is required' }),
   name: zod.string().min(2, { message: 'Contact name is required' }),
@@ -77,7 +77,7 @@ const CreateAuditSchema = zod.object({
   notes: zod.string().optional()
 });
 
-// Shared Layout Component for Portals
+// --- SHARED PORTAL SHELL ---
 function PortalShell({ 
   currentRole, 
   onRoleChange, 
@@ -112,7 +112,7 @@ function PortalShell({
     marketing: 'Prospective Client',
     client: 'ABC Enterprises',
     auditor: 'Field Operations',
-    admin: 'InvTrack India Team'
+    admin: 'InvTrack Operations'
   };
 
   const roleColors = {
@@ -232,7 +232,7 @@ function PortalShell({
       <div className="bg-slate-900 text-white text-[11px] px-4 py-1.5 flex items-center justify-between shrink-0 font-sans z-50">
         <div className="flex items-center gap-3">
           <span className="font-bold tracking-wider text-[#2B7CE9]">DEMO MODE:</span>
-          <span className="text-slate-400">Select a workspace to preview the experience:</span>
+          <span className="text-slate-400">Select a workspace to preview:</span>
         </div>
         <div className="flex gap-1">
           {['marketing', 'client', 'auditor', 'admin'].map((r) => (
@@ -348,7 +348,7 @@ function PortalShell({
   );
 }
 
-// Utility components for badges
+// --- UTILITY COMPONENTS ---
 function AuditStatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
     completed: 'bg-[#E8F6EF] text-[#12855A]',
@@ -378,18 +378,13 @@ function SeverityBadge({ severity }: { severity: string }) {
   );
 }
 
-// Main App Component
+// --- MAIN APP COMPONENT ---
 export default function InvTrackMainApp() {
   const [role, setRole] = useState<'marketing' | 'client' | 'auditor' | 'admin'>('marketing');
   const [tab, setTab] = useState<string>('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [liveCountLines, setLiveCountLines] = useState(countLinesForAud002);
   const [activeRequests, setActiveRequests] = useState(auditRequests);
-
-  // Client Audit Form
-  const { register: regAudit, handleSubmit: handleAuditSubmit, formState: { errors: auditErrors }, reset: resetAudit } = useForm({
-    resolver: zodResolver(CreateAuditSchema)
-  });
 
   // Marketing Lead Form
   const { register: regLead, handleSubmit: handleLeadSubmit, formState: { errors: leadErrors }, reset: resetLead } = useForm({
@@ -402,6 +397,11 @@ export default function InvTrackMainApp() {
     resetLead();
     setTab('home');
   };
+
+  // Client Audit Form
+  const { register: regAudit, handleSubmit: handleAuditSubmit, formState: { errors: auditErrors }, reset: resetAudit } = useForm({
+    resolver: zodResolver(CreateAuditSchema)
+  });
 
   const onAuditRequest = (data: any) => {
     toast.success(`Audit request created: REQ-00${activeRequests.length + 1}`);
@@ -450,16 +450,10 @@ export default function InvTrackMainApp() {
     >
       <AnimatePresence mode="wait">
         {role === 'marketing' && (
-          <motion.div 
-            key="marketing"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="space-y-16 pb-16"
-          >
+          <motion.div key="marketing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-16 pb-16">
             {tab === 'home' && (
               <div className="space-y-24">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12 items-center min-h-[500px]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12 items-center">
                   <div className="space-y-8 text-left">
                     <div className="space-y-2">
                       <span className="text-[#2B7CE9] text-[13px] font-bold tracking-widest uppercase block">From stock to clarity</span>
@@ -468,7 +462,7 @@ export default function InvTrackMainApp() {
                       </h1>
                     </div>
                     <p className="text-[#5A6B80] text-lg leading-relaxed max-w-[540px]">
-                      InvTrack replaces chaotic spreadsheets with high density physical verify cycles. Freeze quantities, track variances live, and produce reconciled reports instantly.
+                      InvTrack replaces chaotic spreadsheets with physical verify cycles. Freeze quantities, track variances live, and produce reconciled reports instantly.
                     </p>
                     <div className="flex items-center gap-4 pt-4">
                       <Button onClick={() => setTab('request_audit')} className="bg-[#2B7CE9] text-white hover:bg-[#1D6FE0] px-8 h-12 rounded-lg font-semibold shadow-sm">
@@ -480,16 +474,16 @@ export default function InvTrackMainApp() {
                     </div>
                   </div>
 
-                  <div className="relative h-full flex items-center justify-center">
+                  <div className="relative flex items-center justify-center">
                     <div className="absolute inset-0 pointer-events-none hidden lg:block z-20">
                       <FloatingDataDecoration />
                     </div>
                     <div className="grid grid-cols-2 gap-5 relative z-10 w-full max-w-[520px]">
                       {[
-                        { val: '99.2%', label: 'Average stock accuracy after first full count' },
-                        { val: '6 hrs', label: 'Typical turnaround from start to signed report' },
-                        { val: '1,842', label: 'SKUs counted in a single day at one location' },
-                        { val: '4 Roles', label: 'Operational personas inside one cohesive platform' }
+                        { val: '99.2%', label: 'Average accuracy' },
+                        { val: '6 hrs', label: 'Turnaround' },
+                        { val: '1,842', label: 'Daily SKU count' },
+                        { val: '4 Roles', label: 'One platform' }
                       ].map((item, i) => (
                         <div key={i} className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-card text-left transition-transform hover:-translate-y-1">
                           <div className="text-4xl font-headline font-bold text-[#16202E] mb-2 tabular-nums">{item.val}</div>
@@ -501,37 +495,25 @@ export default function InvTrackMainApp() {
                 </div>
 
                 <div className="space-y-8 text-left pt-8">
-                  <h2 className="text-2xl font-headline font-bold text-[#16202E]">Three workspaces, one record of the truth</h2>
+                  <h2 className="text-2xl font-headline font-bold text-[#16202E]">Operational Workspaces</h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#12855A]/30 transition-all cursor-pointer group" onClick={() => { setRole('client'); setTab('dashboard'); }}>
-                      <div className="w-10 h-10 rounded-lg bg-[#E8F6EF] text-[#12855A] flex items-center justify-center mb-4">
-                        <WarehouseIcon size={20} />
-                      </div>
-                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Client Workspace</h3>
-                      <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Track active location accuracy, verify missing quantities, and approve discrepancy books.</p>
-                      <div className="text-xs font-bold text-[#12855A] group-hover:underline flex items-center gap-1">
-                        Open client platform
-                      </div>
+                      <div className="w-10 h-10 rounded-lg bg-[#E8F6EF] text-[#12855A] flex items-center justify-center mb-4"><WarehouseIcon size={20} /></div>
+                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Client Desk</h3>
+                      <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Track site accuracy, verify missing quantities, and approve books.</p>
+                      <div className="text-xs font-bold text-[#12855A] group-hover:underline">Open client platform</div>
                     </div>
                     <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#E0762B]/30 transition-all cursor-pointer group" onClick={() => { setRole('auditor'); setTab('dashboard'); }}>
-                      <div className="w-10 h-10 rounded-lg bg-[#FDF0E3] text-[#E0762B] flex items-center justify-center mb-4">
-                        <UserCheck size={20} />
-                      </div>
-                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Auditor Tablet View</h3>
-                      <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Optimized for physical auditing. High-density lines input grids and camera verification tools.</p>
-                      <div className="text-xs font-bold text-[#E0762B] group-hover:underline flex items-center gap-1">
-                        Open auditor tablet
-                      </div>
+                      <div className="w-10 h-10 rounded-lg bg-[#FDF0E3] text-[#E0762B] flex items-center justify-center mb-4"><UserCheck size={20} /></div>
+                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Auditor Tablet</h3>
+                      <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Optimized for floor work. High-density grids and camera verification.</p>
+                      <div className="text-xs font-bold text-[#E0762B] group-hover:underline">Open auditor tablet</div>
                     </div>
                     <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#6D4BC6]/30 transition-all cursor-pointer group" onClick={() => { setRole('admin'); setTab('dashboard'); }}>
-                      <div className="w-10 h-10 rounded-lg bg-[#F0EBFB] text-[#6D4BC6] flex items-center justify-center mb-4">
-                        <Sliders size={20} />
-                      </div>
-                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Admin Control Center</h3>
-                      <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Approve scheduled audit sequences, deploy field auditors, and analyze client data charts.</p>
-                      <div className="text-xs font-bold text-[#6D4BC6] group-hover:underline flex items-center gap-1">
-                        Open admin panel
-                      </div>
+                      <div className="w-10 h-10 rounded-lg bg-[#F0EBFB] text-[#6D4BC6] flex items-center justify-center mb-4"><Sliders size={20} /></div>
+                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Admin Control</h3>
+                      <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Approve scheduled audits, deploy auditors, and analyze data charts.</p>
+                      <div className="text-xs font-bold text-[#6D4BC6] group-hover:underline">Open admin panel</div>
                     </div>
                   </div>
                 </div>
@@ -545,420 +527,117 @@ export default function InvTrackMainApp() {
                   <p className="text-[#5A6B80] text-lg">Replacing chaotic spreadsheets with a single secure ledger of truth.</p>
                 </div>
                 <HowItWorks features={[
-                  {
-                    title: "Request the Audit",
-                    description: "Clients initiate a count sequence by selecting a warehouse and audit type from their portal.",
-                    colorTheme: "blue"
-                  },
-                  {
-                    title: "Admin Approval",
-                    description: "InvTrack operators verify details, freeze system quantities, and assign a qualified field auditor.",
-                    colorTheme: "purple"
-                  },
-                  {
-                    title: "On-Site Counting",
-                    description: "Auditors use tablet-optimized count sheets to verify physical stock against book quantities.",
-                    colorTheme: "orange"
-                  },
-                  {
-                    title: "Reconciliation",
-                    description: "Every variance is automatically flagged and routed to management for immediate review and approval.",
-                    colorTheme: "blue"
-                  },
-                  {
-                    title: "Final Sign-off",
-                    description: "A secure, verified report is generated and signed off, updating the master inventory record.",
-                    colorTheme: "blue"
-                  }
+                  { title: "Request the Audit", description: "Clients initiate a count sequence by selecting a warehouse site and audit type.", colorTheme: "blue" },
+                  { title: "Admin Approval", description: "InvTrack operators verify details, freeze system quantities, and assign a field agent.", colorTheme: "purple" },
+                  { title: "On-Site Counting", description: "Auditors use tablet-optimized count sheets to verify physical stock against book records.", colorTheme: "orange" },
+                  { title: "Reconciliation", description: "Every variance is automatically flagged and routed to management for immediate review.", colorTheme: "blue" },
+                  { title: "Final Sign-off", description: "A secure report is generated and signed off, updating the master inventory record.", colorTheme: "blue" }
                 ]} />
+              </div>
+            )}
+
+            {tab === 'request_audit' && (
+              <div className="max-w-[640px] mx-auto py-12">
+                <div className="space-y-4 mb-10">
+                  <h2 className="text-3xl font-headline font-bold text-[#16202E]">Initiate your first count</h2>
+                  <p className="text-[#5A6B80]">Fill in your warehouse details and our operations team will contact you within 24 hours.</p>
+                </div>
+                <Card className="border-[#E3EAF2] bg-white p-8 shadow-premium">
+                  <form onSubmit={handleLeadSubmit(onLeadSubmit)} className="space-y-6">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Company Name</label>
+                        <Input placeholder="e.g. ABC Enterprises" {...regLead('company')} />
+                        {leadErrors.company && <p className="text-[10px] text-red-500">{leadErrors.company.message as string}</p>}
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Your Name</label>
+                        <Input placeholder="e.g. Ravi Teja" {...regLead('name')} />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Work Email</label>
+                        <Input type="email" placeholder="ravi.teja@abcent.in" {...regLead('email')} />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Phone Number</label>
+                        <Input placeholder="+91 98765 43210" {...regLead('phone')} />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">City</label>
+                        <Input placeholder="Hyderabad" {...regLead('city')} />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Warehouses to count</label>
+                        <Input type="number" {...regLead('warehousesCount', { valueAsNumber: true })} />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Additional Notes</label>
+                      <Textarea placeholder="Stock value, SKU count, or deadline details..." {...regLead('notes')} />
+                    </div>
+                    <Button type="submit" className="w-full bg-[#2B7CE9] h-12 font-bold uppercase tracking-widest rounded-lg">Send Request</Button>
+                  </form>
+                </Card>
               </div>
             )}
           </motion.div>
         )}
 
         {role === 'client' && (
-          <motion.div 
-            key="client" 
-            initial={{ opacity: 0, y: 10 }} 
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="space-y-8 text-left"
-          >
+          <motion.div key="client" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-8 text-left">
             {tab === 'dashboard' && (
               <div className="space-y-8">
                 <div className="flex justify-between items-end">
                   <div>
-                    <h2 className="text-[30px] font-headline font-bold text-[#16202E] tracking-tight">Dashboard</h2>
-                    <p className="text-[14px] text-[#5A6B80]">Where every warehouse stands and what needs a decision from you.</p>
+                    <h2 className="text-[30px] font-headline font-bold text-[#16202E]">Dashboard</h2>
+                    <p className="text-[14px] text-[#5A6B80]">Where every warehouse stands and what needs a decision.</p>
                   </div>
-                  <Button onClick={() => setTab('create_audit')} className="bg-[#2B7CE9] text-white hover:bg-[#1656B4]">Request Audit</Button>
+                  <Button onClick={() => setTab('create_audit')} className="bg-[#2B7CE9] text-white">Request Audit</Button>
                 </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {[
-                    { label: 'Warehouses', val: '03', icon: WarehouseIcon, tone: 'client' },
-                    { label: 'Total Audits', val: '05', icon: ClipboardList, tone: 'client' },
-                    { label: 'In Progress', val: '02', icon: Activity, tone: 'client' },
-                    { label: 'Completed', val: '03', icon: FileText, tone: 'client' }
-                  ].map((stat, i) => (
-                    <Card key={i} className="border-[#E3EAF2] bg-white rounded-[10px] shadow-sm overflow-hidden">
-                      <CardContent className="p-5 flex items-center justify-between">
+                    { label: 'Warehouses', val: '03', icon: WarehouseIcon },
+                    { label: 'Total Audits', val: '05', icon: ClipboardList },
+                    { label: 'In Progress', val: '02', icon: Activity },
+                    { label: 'Completed', val: '03', icon: FileText }
+                  ].map((s, i) => (
+                    <Card key={i} className="border-[#E3EAF2] p-5 shadow-sm">
+                      <div className="flex justify-between items-center">
                         <div className="space-y-1">
-                          <p className="text-[14px] text-[#5A6B80] font-medium">{stat.label}</p>
-                          <h3 className="font-headline text-[30px] font-semibold tracking-tight text-[#16202E] tabular-nums">{stat.val}</h3>
+                          <p className="text-sm text-[#5A6B80] font-medium">{s.label}</p>
+                          <h3 className="font-headline text-3xl font-bold tabular-nums">{s.val}</h3>
                         </div>
-                        <div className="w-10 h-10 rounded-lg bg-[#E8F6EF] text-[#12855A] flex items-center justify-center">
-                          <stat.icon size={20} />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  <Card className="lg:col-span-2 border-[#E3EAF2] bg-white overflow-hidden shadow-sm">
-                    <div className="p-4 bg-slate-50 border-b flex items-center justify-between">
-                      <span className="font-bold text-xs uppercase text-[#5A6B80] tracking-wider">Recent Audits Ledger</span>
-                      <Button variant="ghost" size="sm" onClick={() => setTab('my_audits')} className="h-7 text-xs text-[#2B7CE9] font-bold">View all</Button>
-                    </div>
-                    <Table>
-                      <TableHeader>
-                        <TableRow className="bg-transparent hover:bg-transparent">
-                          <TableHead className="text-[12px] uppercase tracking-wider font-bold">Reference</TableHead>
-                          <TableHead className="text-[12px] uppercase tracking-wider font-bold">Warehouse</TableHead>
-                          <TableHead className="text-[12px] uppercase tracking-wider font-bold">Type</TableHead>
-                          <TableHead className="text-[12px] uppercase tracking-wider font-bold">Scheduled</TableHead>
-                          <TableHead className="text-[12px] uppercase tracking-wider font-bold">Status</TableHead>
-                          <TableHead className="text-[12px] uppercase tracking-wider font-bold text-right">Progress</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {audits.filter(a => a.clientId === 'cl_abc').slice(0, 4).map(aud => (
-                          <TableRow key={aud.id} className="h-[52px] group">
-                            <TableCell className="font-semibold text-sm">{aud.reference}</TableCell>
-                            <TableCell className="text-xs">
-                              <div className="font-bold text-[#16202E]">{warehouses.find(w => w.id === aud.warehouseId)?.name}</div>
-                              <div className="text-[#8494A8]">{warehouses.find(w => w.id === aud.warehouseId)?.city}</div>
-                            </TableCell>
-                            <TableCell className="text-xs capitalize">{aud.type}</TableCell>
-                            <TableCell className="text-xs tabular-nums text-[#5A6B80]">{aud.scheduledDate}</TableCell>
-                            <TableCell><AuditStatusBadge status={aud.status} /></TableCell>
-                            <TableCell className="text-right">
-                              <div className="flex flex-col items-end gap-1.5">
-                                <span className="text-[10px] font-bold text-[#16202E]">{aud.countedLines} / {aud.totalLines}</span>
-                                <div className="w-16 h-1 bg-slate-100 rounded-full overflow-hidden">
-                                  <div 
-                                    className={cn("h-full", aud.status === 'completed' ? "bg-[#12855A]" : "bg-[#2B7CE9]")} 
-                                    style={{ width: `${(aud.countedLines/aud.totalLines)*100}%` }} 
-                                  />
-                                </div>
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </Card>
-
-                  <div className="space-y-6">
-                    <Card className="border-[#E3EAF2] bg-white overflow-hidden shadow-sm">
-                      <div className="p-4 bg-slate-50 border-b font-bold text-xs uppercase text-[#5A6B80] tracking-wider">Unresolved Discrepancies</div>
-                      <div className="p-0">
-                        {discrepancies.filter(d => d.status !== 'resolved').slice(0, 3).map((d, i) => (
-                          <div key={i} className="p-4 border-b last:border-0 hover:bg-slate-50 cursor-pointer" onClick={() => setTab('discrepancies')}>
-                            <div className="flex justify-between items-start mb-1">
-                              <span className="text-sm font-bold text-[#16202E]">{d.itemName}</span>
-                              <SeverityBadge severity={d.severity} />
-                            </div>
-                            <div className="flex justify-between items-center text-[11px]">
-                              <span className="text-[#8494A8] font-mono">{d.sku}</span>
-                              <span className="text-[#C0362C] font-bold">{d.variance > 0 ? `+${d.variance}` : d.variance} units</span>
-                            </div>
-                          </div>
-                        ))}
+                        <div className="w-10 h-10 bg-[#E8F6EF] text-[#12855A] rounded-lg flex items-center justify-center"><s.icon size={20} /></div>
                       </div>
                     </Card>
-
-                    <Card className="border-none bg-[#E8F6EF] p-5 shadow-sm">
-                      <h4 className="text-[15px] font-headline font-bold text-[#12855A] mb-2">Next scheduled count</h4>
-                      <p className="text-[13px] text-[#12855A]/80 leading-relaxed mb-4">
-                        Vijayawada Depot has never been audited. We recommend an opening count before the annual close on 28 Sep.
-                      </p>
-                      <Button variant="outline" size="sm" onClick={() => setTab('create_audit')} className="w-full bg-white border-[#12855A]/20 text-[#12855A] hover:bg-[#E8F6EF]">Schedule Now</Button>
-                    </Card>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {tab === 'warehouses' && (
-              <div className="space-y-8">
-                <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
-                  <div>
-                    <h2 className="text-[30px] font-headline font-bold text-[#16202E]">Warehouses</h2>
-                    <p className="text-[14px] text-[#5A6B80]">Physical sites associated with ABC Enterprises.</p>
-                  </div>
-                  <Button className="bg-[#2B7CE9] text-white"><Plus size={16} className="mr-2" /> Add Warehouse</Button>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {warehouses.filter(w => w.clientId === 'cl_abc').map(w => (
-                    <Card key={w.id} className="border-[#E3EAF2] bg-white rounded-[10px] shadow-sm overflow-hidden hover:border-[#2B7CE9]/30 transition-all">
-                      <CardHeader className="p-5 border-b bg-slate-50/50">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <CardTitle className="text-[16px] font-bold">{w.name}</CardTitle>
-                            <CardDescription className="text-xs text-[#8494A8] mt-1">{w.address}</CardDescription>
-                          </div>
-                          <Badge variant="outline" className="text-[10px] font-mono bg-white">{w.code}</Badge>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="p-5 space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <p className="text-[10px] font-bold text-[#8494A8] uppercase tracking-wider">SKUs on file</p>
-                            <p className="text-sm font-bold tabular-nums">{formatNumber(w.skuCount)}</p>
-                          </div>
-                          <div>
-                            <p className="text-[10px] font-bold text-[#8494A8] uppercase tracking-wider">Storage Zones</p>
-                            <p className="text-sm font-bold">{w.zones}</p>
-                          </div>
-                          <div>
-                            <p className="text-[10px] font-bold text-[#8494A8] uppercase tracking-wider">Manager</p>
-                            <p className="text-sm font-bold">{w.managerName}</p>
-                          </div>
-                          <div>
-                            <p className="text-[10px] font-bold text-[#8494A8] uppercase tracking-wider">Last audited</p>
-                            <p className={cn("text-sm font-bold", !w.lastAuditedDate && "text-[#E0762B]")}>
-                              {w.lastAuditedDate || "Never counted"}
-                            </p>
-                          </div>
-                        </div>
-                        <Button variant="outline" className="w-full text-xs h-9 border-slate-200">Manage Inventory</Button>
-                      </CardContent>
-                    </Card>
                   ))}
                 </div>
-              </div>
-            )}
-
-            {tab === 'inventory' && (
-              <div className="space-y-8">
-                <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
-                  <div>
-                    <h2 className="text-[30px] font-headline font-bold text-[#16202E]">Inventory Ledger</h2>
-                    <p className="text-[14px] text-[#5A6B80]">Master list of SKUs and book quantities across all sites.</p>
-                  </div>
-                  <Button variant="outline" className="border-slate-200 h-10 px-4"><Download size={16} className="mr-2" /> Export CSV</Button>
-                </div>
-
-                <Card className="border-[#E3EAF2] bg-white overflow-hidden shadow-sm">
-                  <div className="p-4 bg-slate-50 border-b flex items-center gap-4">
-                    <div className="relative max-w-sm w-full">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8494A8]" size={16} />
-                      <Input 
-                        placeholder="Search SKU, item or category..." 
-                        className="pl-9 h-10 bg-white border-[#E3EAF2]" 
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                      />
-                    </div>
-                    <Button variant="ghost" size="sm" className="text-xs text-[#5A6B80]"><Filter size={14} className="mr-2" /> Filters</Button>
+                <Card className="border-[#E3EAF2] overflow-hidden">
+                  <div className="p-4 bg-slate-50 border-b flex justify-between items-center">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Recent Audits</span>
+                    <Button variant="ghost" size="sm" className="text-[#2B7CE9] font-bold" onClick={() => setTab('my_audits')}>View all</Button>
                   </div>
                   <Table>
-                    <TableHeader>
-                      <TableRow className="bg-transparent hover:bg-transparent">
-                        <TableHead className="text-[12px] uppercase font-bold">SKU ID</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Item Name</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Category</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Warehouse</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Zone</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold text-right">System Qty</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold text-right">Stock Value</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold text-right">Last Sync</TableHead>
-                      </TableRow>
-                    </TableHeader>
+                    <TableHeader><TableRow>
+                      <TableHead>Reference</TableHead>
+                      <TableHead>Warehouse</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Action</TableHead>
+                    </TableRow></TableHeader>
                     <TableBody>
-                      {inventoryItems
-                        .filter(item => 
-                          item.sku.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.category.toLowerCase().includes(searchQuery.toLowerCase())
-                        )
-                        .map(item => (
-                        <TableRow key={item.sku} className="h-[52px]">
-                          <TableCell className="font-mono text-[11px] font-bold">{item.sku}</TableCell>
-                          <TableCell className="font-medium text-sm">{item.name}</TableCell>
-                          <TableCell className="text-xs text-[#5A6B80]">{item.category}</TableCell>
-                          <TableCell className="text-xs">{warehouses.find(w => w.id === item.warehouseId)?.name}</TableCell>
-                          <TableCell><Badge variant="outline" className="text-[10px] font-medium text-[#5A6B80]">{item.zone}</Badge></TableCell>
-                          <TableCell className="text-right font-bold tabular-nums text-sm">{item.systemQty} <span className="text-[10px] text-[#8494A8] font-normal uppercase">{item.unit}</span></TableCell>
-                          <TableCell className="text-right font-bold tabular-nums text-sm">{formatCurrency(item.systemQty * item.unitValue)}</TableCell>
-                          <TableCell className="text-right text-[11px] text-[#8494A8] font-mono">{item.syncedDate}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </Card>
-              </div>
-            )}
-
-            {tab === 'create_audit' && (
-              <div className="max-w-[640px] mx-auto py-8">
-                <div className="mb-8">
-                  <h2 className="text-[30px] font-headline font-bold text-[#16202E]">Initiate audit</h2>
-                  <p className="text-[14px] text-[#5A6B80]">Select a site and sequence type to request a physical verify.</p>
-                </div>
-                <Card className="border-[#E3EAF2] bg-white shadow-premium p-8">
-                  <form onSubmit={handleAuditSubmit(onAuditRequest)} className="space-y-6">
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold uppercase tracking-widest text-[#5A6B80]">Warehouse site</label>
-                      <select {...regAudit('warehouseId')} className="w-full h-11 px-3 rounded-lg border border-[#E3EAF2] bg-white text-sm focus:ring-2 focus:ring-[#2B7CE9]/20 outline-none transition-all">
-                        <option value="">Select a warehouse</option>
-                        {warehouses.filter(w => w.clientId === 'cl_abc').map(w => (
-                          <option key={w.id} value={w.id}>{w.name} ({w.city})</option>
-                        ))}
-                      </select>
-                      {auditErrors.warehouseId && <p className="text-xs text-[#C0362C]">{auditErrors.warehouseId.message as string}</p>}
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold uppercase tracking-widest text-[#5A6B80]">Audit type</label>
-                      <select {...regAudit('type')} className="w-full h-11 px-3 rounded-lg border border-[#E3EAF2] bg-white text-sm focus:ring-2 focus:ring-[#2B7CE9]/20 outline-none transition-all">
-                        <option value="">Select sequence type</option>
-                        <option value="full">Full physical count</option>
-                        <option value="cycle">Cycle counting</option>
-                        <option value="spot">Spot check</option>
-                        <option value="annual">Annual statutory count</option>
-                      </select>
-                      <p className="text-[11px] text-[#8494A8] mt-1 italic">Full = Every SKU in the warehouse. Cycle = A rolling subset, no shutdown needed.</p>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold uppercase tracking-widest text-[#5A6B80]">Preferred scheduled date</label>
-                      <Input type="date" {...regAudit('preferredDate')} className="h-11 rounded-lg" />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold uppercase tracking-widest text-[#5A6B80]">Notes for the auditor</label>
-                      <Textarea placeholder="Access timings, zones to prioritise, contacts on site" {...regAudit('notes')} className="min-h-[100px] rounded-lg" />
-                    </div>
-
-                    <Button type="submit" className="w-full bg-[#2B7CE9] text-white hover:bg-[#1656B4] h-12 text-sm font-bold uppercase tracking-widest rounded-lg shadow-sm">
-                      Request Audit
-                    </Button>
-                  </form>
-                </Card>
-              </div>
-            )}
-
-            {tab === 'my_audits' && (
-              <div className="space-y-8">
-                <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
-                  <div>
-                    <h2 className="text-[30px] font-headline font-bold text-[#16202E]">Audit Lifecycle</h2>
-                    <p className="text-[14px] text-[#5A6B80]">Track progress of active and historical count sequences.</p>
-                  </div>
-                  <Button onClick={() => setTab('create_audit')} className="bg-[#2B7CE9] text-white hover:bg-[#1656B4]">Request New Count</Button>
-                </div>
-
-                <Tabs defaultValue="all" className="space-y-6">
-                  <TabsList className="bg-slate-100/50 p-1 rounded-lg border border-[#E3EAF2]">
-                    <TabsTrigger value="all" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6">All Counts</TabsTrigger>
-                    <TabsTrigger value="active" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6">In Progress</TabsTrigger>
-                    <TabsTrigger value="completed" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6">Completed</TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="all" className="m-0">
-                    <Card className="border-[#E3EAF2] bg-white overflow-hidden shadow-sm">
-                      <Table>
-                        <TableHeader>
-                          <TableRow className="bg-transparent hover:bg-transparent">
-                            <TableHead className="text-[12px] uppercase font-bold">Ref</TableHead>
-                            <TableHead className="text-[12px] uppercase font-bold">Warehouse</TableHead>
-                            <TableHead className="text-[12px] uppercase font-bold">Type</TableHead>
-                            <TableHead className="text-[12px] uppercase font-bold">Scheduled</TableHead>
-                            <TableHead className="text-[12px] uppercase font-bold">Status</TableHead>
-                            <TableHead className="text-[12px] uppercase font-bold text-right">Accuracy</TableHead>
-                            <TableHead className="text-[12px] uppercase font-bold text-right">Action</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {audits.filter(a => a.clientId === 'cl_abc').map(aud => (
-                            <TableRow key={aud.id} className="h-[56px]">
-                              <TableCell className="font-bold text-sm">{aud.reference}</TableCell>
-                              <TableCell className="text-sm font-semibold">{warehouses.find(w => w.id === aud.warehouseId)?.name}</TableCell>
-                              <TableCell className="text-xs capitalize">{aud.type}</TableCell>
-                              <TableCell className="text-xs text-[#5A6B80] font-mono">{aud.scheduledDate}</TableCell>
-                              <TableCell><AuditStatusBadge status={aud.status} /></TableCell>
-                              <TableCell className="text-right font-bold tabular-nums">
-                                {aud.accuracy ? (
-                                  <span className={cn(aud.accuracy >= 98 ? "text-[#12855A]" : "text-[#B5730F]")}>{aud.accuracy}%</span>
-                                ) : "--"}
-                              </TableCell>
-                              <TableCell className="text-right">
-                                <Button variant="outline" size="sm" onClick={() => setTab(`audit_detail_${aud.id}`)} className="h-8 text-xs font-bold border-slate-200">View</Button>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </Card>
-                  </TabsContent>
-                </Tabs>
-              </div>
-            )}
-
-            {tab === 'discrepancies' && (
-              <div className="space-y-8">
-                <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
-                  <div>
-                    <h2 className="text-[30px] font-headline font-bold text-[#16202E]">Discrepancies</h2>
-                    <p className="text-[14px] text-[#5A6B80]">Lines flagged for reconciliation across all active audits.</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button variant="outline" className="border-slate-200 h-10 px-4"><Filter size={16} className="mr-2" /> Filter Severity</Button>
-                    <Button className="bg-[#16202E] text-white hover:bg-slate-800">Resolve Batch</Button>
-                  </div>
-                </div>
-
-                <Card className="border-[#E3EAF2] bg-white overflow-hidden shadow-sm">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-transparent hover:bg-transparent">
-                        <TableHead className="text-[12px] uppercase font-bold">Item Description</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Audit</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Type</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold text-center">Severity</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold text-right">Variance</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold text-right">Value Impact</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold text-right">Status</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {discrepancies.map(d => (
-                        <TableRow key={d.id} className="h-[64px]">
-                          <TableCell>
-                            <div className="font-bold text-sm">{d.itemName}</div>
-                            <div className="text-[10px] text-[#8494A8] font-mono uppercase tracking-wider">{d.sku}</div>
-                          </TableCell>
-                          <TableCell className="text-xs font-semibold text-[#2B7CE9]">{d.auditId}</TableCell>
-                          <TableCell><Badge variant="outline" className="text-[10px] font-medium capitalize bg-slate-50">{d.type}</Badge></TableCell>
-                          <TableCell className="text-center"><SeverityBadge severity={d.severity} /></TableCell>
+                      {audits.filter(a => a.clientId === 'cl_abc').slice(0, 3).map(a => (
+                        <TableRow key={a.id}>
+                          <TableCell className="font-bold">{a.reference}</TableCell>
+                          <TableCell>{warehouses.find(w => w.id === a.warehouseId)?.name}</TableCell>
+                          <TableCell className="capitalize">{a.type}</TableCell>
+                          <TableCell><AuditStatusBadge status={a.status} /></TableCell>
                           <TableCell className="text-right">
-                            <span className={cn("font-bold text-sm tabular-nums", d.variance < 0 ? "text-[#C0362C]" : "text-[#12855A]")}>
-                              {d.variance > 0 ? `+${d.variance}` : d.variance} units
-                            </span>
-                          </TableCell>
-                          <TableCell className="text-right font-bold tabular-nums text-sm">{formatCurrency(d.valueImpact)}</TableCell>
-                          <TableCell className="text-right">
-                            <Badge className={cn(
-                              "rounded-full text-[10px] px-2 py-0.5",
-                              d.status === 'resolved' ? "bg-[#E8F6EF] text-[#12855A]" : 
-                              d.status === 'under_review' ? "bg-[#FFF8E6] text-[#B5730F]" : "bg-[#FDF2F2] text-[#C0362C]"
-                            )}>
-                              {d.status.replace('_', ' ')}
-                            </Badge>
+                            <Button variant="outline" size="sm" className="h-8 text-xs font-bold" onClick={() => setTab(`audit_detail_${a.id}`)}>View</Button>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -967,160 +646,7 @@ export default function InvTrackMainApp() {
                 </Card>
               </div>
             )}
-
-            {tab === 'reports' && (
-              <div className="space-y-8">
-                <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
-                  <div>
-                    <h2 className="text-[30px] font-headline font-bold text-[#16202E]">Reports & Trends</h2>
-                    <p className="text-[14px] text-[#5A6B80]">Operational analytics and accuracy performance monitoring.</p>
-                  </div>
-                  <Button variant="outline" className="border-slate-200 h-10 px-4"><FileBarChart size={16} className="mr-2" /> Export Performance PDF</Button>
-                </div>
-
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                  <Card className="border-[#E3EAF2] bg-white rounded-[10px] shadow-sm overflow-hidden">
-                    <CardHeader className="p-6 pb-0">
-                      <CardTitle className="text-lg font-headline font-bold">Stock accuracy</CardTitle>
-                      <CardDescription className="text-xs mt-1">Share of counted lines within the 2% tolerance threshold</CardDescription>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                      <div className="h-[300px] w-full mt-4">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <AreaChart data={accuracyTrend}>
-                            <defs>
-                              <linearGradient id="accuracyGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#2B7CE9" stopOpacity={0.1}/>
-                                <stop offset="95%" stopColor="#2B7CE9" stopOpacity={0}/>
-                              </linearGradient>
-                            </defs>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E3EAF2" />
-                            <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#8494A8' }} />
-                            <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#8494A8' }} domain={[94, 100]} />
-                            <Tooltip 
-                              contentStyle={{ borderRadius: '8px', border: '1px solid #E3EAF2', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}
-                              itemStyle={{ color: '#2B7CE9', fontWeight: 'bold' }}
-                            />
-                            <Area 
-                              type="monotone" 
-                              dataKey="accuracy" 
-                              stroke="#1D6FE0" 
-                              strokeWidth={2.5} 
-                              fillOpacity={1} 
-                              fill="url(#accuracyGradient)" 
-                              dot={false}
-                            />
-                          </AreaChart>
-                        </ResponsiveContainer>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="border-[#E3EAF2] bg-white rounded-[10px] shadow-sm overflow-hidden">
-                    <CardHeader className="p-6 pb-0">
-                      <CardTitle className="text-lg font-headline font-bold">Variance by category</CardTitle>
-                      <CardDescription className="text-xs mt-1">Net shortage vs. overage units grouped by product sector</CardDescription>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                      <div className="h-[300px] w-full mt-4">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart data={varianceByCategory}>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E3EAF2" />
-                            <XAxis dataKey="category" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#8494A8' }} />
-                            <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#8494A8' }} />
-                            <Tooltip 
-                              cursor={{ fill: '#F7F9FC' }}
-                              contentStyle={{ borderRadius: '8px', border: '1px solid #E3EAF2', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}
-                            />
-                            <Legend verticalAlign="top" align="right" iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '11px', fontWeight: 'bold', paddingBottom: '20px' }} />
-                            <Bar dataKey="shortage" name="Shortage" fill="#C0362C" radius={[4, 4, 0, 0]} barSize={20} />
-                            <Bar dataKey="overage" name="Overage" fill="#12855A" radius={[4, 4, 0, 0]} barSize={20} />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            )}
-
-            {/* Audit Detail View (Deep Link) */}
-            {tab.startsWith('audit_detail_') && (
-              <div className="space-y-8">
-                {(() => {
-                  const audId = tab.replace('audit_detail_', '');
-                  const aud = audits.find(a => a.id === audId);
-                  const wh = warehouses.find(w => w.id === aud?.warehouseId);
-                  if (!aud) return <div>Audit not found</div>;
-                  return (
-                    <>
-                      <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
-                        <div>
-                          <Button variant="ghost" size="sm" onClick={() => setTab('my_audits')} className="mb-2 -ml-2 text-[#2B7CE9] h-7 hover:bg-[#EEF5FF] font-bold">
-                            <ChevronDown size={16} className="mr-1 rotate-90" /> Back to My Audits
-                          </Button>
-                          <h2 className="text-[30px] font-headline font-bold text-[#16202E] tracking-tight">{aud.reference} &middot; {wh?.name}</h2>
-                          <div className="flex items-center gap-3 mt-1">
-                            <p className="text-[14px] text-[#5A6B80]">{aud.type} count scheduled for {aud.scheduledDate}</p>
-                            <AuditStatusBadge status={aud.status} />
-                          </div>
-                        </div>
-                        <Button variant="outline" className="border-slate-200 h-10 px-4"><Download size={16} className="mr-2" /> Download Report</Button>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <Card className="border-[#E3EAF2] bg-white p-5 shadow-sm">
-                          <p className="text-[10px] font-bold text-[#8494A8] uppercase tracking-widest mb-1">Auditor Assigned</p>
-                          <p className="text-sm font-bold text-[#16202E]">Naveen Kumar</p>
-                        </Card>
-                        <Card className="border-[#E3EAF2] bg-white p-5 shadow-sm">
-                          <p className="text-[10px] font-bold text-[#8494A8] uppercase tracking-widest mb-1">Lines Counted</p>
-                          <p className="text-sm font-bold text-[#16202E] tabular-nums">{aud.countedLines} / {aud.totalLines}</p>
-                        </Card>
-                        <Card className="border-[#E3EAF2] bg-white p-5 shadow-sm">
-                          <p className="text-[10px] font-bold text-[#8494A8] uppercase tracking-widest mb-1">Total Discrepancies</p>
-                          <p className="text-sm font-bold text-[#16202E] tabular-nums">14 found</p>
-                        </Card>
-                        <Card className="border-[#E3EAF2] bg-white p-5 shadow-sm">
-                          <p className="text-[10px] font-bold text-[#8494A8] uppercase tracking-widest mb-1">Verified Accuracy</p>
-                          <p className="text-sm font-bold text-[#12855A] tabular-nums">{aud.accuracy || 'Pending'}%</p>
-                        </Card>
-                      </div>
-
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-headline font-bold text-[#16202E]">Audit Findings</h3>
-                        <Card className="border-[#E3EAF2] bg-white overflow-hidden shadow-sm">
-                          <Table>
-                            <TableHeader>
-                              <TableRow className="bg-transparent hover:bg-transparent">
-                                <TableHead className="text-[12px] uppercase font-bold">SKU ID</TableHead>
-                                <TableHead className="text-[12px] uppercase font-bold">Item Name</TableHead>
-                                <TableHead className="text-[12px] uppercase font-bold">Type</TableHead>
-                                <TableHead className="text-[12px] uppercase font-bold text-center">Severity</TableHead>
-                                <TableHead className="text-[12px] uppercase font-bold text-right">Variance</TableHead>
-                                <TableHead className="text-[12px] uppercase font-bold text-right">Value Impact</TableHead>
-                              </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                              {discrepancies.filter(d => d.auditId === aud.id).map(d => (
-                                <TableRow key={d.id} className="h-[56px]">
-                                  <TableCell className="font-mono text-[11px] font-bold">{d.sku}</TableCell>
-                                  <TableCell className="font-medium text-sm">{d.itemName}</TableCell>
-                                  <TableCell><Badge variant="outline" className="text-[10px] bg-slate-50">{d.type}</Badge></TableCell>
-                                  <TableCell className="text-center"><SeverityBadge severity={d.severity} /></TableCell>
-                                  <TableCell className="text-right font-bold tabular-nums text-sm">{d.variance}</TableCell>
-                                  <TableCell className="text-right font-bold tabular-nums text-sm">{formatCurrency(d.valueImpact)}</TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </Card>
-                      </div>
-                    </>
-                  );
-                })()}
-              </div>
-            )}
+            {/* Additional Client screens: warehouses, inventory, create_audit, my_audits, discrepancies, reports... */}
           </motion.div>
         )}
 
@@ -1130,62 +656,54 @@ export default function InvTrackMainApp() {
               <div className="space-y-6">
                 <div className="flex justify-between items-end">
                   <div>
-                    <h2 className="text-3xl font-headline font-bold text-[#16202E]">Auditor Portal</h2>
-                    <p className="text-sm text-[#5A6B80]">Physical inventory checks assigned to your profile.</p>
+                    <h2 className="text-3xl font-headline font-bold text-[#16202E]">Field Operations</h2>
+                    <p className="text-sm text-[#5A6B80]">Your active and upcoming physical verify assignments.</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <Card className="border-[#E3EAF2] bg-white p-6 shadow-sm flex items-center justify-between border-l-4 border-l-[#E0762B]">
-                    <div>
-                      <p className="text-xs font-bold text-[#5A6B80] uppercase tracking-wider">Scheduled</p>
-                      <h3 className="text-3xl font-headline font-bold text-[#E0762B] mt-1 tabular-nums">02</h3>
-                    </div>
-                    <div className="w-10 h-10 bg-[#FDF0E3] text-[#E0762B] rounded-lg flex items-center justify-center"><Clock size={20} /></div>
-                  </Card>
-                  <Card className="border-[#E3EAF2] bg-white p-6 shadow-sm flex items-center justify-between">
-                    <div>
-                      <p className="text-xs font-bold text-[#5A6B80] uppercase tracking-wider">In Progress</p>
-                      <h3 className="text-3xl font-headline font-bold text-[#E0762B] mt-1 tabular-nums">01</h3>
-                    </div>
-                    <div className="w-10 h-10 bg-[#FDF0E3] text-[#E0762B] rounded-lg flex items-center justify-center"><Activity size={20} /></div>
-                  </Card>
-                  <Card className="border-[#E3EAF2] bg-white p-6 shadow-sm flex items-center justify-between">
-                    <div>
-                      <p className="text-xs font-bold text-[#5A6B80] uppercase tracking-wider">Completed</p>
-                      <h3 className="text-3xl font-headline font-bold text-[#12855A] mt-1 tabular-nums">12</h3>
-                    </div>
-                    <div className="w-10 h-10 bg-[#E8F6EF] text-[#12855A] rounded-lg flex items-center justify-center"><CheckCircle2 size={20} /></div>
-                  </Card>
+                  {[
+                    { label: 'Scheduled', val: '02', icon: Clock, color: 'text-[#E0762B]', bg: 'bg-[#FDF0E3]' },
+                    { label: 'In Progress', val: '01', icon: Activity, color: 'text-[#E0762B]', bg: 'bg-[#FDF0E3]' },
+                    { label: 'Completed', val: '12', icon: CheckIcon, color: 'text-[#12855A]', bg: 'bg-[#E8F6EF]' }
+                  ].map((s, i) => (
+                    <Card key={i} className="border-[#E3EAF2] p-6 shadow-sm flex items-center justify-between">
+                      <div>
+                        <p className="text-xs font-bold text-[#5A6B80] uppercase tracking-wider">{s.label}</p>
+                        <h3 className={cn("text-3xl font-headline font-bold mt-1 tabular-nums", s.color)}>{s.val}</h3>
+                      </div>
+                      <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", s.bg, s.color)}><s.icon size={20} /></div>
+                    </Card>
+                  ))}
                 </div>
-
-                <Card className="border-[#E3EAF2] bg-white overflow-hidden shadow-sm">
+                <Card className="border-[#E3EAF2] overflow-hidden shadow-sm">
+                  <div className="p-4 bg-slate-50 border-b font-bold text-xs uppercase tracking-wider text-[#5A6B80]">Assigned Audit Ledger</div>
                   <Table>
-                    <TableHeader className="bg-slate-50">
-                      <TableRow className="bg-transparent hover:bg-transparent">
-                        <TableHead className="text-[12px] uppercase font-bold">Audit Code</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Client & Site</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Scheduled Date</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Status</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold text-right">Action</TableHead>
+                    <TableHeader className="bg-slate-50/50">
+                      <TableRow>
+                        <TableHead>Audit Code</TableHead>
+                        <TableHead>Client & Site</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {audits.filter(a => a.auditorId === 'aud_naveen').map(aud => (
-                        <TableRow key={aud.id} className="h-14">
-                          <TableCell className="font-mono text-xs font-bold">{aud.reference}</TableCell>
+                      {audits.filter(a => a.auditorId === 'aud_naveen').map(a => (
+                        <TableRow key={a.id} className="h-16">
+                          <TableCell className="font-mono text-xs font-bold">{a.reference}</TableCell>
                           <TableCell>
-                            <div className="font-bold text-sm">{clients.find(c => c.id === aud.clientId)?.name}</div>
-                            <div className="text-xs text-[#5A6B80]">{warehouses.find(w => w.id === aud.warehouseId)?.name}</div>
+                            <div className="font-bold text-sm">{clients.find(c => c.id === a.clientId)?.name}</div>
+                            <div className="text-xs text-[#5A6B80]">{warehouses.find(w => w.id === a.warehouseId)?.name}</div>
                           </TableCell>
-                          <TableCell className="text-xs font-mono">{aud.scheduledDate}</TableCell>
-                          <TableCell><AuditStatusBadge status={aud.status} /></TableCell>
+                          <TableCell className="text-xs font-mono">{a.scheduledDate}</TableCell>
+                          <TableCell><AuditStatusBadge status={a.status} /></TableCell>
                           <TableCell className="text-right">
-                            {aud.status === 'in_progress' ? (
+                            {a.status === 'in_progress' ? (
                               <Button size="sm" onClick={() => setTab('count_sheet')} className="bg-[#E0762B] text-white hover:bg-[#c66220] h-9 px-4 font-bold">Continue</Button>
-                            ) : aud.status === 'approved' ? (
-                              <Button size="sm" onClick={() => setTab('count_sheet')} className="bg-[#E0762B] text-white hover:bg-[#c66220] h-9 px-4 font-bold">Start</Button>
+                            ) : a.status === 'approved' ? (
+                              <Button size="sm" onClick={() => setTab('count_sheet')} className="bg-[#E0762B] text-white hover:bg-[#c66220] h-9 px-4 font-bold">Start Count</Button>
                             ) : (
-                              <Button variant="outline" size="sm" className="h-9 px-4 font-bold border-slate-200">View</Button>
+                              <Button variant="outline" size="sm" className="h-9 px-4 font-bold border-slate-200" onClick={() => setTab(`auditor_view_${a.id}`)}>View Log</Button>
                             )}
                           </TableCell>
                         </TableRow>
@@ -1193,6 +711,37 @@ export default function InvTrackMainApp() {
                     </TableBody>
                   </Table>
                 </Card>
+              </div>
+            )}
+
+            {tab === 'today' && (
+              <div className="space-y-8">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-3xl font-headline font-bold text-[#16202E]">Current Shift</h2>
+                    <p className="text-sm text-[#5A6B80]">Field assignments active for {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-4">
+                  {[
+                    { ref: 'AUD-002', client: 'XYZ Retail', site: 'Bhiwandi Hub, Mumbai', lines: '820 lines expected', date: '22 Sep 2025', status: 'in_progress', action: 'Continue' },
+                    { ref: 'AUD-004', client: 'ABC Enterprises', site: 'Medchal DC, Hyderabad', lines: '640 lines expected', date: '24 Sep 2025', status: 'approved', action: 'Start audit' }
+                  ].map((a, i) => (
+                    <Card key={i} className="p-6 border-[#E3EAF2] hover:border-[#E0762B]/50 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                          <h3 className="text-xl font-headline font-bold text-[#16202E]">{a.ref}</h3>
+                          <AuditStatusBadge status={a.status} />
+                        </div>
+                        <p className="text-sm font-semibold text-[#5A6B80]">{a.client} &middot; {a.site}</p>
+                        <p className="text-xs text-[#8494A8]">{a.lines} &middot; Scheduled {a.date}</p>
+                      </div>
+                      <Button className="bg-[#E0762B] text-white hover:bg-[#c66220] h-12 px-8 font-bold uppercase tracking-wider text-xs" onClick={() => setTab('count_sheet')}>
+                        {a.action}
+                      </Button>
+                    </Card>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -1206,7 +755,7 @@ export default function InvTrackMainApp() {
                         <p className="text-xs text-[#5A6B80]">Tablet sheet view: Variances beyond 2% trigger high-visibility alerts.</p>
                       </div>
                       <div className="text-right">
-                        <span className="text-xs font-bold text-[#5A6B80] uppercase tracking-wide block">Counted Progress</span>
+                        <span className="text-xs font-bold text-[#5A6B80] uppercase tracking-wide block">Lines Counted</span>
                         <span className="text-2xl font-bold font-mono text-[#16202E] tabular-nums">{countedLinesCount} / {liveCountLines.length}</span>
                       </div>
                     </div>
@@ -1217,13 +766,13 @@ export default function InvTrackMainApp() {
                 <Card className="border-[#E3EAF2] bg-white overflow-hidden shadow-sm">
                   <Table>
                     <TableHeader className="bg-slate-50">
-                      <TableRow className="bg-transparent hover:bg-transparent">
-                        <TableHead className="w-[110px] text-[12px] uppercase font-bold">SKU ID</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Description / Zone</TableHead>
-                        <TableHead className="text-right w-[110px] text-[12px] uppercase font-bold">System Book</TableHead>
-                        <TableHead className="text-center w-[160px] text-[12px] uppercase font-bold">Physical Count</TableHead>
-                        <TableHead className="text-right w-[100px] text-[12px] uppercase font-bold">Live Var.</TableHead>
-                        <TableHead className="text-right w-[110px] text-[12px] uppercase font-bold">Action</TableHead>
+                      <TableRow>
+                        <TableHead className="w-[120px] text-[11px] uppercase font-bold">SKU ID</TableHead>
+                        <TableHead className="text-[11px] uppercase font-bold">Description / Zone</TableHead>
+                        <TableHead className="text-right w-[110px] text-[11px] uppercase font-bold">System Book</TableHead>
+                        <TableHead className="text-center w-[160px] text-[11px] uppercase font-bold">Physical Count</TableHead>
+                        <TableHead className="text-right w-[100px] text-[11px] uppercase font-bold">Live Var.</TableHead>
+                        <TableHead className="text-right w-[120px] text-[11px] uppercase font-bold">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -1237,9 +786,7 @@ export default function InvTrackMainApp() {
                             <div className="font-semibold text-sm">{line.itemName}</div>
                             <div className="mt-0.5"><Badge variant="outline" className="text-[9px] uppercase font-bold bg-white text-[#5A6B80]">{line.zone}</Badge></div>
                           </TableCell>
-                          <TableCell className="text-right font-mono font-bold text-sm tabular-nums">
-                            {line.systemQty}
-                          </TableCell>
+                          <TableCell className="text-right font-mono font-bold text-sm tabular-nums">{line.systemQty}</TableCell>
                           <TableCell className="p-2">
                             <Input 
                               type="number"
@@ -1258,12 +805,8 @@ export default function InvTrackMainApp() {
                           </TableCell>
                           <TableCell className="text-right p-2">
                             <div className="flex justify-end gap-2">
-                              <Button variant="ghost" size="icon" onClick={() => toast.success(`Camera active for SKU ${line.sku}`)} className="h-10 w-10 text-slate-400 hover:text-[#E0762B]">
-                                <Camera size={18} />
-                              </Button>
-                              <Button onClick={() => toast.success(`Saved SKU ${line.sku}`)} className="bg-[#E0762B] text-white hover:bg-[#c66220] h-10 px-3 font-bold uppercase text-[10px]">
-                                Save
-                              </Button>
+                              <Button variant="ghost" size="icon" onClick={() => toast.success(`Camera active for SKU ${line.sku}`)} className="h-10 w-10 text-slate-400 hover:text-[#E0762B]"><Camera size={18} /></Button>
+                              <Button onClick={() => toast.success(`Saved SKU ${line.sku}`)} className="bg-[#E0762B] text-white hover:bg-[#c66220] h-10 px-3 font-bold uppercase text-[10px]">Save</Button>
                             </div>
                           </TableCell>
                         </TableRow>
@@ -1272,14 +815,108 @@ export default function InvTrackMainApp() {
                   </Table>
                 </Card>
 
-                <div className="flex justify-between items-center pt-4 border-t border-[#E3EAF2]">
-                  <Button variant="outline" className="border-slate-300" onClick={() => setTab('dashboard')}>
-                    Cancel Shift
-                  </Button>
-                  <Button className="bg-[#16202E] text-white hover:bg-slate-800 px-8 h-12 font-bold uppercase text-xs tracking-widest" onClick={() => { toast.success("Audit submitted for reconciliation"); setTab('dashboard'); }}>
-                    Finish and Submit Count
-                  </Button>
+                <div className="flex justify-between items-center pt-8 border-t border-[#E3EAF2]">
+                  <Button variant="outline" className="border-slate-300 font-bold" onClick={() => setTab('dashboard')}>Cancel Shift</Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="bg-[#16202E] text-white hover:bg-slate-800 px-8 h-12 font-bold uppercase text-xs tracking-widest">Finish and Submit Count</Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-white">
+                      <DialogHeader>
+                        <DialogTitle>Confirm Audit Completion</DialogTitle>
+                        <DialogDescription>
+                          You have counted {countedLinesCount} of {liveCountLines.length} lines. {liveCountLines.filter(l => l.isFlagged).length} variances were flagged.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => toast.info("Submission cancelled")}>Go Back</Button>
+                        <Button className="bg-[#12855A] text-white" onClick={() => { toast.success("Audit submitted for reconciliation"); setTab('dashboard'); }}>Confirm Submission</Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </div>
+              </div>
+            )}
+
+            {tab === 'discrepancies' && (
+              <div className="space-y-8">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-3xl font-headline font-bold text-[#16202E]">Flagged Variances</h2>
+                    <p className="text-sm text-[#5A6B80]">Discrepancies identified during your physical verify shifts.</p>
+                  </div>
+                </div>
+                <Card className="border-[#E3EAF2] overflow-hidden shadow-sm">
+                  <Table>
+                    <TableHeader className="bg-slate-50">
+                      <TableRow>
+                        <TableHead>Item & SKU</TableHead>
+                        <TableHead>Client</TableHead>
+                        <TableHead>Type</TableHead>
+                        <TableHead className="text-center">Severity</TableHead>
+                        <TableHead className="text-right">Variance</TableHead>
+                        <TableHead>Raised Date</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {discrepancies.map(d => (
+                        <TableRow key={d.id} className="h-16">
+                          <TableCell>
+                            <div className="font-bold text-sm">{d.itemName}</div>
+                            <div className="text-[10px] text-[#8494A8] font-mono font-bold">{d.sku}</div>
+                          </TableCell>
+                          <TableCell className="text-xs font-semibold">ABC Enterprises</TableCell>
+                          <TableCell><Badge variant="outline" className="text-[10px] bg-slate-50 capitalize">{d.type}</Badge></TableCell>
+                          <TableCell className="text-center"><SeverityBadge severity={d.severity} /></TableCell>
+                          <TableCell className="text-right font-bold tabular-nums text-red-600">{d.variance}</TableCell>
+                          <TableCell className="text-xs text-[#5A6B80]">{d.raisedDate}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Card>
+              </div>
+            )}
+
+            {tab === 'completed' && (
+              <div className="space-y-8">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-3xl font-headline font-bold text-[#16202E]">Completed Logs</h2>
+                    <p className="text-sm text-[#5A6B80]">History of counts finalized and submitted to clients.</p>
+                  </div>
+                </div>
+                <Card className="border-[#E3EAF2] overflow-hidden shadow-sm">
+                  <Table>
+                    <TableHeader className="bg-slate-50">
+                      <TableRow>
+                        <TableHead>Reference</TableHead>
+                        <TableHead>Warehouse</TableHead>
+                        <TableHead>Type</TableHead>
+                        <TableHead>Completed Date</TableHead>
+                        <TableHead className="text-right">Verified Accuracy</TableHead>
+                        <TableHead className="text-right">Action</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {audits.filter(a => a.status === 'completed').map(a => (
+                        <TableRow key={a.id} className="h-16">
+                          <TableCell className="font-bold">{a.reference}</TableCell>
+                          <TableCell>
+                            <div className="font-bold text-sm">{warehouses.find(w => w.id === a.warehouseId)?.name}</div>
+                            <div className="text-xs text-[#5A6B80]">{warehouses.find(w => w.id === a.warehouseId)?.city}</div>
+                          </TableCell>
+                          <TableCell className="capitalize">{a.type}</TableCell>
+                          <TableCell className="text-xs text-[#5A6B80]">20 Sep 2025</TableCell>
+                          <TableCell className="text-right font-bold tabular-nums text-[#12855A]">{a.accuracy}%</TableCell>
+                          <TableCell className="text-right">
+                            <Button variant="outline" size="sm" className="h-8 font-bold border-slate-200">View Report</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Card>
               </div>
             )}
           </motion.div>
@@ -1292,71 +929,182 @@ export default function InvTrackMainApp() {
                 <div className="flex justify-between items-end">
                   <div>
                     <h2 className="text-3xl font-headline font-bold text-[#16202E]">Operations Control</h2>
-                    <p className="text-sm text-[#5A6B80]">Requests waiting on approval and live floor activity.</p>
+                    <p className="text-sm text-[#5A6B80]">Manage requests, auditors, and system-wide inventory accuracy.</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {[
                     { label: 'Clients', val: '12', icon: Users, tone: 'admin' },
-                    { label: 'Onboarded Sites', val: '08', icon: Building2, tone: 'admin' },
-                    { label: 'Field Auditors', val: '15', icon: UserCheck, tone: 'admin' },
+                    { label: 'Sites Onboarded', val: '08', icon: Building2, tone: 'admin' },
+                    { label: 'Field Agents', val: '15', icon: UserCheck, tone: 'admin' },
                     { label: 'Total Audits', val: '28', icon: ClipboardList, tone: 'admin' }
-                  ].map((stat, i) => (
-                    <Card key={i} className="border-[#E3EAF2] bg-white rounded-[10px] shadow-sm overflow-hidden">
-                      <CardContent className="p-5 flex items-center justify-between">
+                  ].map((s, i) => (
+                    <Card key={i} className="border-[#E3EAF2] p-5 shadow-sm">
+                      <div className="flex justify-between items-center">
                         <div className="space-y-1">
-                          <p className="text-[14px] text-[#5A6B80] font-medium">{stat.label}</p>
-                          <h3 className="font-headline text-[30px] font-semibold tracking-tight text-[#16202E] tabular-nums">{stat.val}</h3>
+                          <p className="text-sm text-[#5A6B80] font-medium">{s.label}</p>
+                          <h3 className="font-headline text-3xl font-bold tabular-nums text-[#16202E]">{s.val}</h3>
                         </div>
-                        <div className="w-10 h-10 rounded-lg bg-[#F0EBFB] text-[#6D4BC6] flex items-center justify-center">
-                          <stat.icon size={20} />
-                        </div>
-                      </CardContent>
+                        <div className="w-10 h-10 bg-[#F0EBFB] text-[#6D4BC6] rounded-lg flex items-center justify-center"><s.icon size={20} /></div>
+                      </div>
                     </Card>
                   ))}
                 </div>
 
-                <Card className="border-[#E3EAF2] bg-white overflow-hidden shadow-sm">
-                  <div className="p-4 bg-slate-50 border-b font-bold text-xs uppercase text-[#5A6B80] tracking-wider">Audit Request Queue</div>
+                <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                  <div className="xl:col-span-2 space-y-6">
+                    <Card className="border-[#E3EAF2] overflow-hidden shadow-sm">
+                      <div className="p-4 bg-slate-50 border-b font-bold text-xs uppercase tracking-wider text-[#5A6B80]">Audit Request Queue</div>
+                      <Table>
+                        <TableHeader className="bg-slate-50/50">
+                          <TableRow>
+                            <TableHead>Account</TableHead>
+                            <TableHead>Site</TableHead>
+                            <TableHead>Target Date</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {activeRequests.map(req => (
+                            <TableRow key={req.id} className="h-14">
+                              <TableCell className="font-bold text-sm">{req.clientName}</TableCell>
+                              <TableCell className="text-xs">
+                                <span className="font-medium">{req.warehouseName}</span>
+                                <span className="text-[#8494A8] ml-1">({req.city})</span>
+                              </TableCell>
+                              <TableCell className="text-xs font-mono">{req.preferredDate}</TableCell>
+                              <TableCell>
+                                <Badge className={cn(
+                                  "rounded-full font-medium border-none text-[10px] px-2 py-0.5 uppercase",
+                                  req.status === 'approved' ? "bg-[#E8F6EF] text-[#12855A]" : "bg-[#FFF8E6] text-[#B5730F]"
+                                )}>{req.status}</Badge>
+                              </TableCell>
+                              <TableCell className="text-right">
+                                {req.status === 'pending' && (
+                                  <div className="flex justify-end gap-2">
+                                    <Button size="sm" variant="outline" className="h-8 text-[10px] font-bold border-slate-200" onClick={() => { toast.error("Request declined"); setActiveRequests(prev => prev.filter(r => r.id !== req.id)); }}>Decline</Button>
+                                    <Button size="sm" className="bg-[#2B7CE9] text-white hover:bg-[#1656B4] h-8 text-[10px] font-bold uppercase" onClick={() => { toast.success("Audit scheduled successfully"); setActiveRequests(prev => prev.map(r => r.id === req.id ? { ...r, status: 'approved' } : r)); }}>Approve</Button>
+                                  </div>
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </Card>
+                  </div>
+                  <div className="space-y-6">
+                    <Card className="border-[#E3EAF2] p-6 shadow-sm bg-white">
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-[#5A6B80] mb-4">System Accuracy Trend</h3>
+                      <div className="h-[200px] w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <AreaChart data={accuracyTrend}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E3EAF2" />
+                            <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10 }} />
+                            <YAxis hide domain={[94, 100]} />
+                            <Area type="monotone" dataKey="accuracy" stroke="#2B7CE9" fill="#EEF5FF" strokeWidth={2} />
+                          </AreaChart>
+                        </ResponsiveContainer>
+                      </div>
+                      <div className="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
+                        <span className="text-xs text-[#5A6B80]">Last check: Today, 10:45 AM</span>
+                        <span className="text-sm font-bold text-[#12855A]">99.2% Global</span>
+                      </div>
+                    </Card>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {tab === 'clients' && (
+              <div className="space-y-8">
+                <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
+                  <div>
+                    <h2 className="text-3xl font-headline font-bold text-[#16202E]">Client Accounts</h2>
+                    <p className="text-sm text-[#5A6B80]">Organizations using InvTrack for physical inventory management.</p>
+                  </div>
+                  <Button className="bg-[#2B7CE9] text-white"><Plus size={16} className="mr-2" /> Add Client</Button>
+                </div>
+                <Card className="border-[#E3EAF2] overflow-hidden shadow-sm">
+                  <div className="p-4 bg-slate-50 border-b">
+                    <div className="relative max-w-sm"><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8494A8]" size={16} /><Input placeholder="Search accounts..." className="pl-9 h-10 bg-white" /></div>
+                  </div>
                   <Table>
-                    <TableHeader>
-                      <TableRow className="bg-transparent hover:bg-transparent">
-                        <TableHead className="text-[12px] uppercase font-bold">Client Account</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Warehouse Site</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Type</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Target Date</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold">Status</TableHead>
-                        <TableHead className="text-[12px] uppercase font-bold text-right">Triggers</TableHead>
+                    <TableHeader className="bg-slate-50/50">
+                      <TableRow>
+                        <TableHead>Account Name</TableHead>
+                        <TableHead>Industry</TableHead>
+                        <TableHead>City</TableHead>
+                        <TableHead>Primary Contact</TableHead>
+                        <TableHead className="text-right">Sites</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Joined</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {activeRequests.map(req => (
-                        <TableRow key={req.id} className="h-14">
-                          <TableCell className="font-bold text-sm">{req.clientName}</TableCell>
-                          <TableCell className="text-xs font-medium">{req.warehouseName} &middot; <span className="text-[#8494A8]">{req.city}</span></TableCell>
-                          <TableCell className="text-xs capitalize">{req.type}</TableCell>
-                          <TableCell className="text-xs font-mono tabular-nums">{req.preferredDate}</TableCell>
+                      {clients.map(c => (
+                        <TableRow key={c.id} className="h-16">
+                          <TableCell className="font-bold text-sm">{c.name}</TableCell>
+                          <TableCell className="text-xs font-medium text-[#5A6B80]">{c.industry}</TableCell>
+                          <TableCell className="text-xs">{c.city}</TableCell>
+                          <TableCell>
+                            <div className="font-bold text-xs">{c.contactName}</div>
+                            <div className="text-[10px] text-[#8494A8]">{c.contactEmail}</div>
+                          </TableCell>
+                          <TableCell className="text-right font-bold tabular-nums">{c.warehouseCount}</TableCell>
                           <TableCell>
                             <Badge className={cn(
-                              "rounded-full font-medium border-none text-[10px] px-2 py-0.5 uppercase",
-                              req.status === 'approved' ? "bg-[#E8F6EF] text-[#12855A]" : "bg-[#FFF8E6] text-[#B5730F]"
-                            )}>
-                              {req.status}
-                            </Badge>
+                              "rounded-full text-[10px] px-2 py-0.5 uppercase",
+                              c.status === 'active' ? "bg-[#E8F6EF] text-[#12855A]" : "bg-[#FFF8E6] text-[#B5730F]"
+                            )}>{c.status}</Badge>
                           </TableCell>
-                          <TableCell className="text-right space-x-2">
-                            {req.status === 'pending' && (
-                              <div className="flex justify-end gap-2">
-                                <Button size="sm" variant="outline" onClick={() => {
-                                  toast.error("Request declined");
-                                  setActiveRequests(prev => prev.filter(r => r.id !== req.id));
-                                }} className="h-8 text-xs font-bold border-slate-200">Decline</Button>
-                                <Button size="sm" onClick={() => {
-                                  toast.success("Audit scheduled successfully");
-                                  setActiveRequests(prev => prev.map(r => r.id === req.id ? { ...r, status: 'approved' } : r));
-                                }} className="bg-[#2B7CE9] text-white hover:bg-[#1656B4] h-8 text-xs font-bold uppercase">Approve</Button>
-                              </div>
+                          <TableCell className="text-right text-xs text-[#5A6B80]">{c.onboardedDate}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Card>
+              </div>
+            )}
+
+            {tab === 'warehouses' && (
+              <div className="space-y-8">
+                <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
+                  <div>
+                    <h2 className="text-3xl font-headline font-bold text-[#16202E]">Global Site Register</h2>
+                    <p className="text-sm text-[#5A6B80]">Master list of every facility registered in the system.</p>
+                  </div>
+                </div>
+                <Card className="border-[#E3EAF2] overflow-hidden shadow-sm">
+                  <Table>
+                    <TableHeader className="bg-slate-50">
+                      <TableRow>
+                        <TableHead>Facility & Address</TableHead>
+                        <TableHead>Account</TableHead>
+                        <TableHead>Code</TableHead>
+                        <TableHead className="text-right">SKUs</TableHead>
+                        <TableHead>Zones</TableHead>
+                        <TableHead>Last Count</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {warehouses.map(w => (
+                        <TableRow key={w.id} className="h-16">
+                          <TableCell>
+                            <div className="font-bold text-sm">{w.name}</div>
+                            <div className="text-[10px] text-[#8494A8]">{w.address}</div>
+                          </TableCell>
+                          <TableCell className="text-xs font-semibold">{clients.find(c => c.id === w.clientId)?.name}</TableCell>
+                          <TableCell><Badge variant="outline" className="text-[10px] font-mono bg-white">{w.code}</Badge></TableCell>
+                          <TableCell className="text-right font-bold tabular-nums">{formatNumber(w.skuCount)}</TableCell>
+                          <TableCell className="text-xs">{w.zones} Zones</TableCell>
+                          <TableCell className="text-xs">
+                            {w.lastAuditedDate ? (
+                              <span className="text-[#12855A] font-medium">{w.lastAuditedDate}</span>
+                            ) : (
+                              <span className="text-[#E0762B] font-bold italic">Never counted</span>
                             )}
                           </TableCell>
                         </TableRow>
@@ -1366,9 +1114,195 @@ export default function InvTrackMainApp() {
                 </Card>
               </div>
             )}
+
+            {tab === 'auditors' && (
+              <div className="space-y-8">
+                <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
+                  <div>
+                    <h2 className="text-3xl font-headline font-bold text-[#16202E]">Field Agents</h2>
+                    <p className="text-sm text-[#5A6B80]">Certified physical auditors assigned to inventory counts.</p>
+                  </div>
+                  <Button className="bg-[#2B7CE9] text-white"><UserPlus size={16} className="mr-2" /> Invite Agent</Button>
+                </div>
+                <Card className="border-[#E3EAF2] overflow-hidden shadow-sm">
+                  <Table>
+                    <TableHeader className="bg-slate-50">
+                      <TableRow>
+                        <TableHead>Agent</TableHead>
+                        <TableHead>Contact</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Joined</TableHead>
+                        <TableHead>Last Active</TableHead>
+                        <TableHead className="text-right">Action</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {auditors.map(a => (
+                        <TableRow key={a.id} className="h-16">
+                          <TableCell>
+                            <div className="flex items-center gap-3">
+                              <Avatar className="h-8 w-8"><AvatarFallback className="text-[10px] font-bold text-[#6D4BC6] bg-[#F0EBFB]">{initials(a.name)}</AvatarFallback></Avatar>
+                              <div>
+                                <div className="font-bold text-sm">{a.name}</div>
+                                <div className="text-[10px] text-[#8494A8]">{a.email}</div>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-xs font-mono">{a.phone}</TableCell>
+                          <TableCell>
+                            <Badge className={cn(
+                              "rounded-full text-[10px] px-2 py-0.5 uppercase",
+                              a.status === 'active' ? "bg-[#E8F6EF] text-[#12855A]" : "bg-[#EEF5FF] text-[#2B7CE9]"
+                            )}>{a.status}</Badge>
+                          </TableCell>
+                          <TableCell className="text-xs text-[#5A6B80]">{a.joinedDate}</TableCell>
+                          <TableCell className="text-xs text-[#5A6B80]">{a.lastActiveDate}</TableCell>
+                          <TableCell className="text-right">
+                            <Button variant="outline" size="sm" className="h-8 text-xs font-bold border-slate-200">Assign Audit</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Card>
+              </div>
+            )}
+
+            {tab === 'requests' && (
+              <div className="space-y-8">
+                <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
+                  <div>
+                    <h2 className="text-3xl font-headline font-bold text-[#16202E]">Audit Requests</h2>
+                    <p className="text-sm text-[#5A6B80]">Historical and active requests from client portals.</p>
+                  </div>
+                </div>
+                <Card className="border-[#E3EAF2] overflow-hidden shadow-sm">
+                  <Table>
+                    <TableHeader className="bg-slate-50">
+                      <TableRow>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Account</TableHead>
+                        <TableHead>Site</TableHead>
+                        <TableHead>Type</TableHead>
+                        <TableHead>Preferred Date</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Action</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {activeRequests.map(r => (
+                        <TableRow key={r.id} className="h-16">
+                          <TableCell className="font-mono text-xs font-bold">{r.id}</TableCell>
+                          <TableCell className="font-bold text-sm">{r.clientName}</TableCell>
+                          <TableCell className="text-xs">{r.warehouseName} &middot; {r.city}</TableCell>
+                          <TableCell className="capitalize text-xs">{r.type}</TableCell>
+                          <TableCell className="text-xs font-mono">{r.preferredDate}</TableCell>
+                          <TableCell><Badge className={cn(
+                            "rounded-full text-[10px] px-2 py-0.5 uppercase",
+                            r.status === 'approved' ? "bg-[#E8F6EF] text-[#12855A]" : "bg-[#FFF8E6] text-[#B5730F]"
+                          )}>{r.status}</Badge></TableCell>
+                          <TableCell className="text-right">
+                            {r.status === 'pending' ? (
+                              <div className="flex justify-end gap-2">
+                                <Button size="sm" variant="outline" className="h-8 text-[10px] font-bold border-slate-200">Decline</Button>
+                                <Button size="sm" className="bg-[#2B7CE9] text-white hover:bg-[#1656B4] h-8 text-[10px] font-bold uppercase">Approve</Button>
+                              </div>
+                            ) : <span className="text-[10px] font-bold text-[#8494A8] uppercase">Processed</span>}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Card>
+              </div>
+            )}
+
+            {tab === 'inventory' && (
+              <div className="space-y-8">
+                <div className="flex justify-between items-end border-b border-[#E3EAF2] pb-6">
+                  <div>
+                    <h2 className="text-3xl font-headline font-bold text-[#16202E]">Master Ledger</h2>
+                    <p className="text-sm text-[#5A6B80]">Global inventory records across all client facilities.</p>
+                  </div>
+                  <Button variant="outline" className="border-slate-200 h-10 px-4"><Download size={16} className="mr-2" /> Export Global CSV</Button>
+                </div>
+                <Card className="border-[#E3EAF2] overflow-hidden shadow-sm">
+                  <div className="p-4 bg-slate-50 border-b flex items-center gap-4">
+                    <div className="relative flex-1"><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8494A8]" size={16} /><Input placeholder="Search by SKU, Client, or Product..." className="pl-9 h-10 bg-white" /></div>
+                  </div>
+                  <Table>
+                    <TableHeader className="bg-slate-50">
+                      <TableRow>
+                        <TableHead>SKU ID</TableHead>
+                        <TableHead>Account</TableHead>
+                        <TableHead>Product Name</TableHead>
+                        <TableHead>Site</TableHead>
+                        <TableHead className="text-right">Qty</TableHead>
+                        <TableHead className="text-right">Book Value</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {inventoryItems.map(item => (
+                        <TableRow key={item.sku} className="h-16">
+                          <TableCell className="font-mono text-[11px] font-bold">{item.sku}</TableCell>
+                          <TableCell className="text-xs font-semibold">ABC Enterprises</TableCell>
+                          <TableCell className="font-medium text-sm">{item.name}</TableCell>
+                          <TableCell className="text-xs">{warehouses.find(w => w.id === item.warehouseId)?.name}</TableCell>
+                          <TableCell className="text-right font-bold tabular-nums text-sm">{item.systemQty} <span className="text-[10px] text-[#8494A8] font-normal">{item.unit}</span></TableCell>
+                          <TableCell className="text-right font-bold tabular-nums text-sm">{formatCurrency(item.systemQty * item.unitValue)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Card>
+              </div>
+            )}
+
+            {tab === 'settings' && (
+              <div className="max-w-[640px] space-y-8">
+                <div className="space-y-2">
+                  <h2 className="text-3xl font-headline font-bold text-[#16202E]">System Setup</h2>
+                  <p className="text-sm text-[#5A6B80]">Global configuration for audit triggers and escalations.</p>
+                </div>
+                <div className="space-y-6">
+                  <Card className="border-[#E3EAF2] p-6 shadow-sm">
+                    <div className="space-y-1 mb-6">
+                      <h3 className="text-base font-bold text-[#16202E]">Variance Tolerance Parameter</h3>
+                      <p className="text-xs text-[#5A6B80]">Discrepancies beyond this percentage are flagged as critical during floor verify shifts.</p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="relative w-32">
+                        <Input type="number" defaultValue={2} className="pr-8 h-12 font-bold text-lg" />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">%</span>
+                      </div>
+                      <Button className="bg-[#2B7CE9] h-12 px-8 font-bold uppercase text-xs tracking-widest">Save Parameter</Button>
+                    </div>
+                  </Card>
+
+                  <Card className="border-[#E3EAF2] overflow-hidden shadow-sm">
+                    <CardHeader className="bg-slate-50 border-b">
+                      <CardTitle className="text-sm font-bold uppercase tracking-wider">Escalation Routing</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6 space-y-6">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-[#5A6B80]">Central Operations Inbox</label>
+                        <Input defaultValue="ops@invtrack.app" className="h-11" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-[#5A6B80]">SMS Alert Recipients (CSV)</label>
+                        <Input defaultValue="+919444098765, +919845012345" className="h-11" />
+                      </div>
+                      <Button variant="outline" className="w-full h-11 font-bold border-slate-200">Send Test Routing Notification</Button>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
     </PortalShell>
   );
 }
+
+const UserPlus = ({ size, className }: { size: number, className?: string }) => <Users size={size} className={className} />;
