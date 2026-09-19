@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -305,10 +306,11 @@ export default function InvTrackMainApp() {
     <PortalShell currentRole={role} onRoleChange={setRole} activeTab={tab} onTabChange={setTab}>
       <AnimatePresence mode="wait">
         {role === 'marketing' && (
-          <motion.div key="marketing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-16 pb-16">
+          <motion.div key="marketing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-0">
             {tab === 'home' && (
-              <div className="space-y-24">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12 items-center">
+              <div className="space-y-0">
+                {/* Hero Section */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12 pb-24 items-center relative border-b border-[#E3EAF2]">
                   <div className="space-y-8">
                     <span className="text-[#2B7CE9] text-[13px] font-bold tracking-widest uppercase block">From stock to clarity</span>
                     <h1 className="text-[48px] md:text-[56px] font-headline font-bold text-[#16202E] leading-tight tracking-tight">Accurate inventory audits for a stronger tomorrow</h1>
@@ -335,20 +337,25 @@ export default function InvTrackMainApp() {
                     </div>
                   </div>
                 </div>
+
+                {/* High Fidelity How It Works Component */}
+                <HowItWorks features={[
+                  { title: "Request Audit", description: "Clients initiate a count sequence by selecting a warehouse site and audit type.", colorTheme: "orange" },
+                  { title: "Verify & Approve", description: "Admin verifies details, freezes system quantities, and assigns a field agent.", colorTheme: "blue" },
+                  { title: "Physical Count", description: "Auditors use tablet-optimized count sheets to verify physical stock on the floor.", colorTheme: "purple" },
+                  { title: "Live Reconciliation", description: "Every variance is automatically flagged and routed to management for review.", colorTheme: "orange" },
+                  { title: "Final Sign-off", description: "A secure report is generated, signed off, and master records are updated.", colorTheme: "blue" }
+                ]} />
               </div>
             )}
             {tab === 'how_it_works' && (
-              <div className="space-y-16 py-12">
-                <div className="max-w-[800px] mx-auto text-center space-y-4">
-                  <h2 className="text-4xl font-headline font-bold text-[#16202E]">The 5-Stage Audit Lifecycle</h2>
-                  <p className="text-[#5A6B80] text-lg">Replacing chaotic spreadsheets with a single secure ledger of truth.</p>
-                </div>
-                <HowItWorks features={[
-                  { title: "Request the Audit", description: "Clients initiate a count sequence by selecting a warehouse site and audit type.", colorTheme: "blue" },
-                  { title: "Admin Approval", description: "InvTrack operators verify details, freeze system quantities, and assign a field agent.", colorTheme: "purple" },
-                  { title: "On-Site Counting", description: "Auditors use tablet-optimized count sheets to verify physical stock against book records.", colorTheme: "orange" },
-                  { title: "Reconciliation", description: "Every variance is automatically flagged and routed to management for immediate review.", colorTheme: "blue" },
-                  { title: "Final Sign-off", description: "A secure report is generated and signed off, updating the master inventory record.", colorTheme: "blue" }
+              <div className="py-12">
+                 <HowItWorks features={[
+                  { title: "Request Audit", description: "Clients initiate a count sequence by selecting a warehouse site and audit type.", colorTheme: "orange" },
+                  { title: "Verify & Approve", description: "Admin verifies details, freezes system quantities, and assigns a field agent.", colorTheme: "blue" },
+                  { title: "Physical Count", description: "Auditors use tablet-optimized count sheets to verify physical stock on the floor.", colorTheme: "purple" },
+                  { title: "Live Reconciliation", description: "Every variance is automatically flagged and routed to management for review.", colorTheme: "orange" },
+                  { title: "Final Sign-off", description: "A secure report is generated, signed off, and master records are updated.", colorTheme: "blue" }
                 ]} />
               </div>
             )}
@@ -534,9 +541,9 @@ export default function InvTrackMainApp() {
                 <div className="flex justify-end pt-8"><Button className="bg-[#16202E] text-white px-8 h-12 font-bold uppercase text-xs" onClick={() => { toast.success("Count submitted!"); setTab('dashboard'); }}>Finish Shift</Button></div>
               </div>
             )}
-            {/* Auditor screens mapping fallback */}
+            {/* Auditor sub-pages fallback logic */}
             {['my_audits', 'today', 'discrepancies', 'completed'].includes(tab) && (
-              <div className="text-left py-20 text-[#5A6B80]"><h3 className="text-xl font-bold mb-2">Workspace Segment: {tab.replace('_', ' ')}</h3><p>Detailed view implementation for auditor assignments is connected to master data.</p></div>
+              <div className="text-left py-20 text-[#5A6B80]"><h3 className="text-xl font-bold mb-2">Auditor Workspace Segment: {tab.replace('_', ' ')}</h3><p>Assignment view details are synchronized with master floor records.</p></div>
             )}
           </motion.div>
         )}
@@ -569,9 +576,9 @@ export default function InvTrackMainApp() {
                 </Card>
               </div>
             )}
-            {/* Admin sub-pages mapping fallback */}
+            {/* Admin sub-pages fallback logic */}
             {['clients', 'warehouses', 'auditors', 'requests', 'inventory', 'settings'].includes(tab) && (
-              <div className="text-left py-20 text-[#5A6B80]"><h3 className="text-xl font-bold mb-2">Admin Segment: {tab.replace('_', ' ')}</h3><p>Global management view for {tab} is connected to system records.</p></div>
+              <div className="text-left py-20 text-[#5A6B80]"><h3 className="text-xl font-bold mb-2">Global Operations Control: {tab.replace('_', ' ')}</h3><p>Master record management for {tab} is established for regional oversight.</p></div>
             )}
           </motion.div>
         )}

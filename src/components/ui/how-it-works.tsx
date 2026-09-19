@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface CardProps {
@@ -65,13 +65,13 @@ const Card = ({
   return (
     <div
       className={cn(
-        "relative w-full md:w-[320px] transition-transform duration-300 hover:z-30 hover:scale-105",
+        "relative w-full md:w-[300px] transition-transform duration-300 hover:z-30 hover:scale-105",
         rotate,
         className
       )}
     >
       <div className="bg-white p-2 rounded-[25px] shadow-premium border border-[#E3EAF2]">
-        <Pin className={cn("w-8 h-8 z-20 mb-4 mx-auto", textColor)} />
+        <Pin className={cn("w-8 h-8 z-20 mb-6 mx-auto", textColor)} />
         <div
           className={cn(
             "border rounded-[15px] p-[20px] h-full flex flex-col relative overflow-hidden",
@@ -80,14 +80,15 @@ const Card = ({
           )}
         >
           <span
-            className={cn("text-4xl font-headline mb-4 opacity-50", textColor)}
+            className={cn("text-4xl font-headline mb-5 opacity-40", textColor)}
+            style={{ fontFamily: 'Sora, sans-serif' }}
           >
             {number}
           </span>
-          <h3 className="text-xl font-headline font-bold text-[#16202E] leading-tight mb-2">
+          <h3 className="text-2xl font-headline font-bold text-[#16202E] leading-tight mb-2">
             {title}
           </h3>
-          <p className="text-[#5A6B80] text-sm leading-relaxed font-body">
+          <p className="text-[#5A6B80] text-sm leading-relaxed">
             {description}
           </p>
         </div>
@@ -102,42 +103,45 @@ export interface Step {
   colorTheme?: "orange" | "blue" | "purple";
 }
 
-export interface StepPosition {
-  className?: string;
-  rotate?: string;
-}
-
 export interface HowItWorksProps {
   features: Step[];
   className?: string;
-  stepPositions?: StepPosition[];
 }
 
-const DEFAULT_CARD_POSITIONS: StepPosition[] = [
-  { className: "md:absolute md:top-0 md:left-[10%]", rotate: "rotate-2" },
-  { className: "md:absolute md:top-[120px] md:right-[10%]", rotate: "-rotate-2" },
-  { className: "md:absolute md:top-[450px] md:left-[12%]", rotate: "rotate-3" },
-  { className: "md:absolute md:top-[570px] md:right-[8%]", rotate: "-rotate-1" },
-  { className: "md:absolute md:top-[850px] md:left-[10%]", rotate: "rotate-2" },
+const DEFAULT_CARD_POSITIONS = [
+  { className: "md:absolute md:top-0 md:left-[10%]", rotate: "rotate-6" },
+  { className: "md:absolute md:top-[120px] md:right-[10%]", rotate: "-rotate-6" },
+  { className: "md:absolute md:top-[450px] md:left-[12%]", rotate: "rotate-4" },
+  { className: "md:absolute md:top-[570px] md:right-[8%]", rotate: "-rotate-4" },
+  { className: "md:absolute md:top-[850px] md:left-[10%]", rotate: "rotate-6" },
 ];
 
 export default function HowItWorks({
   features,
   className,
-  stepPositions,
 }: HowItWorksProps) {
-  const positions = stepPositions || DEFAULT_CARD_POSITIONS;
-  const height = features.length * 220; // Dynamic height approximation
+  const positions = DEFAULT_CARD_POSITIONS;
+  const height = 1130;
 
   return (
-    <div className={cn("relative py-20 overflow-hidden", className)}>
-      {/* Background Grid */}
+    <div className={cn("relative py-24 bg-white overflow-hidden", className)}>
+      {/* Background Grid Styling matches Hero */}
       <div 
-        className="absolute inset-0 bg-grid opacity-20 pointer-events-none" 
-        style={{ backgroundSize: '40px 40px' }}
-      />
+        className="absolute inset-0 pointer-events-none opacity-[0.08]"
+        style={{
+          backgroundImage: "linear-gradient(#000 1px, transparent 1px)",
+          backgroundSize: "100% 32px",
+          marginTop: "4px",
+        }}
+      ></div>
       
-      <div className="max-w-6xl mx-auto relative z-10 px-6">
+      <div className="max-w-6xl mx-auto relative z-10 px-8">
+        <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
+            <span className="text-[#2B7CE9] text-[13px] font-bold tracking-widest uppercase">The Ledger of Truth</span>
+            <h2 className="text-4xl font-headline font-bold text-[#16202E]">5-Stage Audit Lifecycle</h2>
+            <p className="text-[#5A6B80] text-lg">Replacing chaotic spreadsheets with a single secure record of physical verify cycles.</p>
+        </div>
+
         <div
           className="relative w-full max-w-[1000px] mx-auto flex flex-col space-y-8 md:space-y-0 md:block"
           style={{ minHeight: `${height}px` }}
@@ -149,7 +153,7 @@ export default function HowItWorks({
               preserveAspectRatio="none"
             >
               <motion.path
-                d={`M 290 150 C 500 150, 550 270, 710 270 C 850 270, 500 350, 290 450 C 290 600, 550 720, 750 720 C 950 720, 500 800, 290 850`}
+                d="M 290 150 C 500 150, 550 270, 710 270 C 850 270, 500 350, 290 450 C 290 600, 550 720, 750 720 C 950 720, 500 800, 290 850"
                 stroke="#2B7CE9"
                 strokeWidth="2"
                 strokeDasharray="8 6"
