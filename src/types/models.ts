@@ -8,6 +8,12 @@ export type ResolutionStatus = 'open' | 'under_review' | 'resolved';
 
 export type AuditType = 'full' | 'cycle' | 'spot' | 'annual';
 
+export interface SessionUser {
+  name: string;
+  role: 'client' | 'auditor' | 'admin';
+  company: string;
+}
+
 export interface Client {
   id: string;
   name: string;
@@ -16,7 +22,7 @@ export interface Client {
   contactName: string;
   contactEmail: string;
   warehouseCount: number;
-  status: 'active' | 'inactive';
+  status: 'active' | 'onboarding' | 'paused';
   onboardedDate: string;
 }
 
@@ -40,6 +46,7 @@ export interface InventoryItem {
   warehouseId: string;
   zone: string;
   systemQty: number;
+  unit: string;
   unitValue: number;
   syncedDate: string;
 }
@@ -52,7 +59,6 @@ export interface Auditor {
   status: 'active' | 'invited' | 'suspended';
   joinedDate: string;
   lastActiveDate: string;
-  avatarUrl?: string;
 }
 
 export interface Audit {
@@ -68,6 +74,7 @@ export interface Audit {
   completionPercentage: number;
   totalLines: number;
   countedLines: number;
+  accuracy?: number;
 }
 
 export interface Discrepancy {
@@ -92,4 +99,25 @@ export interface CountLine {
   countedQty: number | null;
   variance: number | null;
   isFlagged: boolean;
+}
+
+export interface AuditRequest {
+  id: string;
+  clientName: string;
+  warehouseName: string;
+  city: string;
+  type: AuditType;
+  preferredDate: string;
+  status: 'pending' | 'approved' | 'declined';
+  notes?: string;
+}
+
+export interface Lead {
+  company: string;
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  warehousesCount: number;
+  notes?: string;
 }

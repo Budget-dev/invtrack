@@ -10,7 +10,7 @@
     --card-foreground: 216 35% 14%;
     --popover: 0 0% 100%;
     --popover-foreground: 216 35% 14%;
-    --primary: 214 81% 54%;
+    --primary: 215 81% 54%;
     --primary-foreground: 0 0% 100%;
     --secondary: 216 33% 98%;
     --secondary-foreground: 214 18% 43%;
@@ -22,7 +22,7 @@
     --destructive-foreground: 0 0% 100%;
     --border: 212 25% 92%;
     --input: 212 25% 92%;
-    --ring: 214 81% 54%;
+    --ring: 215 81% 54%;
     --radius: 10px;
   }
 }
@@ -32,10 +32,10 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-[#F7F9FC] text-[#16202E] font-body antialiased;
   }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-headline font-semibold tracking-tight;
+  h1, h2, h3, h4 {
+    @apply font-headline font-semibold tracking-tight text-[#16202E];
   }
 }
 
@@ -43,12 +43,11 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Custom shadow utility for InvTrack cards */
-.shadow-invtrack {
-  box-shadow: 0 1px 2px rgba(16,33,57,.06), 0 8px 24px -12px rgba(16,33,57,.18);
-}
-
-/* Button & Input Reset */
-button, input, select, textarea {
-  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
