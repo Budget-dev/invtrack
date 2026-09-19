@@ -354,33 +354,6 @@ function AuditStatusBadge({ status }: { status: string }) {
   );
 }
 
-function SeverityBadge({ severity }: { severity: string }) {
-  const colors: Record<string, string> = {
-    critical: 'bg-[#FDF2F2] text-[#C0362C]',
-    high: 'bg-[#FFF8E6] text-[#B5730F]',
-    medium: 'bg-[#EEF5FF] text-[#2B7CE9]',
-    low: 'bg-slate-100 text-slate-500'
-  };
-  return (
-    <Badge className={cn("rounded-full font-bold border-none px-2 py-0.5 text-[9px] uppercase", colors[severity] || 'bg-slate-100')}>
-      {severity}
-    </Badge>
-  );
-}
-
-function ResolutionBadge({ status }: { status: string }) {
-  const colors: Record<string, string> = {
-    resolved: 'bg-[#E8F6EF] text-[#12855A]',
-    under_review: 'bg-[#FFF8E6] text-[#B5730F]',
-    open: 'bg-[#FDF2F2] text-[#C0362C]'
-  };
-  return (
-    <Badge className={cn("rounded-full font-medium border-none px-2 py-0.5 text-[10px] uppercase", colors[status] || 'bg-slate-100')}>
-      {status.replace('_', ' ')}
-    </Badge>
-  );
-}
-
 // Main App Component
 export default function InvTrackMainApp() {
   const [role, setRole] = useState<'marketing' | 'client' | 'auditor' | 'admin'>('marketing');
@@ -457,9 +430,9 @@ export default function InvTrackMainApp() {
                     </div>
                   </div>
 
-                  <div className="relative group">
-                    {/* Floating decorations */}
-                    <div className="absolute -inset-4 pointer-events-none hidden lg:block">
+                  <div className="relative">
+                    {/* High-Fidelity Data Overlay with SVG Pointers */}
+                    <div className="absolute inset-0 pointer-events-none hidden lg:block z-20">
                       <FloatingDataDecoration />
                     </div>
 
@@ -849,7 +822,7 @@ export default function InvTrackMainApp() {
                             "text-right font-mono font-bold text-base tabular-nums",
                             line.isFlagged ? "text-[#C0362C]" : line.variance !== null ? "text-[#12855A]" : "text-[#8494A8]"
                           )}>
-                            {line.variance !== null ? (line.variance > 0 ? `+${line.variance}` : line.variance) : "-"}
+                            {line.variance !== null ? (line.variance > 0 ? `+${variancePercent(line.systemQty, line.countedQty)}%` : `${variancePercent(line.systemQty, line.countedQty)}%`) : "-"}
                           </TableCell>
                           <TableCell className="text-right p-2 flex justify-end gap-2">
                             <Button variant="ghost" size="icon" onClick={() => toast.success(`Camera active for SKU ${line.sku}`)} className="h-10 w-10 text-slate-400 hover:text-[#E0762B]">
