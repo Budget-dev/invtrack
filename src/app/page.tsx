@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
@@ -33,7 +33,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Progress } from "@/components/ui/progress";
 import HowItWorks from "@/components/ui/how-it-works";
-import { FloatingDataDecoration } from "@/components/ui/chart-tooltip";
+import { FloatingDataDecoration, TooltipDemo } from "@/components/ui/chart-tooltip";
 
 import { 
   clients, warehouses, inventoryItems, audits, 
@@ -41,7 +41,8 @@ import {
   accuracyTrend, varianceByCategory, VARIANCE_TOLERANCE_PERCENT 
 } from '@/data/mock-data';
 
-// --- LOGO COMPONENT ---
+// --- SHARED COMPONENTS (Top Level to avoid ReferenceErrors) ---
+
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
@@ -58,11 +59,9 @@ export function Logo({ className = "" }: { className?: string }) {
   );
 }
 
-// --- FOOTER COMPONENT ---
 function MarketingFooter() {
   return (
     <div className="space-y-0">
-      {/* Pre-footer CTA */}
       <div className="bg-[#2B7CE9] py-20 px-6">
         <div className="max-w-[1320px] mx-auto text-center text-white space-y-8">
           <h2 className="text-4xl md:text-5xl font-headline font-bold tracking-tight">Ready to clarify your inventory?</h2>
@@ -95,7 +94,7 @@ function MarketingFooter() {
             <div className="space-y-6">
               <h4 className="font-headline font-bold text-[12px] uppercase tracking-[0.2em] text-[#16202E]">Product</h4>
               <ul className="space-y-4 text-[14px] text-[#5A6B80] font-medium">
-                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer flex items-center gap-2"><ArrowRight size={12} className="opacity-0 -ml-4 group-hover:opacity-100 transition-all" />Features</li>
+                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer flex items-center gap-2">Features</li>
                 <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Mobile Count App</li>
                 <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Live Analytics</li>
                 <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Integrations</li>
@@ -134,7 +133,6 @@ function MarketingFooter() {
   );
 }
 
-// --- FORM SCHEMAS ---
 const LeadFormSchema = zod.object({
   company: zod.string().min(2, { message: 'Company name is required' }),
   name: zod.string().min(2, { message: 'Contact name is required' }),
@@ -152,7 +150,6 @@ const CreateAuditSchema = zod.object({
   notes: zod.string().optional()
 });
 
-// --- UI HELPERS ---
 function AuditStatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
     completed: 'bg-[#E8F6EF] text-[#12855A]',
@@ -182,7 +179,8 @@ function SeverityBadge({ severity }: { severity: string }) {
   );
 }
 
-// --- SHARED PORTAL SHELL ---
+// --- PORTAL SHELL ---
+
 function PortalShell({ 
   currentRole, 
   onRoleChange, 
@@ -254,6 +252,7 @@ function PortalShell({
 
   return (
     <div className="min-h-screen bg-[#F7F9FC] flex flex-col font-body">
+      {/* DEMO SWITCHER RIBBON */}
       <div className="bg-slate-900 text-white text-[11px] px-4 py-1.5 flex items-center justify-between shrink-0 font-sans z-50">
         <div className="flex items-center gap-3">
           <span className="font-bold tracking-wider text-[#2B7CE9]">DEMO MODE:</span>
@@ -349,7 +348,8 @@ function PortalShell({
   );
 }
 
-// --- MAIN APP COMPONENT ---
+// --- MAIN APP ---
+
 export default function InvTrackMainApp() {
   const [role, setRole] = useState<'marketing' | 'client' | 'auditor' | 'admin'>('marketing');
   const [tab, setTab] = useState<string>('home');
@@ -388,7 +388,6 @@ export default function InvTrackMainApp() {
           <motion.div key="marketing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-0">
             {tab === 'home' && (
               <div className="space-y-0">
-                {/* Hero Section */}
                 <div className="px-6 md:px-8">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12 pb-24 items-center relative border-b border-[#E3EAF2]">
                     <div className="space-y-8">
@@ -419,7 +418,6 @@ export default function InvTrackMainApp() {
                   </div>
                 </div>
 
-                {/* High Fidelity How It Works Component */}
                 <HowItWorks features={[
                   { title: "Request Audit", description: "Clients initiate a count sequence by selecting a warehouse site and audit type.", colorTheme: "orange" },
                   { title: "Verify & Approve", description: "Admin verifies details, freezes system quantities, and assigns a field agent.", colorTheme: "blue" },
@@ -429,17 +427,7 @@ export default function InvTrackMainApp() {
                 ]} />
               </div>
             )}
-            {tab === 'how_it_works' && (
-              <div className="py-12">
-                 <HowItWorks features={[
-                  { title: "Request Audit", description: "Clients initiate a count sequence by selecting a warehouse site and audit type.", colorTheme: "orange" },
-                  { title: "Verify & Approve", description: "Admin verifies details, freezes system quantities, and assigns a field agent.", colorTheme: "blue" },
-                  { title: "Physical Count", description: "Auditors use tablet-optimized count sheets to verify physical stock on the floor.", colorTheme: "purple" },
-                  { title: "Live Reconciliation", description: "Every variance is automatically flagged and routed to management for review.", colorTheme: "orange" },
-                  { title: "Final Sign-off", description: "A secure report is generated, signed off, and master records are updated.", colorTheme: "blue" }
-                ]} />
-              </div>
-            )}
+            
             {tab === 'request_audit' && (
               <div className="max-w-[640px] mx-auto py-12 px-6">
                 <Card className="border-[#E3EAF2] bg-white p-8 shadow-premium">
@@ -460,7 +448,6 @@ export default function InvTrackMainApp() {
               </div>
             )}
             
-            {/* Global Marketing Footer */}
             <MarketingFooter />
           </motion.div>
         )}
@@ -625,7 +612,6 @@ export default function InvTrackMainApp() {
                 <div className="flex justify-end pt-8"><Button className="bg-[#16202E] text-white px-8 h-12 font-bold uppercase text-xs" onClick={() => { toast.success("Count submitted!"); setTab('dashboard'); }}>Finish Shift</Button></div>
               </div>
             )}
-            {/* Auditor sub-pages fallback logic */}
             {['my_audits', 'today', 'discrepancies', 'completed'].includes(tab) && (
               <div className="text-left py-20 text-[#5A6B80]"><h3 className="text-xl font-bold mb-2">Auditor Workspace Segment: {tab.replace('_', ' ')}</h3><p>Assignment view details are synchronized with master floor records.</p></div>
             )}
@@ -660,7 +646,6 @@ export default function InvTrackMainApp() {
                 </Card>
               </div>
             )}
-            {/* Admin sub-pages fallback logic */}
             {['clients', 'warehouses', 'auditors', 'requests', 'inventory', 'settings'].includes(tab) && (
               <div className="text-left py-20 text-[#5A6B80]"><h3 className="text-xl font-bold mb-2">Global Operations Control: {tab.replace('_', ' ')}</h3><p>Master record management for {tab} is established for regional oversight.</p></div>
             )}
