@@ -464,35 +464,35 @@ export default function InvTrackMainApp() {
                 <div className="space-y-8 text-left pt-8">
                   <h2 className="text-2xl font-headline font-bold text-[#16202E]">Three workspaces, one record of the truth</h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#12855A]/30 transition-all cursor-pointer group">
+                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#12855A]/30 transition-all cursor-pointer group" onClick={() => { setRole('client'); setTab('dashboard'); }}>
                       <div className="w-10 h-10 rounded-lg bg-[#E8F6EF] text-[#12855A] flex items-center justify-center mb-4">
                         <WarehouseIcon size={20} />
                       </div>
                       <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Client Workspace</h3>
                       <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Track active location accuracy, verify missing quantities, and approve discrepancy books.</p>
-                      <button onClick={() => { setRole('client'); setTab('dashboard'); }} className="text-xs font-bold text-[#12855A] group-hover:underline flex items-center gap-1">
+                      <div className="text-xs font-bold text-[#12855A] group-hover:underline flex items-center gap-1">
                         Open client platform
-                      </button>
+                      </div>
                     </div>
-                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#E0762B]/30 transition-all cursor-pointer group">
+                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#E0762B]/30 transition-all cursor-pointer group" onClick={() => { setRole('auditor'); setTab('dashboard'); }}>
                       <div className="w-10 h-10 rounded-lg bg-[#FDF0E3] text-[#E0762B] flex items-center justify-center mb-4">
                         <UserCheck size={20} />
                       </div>
                       <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Auditor Tablet View</h3>
                       <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Optimized for physical auditing. High-density lines input grids and camera verification tools.</p>
-                      <button onClick={() => { setRole('auditor'); setTab('dashboard'); }} className="text-xs font-bold text-[#E0762B] group-hover:underline flex items-center gap-1">
+                      <div className="text-xs font-bold text-[#E0762B] group-hover:underline flex items-center gap-1">
                         Open auditor tablet
-                      </button>
+                      </div>
                     </div>
-                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#6D4BC6]/30 transition-all cursor-pointer group">
+                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#6D4BC6]/30 transition-all cursor-pointer group" onClick={() => { setRole('admin'); setTab('dashboard'); }}>
                       <div className="w-10 h-10 rounded-lg bg-[#F0EBFB] text-[#6D4BC6] flex items-center justify-center mb-4">
                         <Sliders size={20} />
                       </div>
                       <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Admin Control Center</h3>
                       <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Approve scheduled audit sequences, deploy field auditors, and analyze client data charts.</p>
-                      <button onClick={() => { setRole('admin'); setTab('dashboard'); }} className="text-xs font-bold text-[#6D4BC6] group-hover:underline flex items-center gap-1">
+                      <div className="text-xs font-bold text-[#6D4BC6] group-hover:underline flex items-center gap-1">
                         Open admin panel
-                      </button>
+                      </div>
                     </div>
                   </div>
                 </div>

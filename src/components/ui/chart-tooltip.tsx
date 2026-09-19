@@ -104,7 +104,7 @@ export function TooltipDemo({
 export function FloatingDataDecoration({ className }: { className?: string }) {
   return (
     <div className={cn("relative h-full w-full", className)}>
-      {/* Live Variance Tooltip (Top Left) */}
+      {/* Live Variance Tooltip (Top Left) pointing to 99.2% */}
       <div className="absolute top-[0%] left-[-10%] z-20">
         <div className="relative group">
           <svg
@@ -132,7 +132,7 @@ export function FloatingDataDecoration({ className }: { className?: string }) {
         </div>
       </div>
 
-      {/* Current Count Tooltip (Right Side) */}
+      {/* Current Count Tooltip (Right Side) pointing to 4 Roles */}
       <div className="absolute top-[40%] -right-[15%] z-20">
         <div className="relative group">
           <svg
