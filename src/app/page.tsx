@@ -410,106 +410,114 @@ export default function InvTrackMainApp() {
           >
             {tab === 'home' && (
               <div className="space-y-24">
-                {/* Hero Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-8 items-center">
-                  <div className="space-y-6 text-left">
-                    <span className="text-[#2B7CE9] text-xs font-bold tracking-widest uppercase block">From stock to clarity</span>
-                    <h1 className="text-4xl md:text-5xl font-headline font-bold text-[#16202E] leading-tight">
-                      Accurate inventory audits for a stronger tomorrow
-                    </h1>
-                    <p className="text-[#5A6B80] text-base leading-relaxed max-w-[540px]">
+                {/* Hero Section - Matching Screenshot */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12 items-center min-h-[600px]">
+                  <div className="space-y-8 text-left">
+                    <div className="space-y-2">
+                      <span className="text-[#2B7CE9] text-[13px] font-bold tracking-widest uppercase block">From stock to clarity</span>
+                      <h1 className="text-[48px] md:text-[56px] font-headline font-bold text-[#16202E] leading-[1.1] tracking-tight">
+                        Accurate inventory audits for a stronger tomorrow
+                      </h1>
+                    </div>
+                    <p className="text-[#5A6B80] text-lg leading-relaxed max-w-[540px]">
                       InvTrack replaces chaotic spreadsheets with high density physical verify cycles. Freeze quantities, track variances live, and produce reconciled reports instantly.
                     </p>
-                    <div className="flex items-center gap-4">
-                      <Button onClick={() => setTab('request_audit')} className="bg-[#2B7CE9] text-white hover:bg-[#1D6FE0] px-6 h-11">
+                    <div className="flex items-center gap-4 pt-4">
+                      <Button onClick={() => setTab('request_audit')} className="bg-[#2B7CE9] text-white hover:bg-[#1D6FE0] px-8 h-12 rounded-lg font-semibold shadow-sm">
                         Request an audit
                       </Button>
-                      <Button variant="outline" onClick={() => setTab('how_it_works')} className="border-[#E3EAF2] h-11">
+                      <Button variant="outline" onClick={() => setTab('how_it_works')} className="border-[#E3EAF2] h-12 px-8 rounded-lg font-semibold bg-white">
                         See how it works
                       </Button>
                     </div>
                   </div>
 
-                  <div className="relative">
+                  <div className="relative h-full flex items-center justify-center">
                     {/* High-Fidelity Data Overlay with SVG Pointers */}
                     <div className="absolute inset-0 pointer-events-none hidden lg:block z-20">
                       <FloatingDataDecoration />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 relative z-10">
-                      {[
-                        { val: "99.2%", label: "Average stock accuracy after first full count" },
-                        { val: "6 hrs", label: "Typical turnaround from start to signed report" },
-                        { val: "1,842", label: "SKUs counted in a single day at one location" },
-                        { val: "4 Roles", label: "Operational personas inside one cohesive platform" }
-                      ].map((stat, i) => (
-                        <div key={i} className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-card text-left transition-transform hover:-translate-y-1">
-                          <div className="text-3xl font-headline font-bold text-[#16202E] mb-2 tabular-nums">{stat.val}</div>
-                          <div className="text-xs text-[#5A6B80] leading-normal">{stat.label}</div>
-                        </div>
-                      ))}
+                    {/* 2x2 Grid of Stat Cards */}
+                    <div className="grid grid-cols-2 gap-5 relative z-10 w-full max-w-[520px]">
+                      <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-card text-left transition-transform hover:-translate-y-1">
+                        <div className="text-4xl font-headline font-bold text-[#16202E] mb-2 tabular-nums">99.2%</div>
+                        <div className="text-[13px] text-[#5A6B80] leading-normal font-medium">Average stock accuracy after first full count</div>
+                      </div>
+                      <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-card text-left transition-transform hover:-translate-y-1">
+                        <div className="text-4xl font-headline font-bold text-[#16202E] mb-2 tabular-nums">6 hrs</div>
+                        <div className="text-[13px] text-[#5A6B80] leading-normal font-medium">Typical turnaround from start to signed report</div>
+                      </div>
+                      <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-card text-left transition-transform hover:-translate-y-1">
+                        <div className="text-4xl font-headline font-bold text-[#16202E] mb-2 tabular-nums">1,842</div>
+                        <div className="text-[13px] text-[#5A6B80] leading-normal font-medium">SKUs counted in a single day at one location</div>
+                      </div>
+                      <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-card text-left transition-transform hover:-translate-y-1">
+                        <div className="text-4xl font-headline font-bold text-[#16202E] mb-2 tabular-nums">4 Roles</div>
+                        <div className="text-[13px] text-[#5A6B80] leading-normal font-medium">Operational personas inside one cohesive platform</div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Portals Selector */}
-                <div className="space-y-6 text-left">
+                <div className="space-y-8 text-left pt-8">
                   <h2 className="text-2xl font-headline font-bold text-[#16202E]">Three workspaces, one record of the truth</h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#12855A]/30 transition-all">
+                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#12855A]/30 transition-all cursor-pointer group">
                       <div className="w-10 h-10 rounded-lg bg-[#E8F6EF] text-[#12855A] flex items-center justify-center mb-4">
                         <WarehouseIcon size={20} />
                       </div>
-                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-sm">Client Workspace</h3>
+                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Client Workspace</h3>
                       <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Track active location accuracy, verify missing quantities, and approve discrepancy books.</p>
-                      <button onClick={() => { setRole('client'); setTab('dashboard'); }} className="text-xs font-semibold text-[#12855A] hover:underline flex items-center gap-1">
+                      <button onClick={() => { setRole('client'); setTab('dashboard'); }} className="text-xs font-bold text-[#12855A] group-hover:underline flex items-center gap-1">
                         Open client platform
                       </button>
                     </div>
-                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#E0762B]/30 transition-all">
+                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#E0762B]/30 transition-all cursor-pointer group">
                       <div className="w-10 h-10 rounded-lg bg-[#FDF0E3] text-[#E0762B] flex items-center justify-center mb-4">
                         <UserCheck size={20} />
                       </div>
-                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-sm">Auditor Tablet View</h3>
+                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Auditor Tablet View</h3>
                       <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Optimized for physical auditing. High-density lines input grids and camera verification tools.</p>
-                      <button onClick={() => { setRole('auditor'); setTab('dashboard'); }} className="text-xs font-semibold text-[#E0762B] hover:underline flex items-center gap-1">
+                      <button onClick={() => { setRole('auditor'); setTab('dashboard'); }} className="text-xs font-bold text-[#E0762B] group-hover:underline flex items-center gap-1">
                         Open auditor tablet
                       </button>
                     </div>
-                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#6D4BC6]/30 transition-all">
+                    <div className="bg-white border border-[#E3EAF2] rounded-[10px] p-6 shadow-sm hover:border-[#6D4BC6]/30 transition-all cursor-pointer group">
                       <div className="w-10 h-10 rounded-lg bg-[#F0EBFB] text-[#6D4BC6] flex items-center justify-center mb-4">
                         <Sliders size={20} />
                       </div>
-                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-sm">Admin Control Center</h3>
+                      <h3 className="font-headline font-bold text-[#16202E] mb-2 text-[15px]">Admin Control Center</h3>
                       <p className="text-xs text-[#5A6B80] leading-relaxed mb-4">Approve scheduled audit sequences, deploy field auditors, and analyze client data charts.</p>
-                      <button onClick={() => { setRole('admin'); setTab('dashboard'); }} className="text-xs font-semibold text-[#6D4BC6] hover:underline flex items-center gap-1">
+                      <button onClick={() => { setRole('admin'); setTab('dashboard'); }} className="text-xs font-bold text-[#6D4BC6] group-hover:underline flex items-center gap-1">
                         Open admin panel
                       </button>
                     </div>
                   </div>
                 </div>
 
-                <div className="py-12 border-y border-[#E3EAF2] bg-white -mx-6 md:-mx-8">
-                  <div className="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row justify-between gap-8 text-center md:text-left">
-                    <div className="flex-1 space-y-2">
-                      <div className="w-12 h-12 rounded-full bg-[#EEF5FF] text-[#2B7CE9] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold Sora">1</div>
-                      <h4 className="font-headline font-bold text-[#16202E]">Track</h4>
-                      <p className="text-xs text-[#5A6B80]">Monitor your inventory with real-time sync across all warehouses.</p>
+                <div className="py-16 border-y border-[#E3EAF2] bg-white -mx-6 md:-mx-8">
+                  <div className="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row justify-between gap-12 text-center md:text-left">
+                    <div className="flex-1 space-y-3">
+                      <div className="w-12 h-12 rounded-full bg-[#EEF5FF] text-[#2B7CE9] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold text-lg">1</div>
+                      <h4 className="font-headline font-bold text-[#16202E] text-[17px]">Track</h4>
+                      <p className="text-sm text-[#5A6B80]">Monitor your inventory with real-time sync across all warehouses.</p>
                     </div>
-                    <div className="flex-1 space-y-2">
-                      <div className="w-12 h-12 rounded-full bg-[#E8F6EF] text-[#12855A] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold Sora">2</div>
-                      <h4 className="font-headline font-bold text-[#16202E]">Verify</h4>
-                      <p className="text-xs text-[#5A6B80]">Ensure accurate counts with high-density field auditor workflows.</p>
+                    <div className="flex-1 space-y-3">
+                      <div className="w-12 h-12 rounded-full bg-[#E8F6EF] text-[#12855A] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold text-lg">2</div>
+                      <h4 className="font-headline font-bold text-[#16202E] text-[17px]">Verify</h4>
+                      <p className="text-sm text-[#5A6B80]">Ensure accurate counts with high-density field auditor workflows.</p>
                     </div>
-                    <div className="flex-1 space-y-2">
-                      <div className="w-12 h-12 rounded-full bg-[#FDF0E3] text-[#E0762B] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold Sora">3</div>
-                      <h4 className="font-headline font-bold text-[#16202E]">Reconcile</h4>
-                      <p className="text-xs text-[#5A6B80]">Identify discrepancies instantly with smart variance tracking.</p>
+                    <div className="flex-1 space-y-3">
+                      <div className="w-12 h-12 rounded-full bg-[#FDF0E3] text-[#E0762B] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold text-lg">3</div>
+                      <h4 className="font-headline font-bold text-[#16202E] text-[17px]">Reconcile</h4>
+                      <p className="text-sm text-[#5A6B80]">Identify discrepancies instantly with smart variance tracking.</p>
                     </div>
-                    <div className="flex-1 space-y-2">
-                      <div className="w-12 h-12 rounded-full bg-[#F0EBFB] text-[#6D4BC6] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold Sora">4</div>
-                      <h4 className="font-headline font-bold text-[#16202E]">Grow</h4>
-                      <p className="text-xs text-[#5A6B80]">Build a stronger business with data that finance teams trust.</p>
+                    <div className="flex-1 space-y-3">
+                      <div className="w-12 h-12 rounded-full bg-[#F0EBFB] text-[#6D4BC6] flex items-center justify-center mx-auto md:mx-0 mb-4 font-bold text-lg">4</div>
+                      <h4 className="font-headline font-bold text-[#16202E] text-[17px]">Grow</h4>
+                      <p className="text-sm text-[#5A6B80]">Build a stronger business with data that finance teams trust.</p>
                     </div>
                   </div>
                 </div>
@@ -517,22 +525,24 @@ export default function InvTrackMainApp() {
             )}
 
             {tab === 'about' && (
-              <div className="max-w-[680px] mx-auto text-left space-y-6 py-8">
-                <h2 className="text-3xl font-headline font-bold text-[#16202E]">Our origin story</h2>
-                <p className="text-[#5A6B80] text-sm leading-relaxed">
-                  InvTrack was forged directly on a complex 1,800-SKU FMCG distribution center warehouse floor in Hyderabad. During a quarterly close operation, we witnessed firsthand the friction of managing physical counts using paper clipboards, three un-synced Excel documents, and chaotic WhatsApp groups.
-                </p>
-                <p className="text-[#5A6B80] text-sm leading-relaxed">
-                  The actual physical counting was manageable; the true breakdown lay in what happened afterward. Tracing shortages and routing approvals took days of manual friction.
-                </p>
-                <p className="text-[#5A6B80] text-sm leading-relaxed">
-                  We built InvTrack to replace this administrative breakdown with a single secure ledger. Today, our application powers operations across retail chains and medical logistics networks throughout India.
-                </p>
+              <div className="max-w-[680px] mx-auto text-left space-y-8 py-12">
+                <h2 className="text-4xl font-headline font-bold text-[#16202E]">Our origin story</h2>
+                <div className="space-y-6 text-[#5A6B80] leading-relaxed">
+                  <p>
+                    InvTrack was forged directly on a complex 1,800-SKU FMCG distribution center warehouse floor in Hyderabad. During a quarterly close operation, we witnessed firsthand the friction of managing physical counts using paper clipboards, three un-synced Excel documents, and chaotic WhatsApp groups.
+                  </p>
+                  <p>
+                    The actual physical counting was manageable; the true breakdown lay in what happened afterward. Tracing shortages and routing approvals took days of manual friction.
+                  </p>
+                  <p>
+                    We built InvTrack to replace this administrative breakdown with a single secure ledger. Today, our application powers operations across retail chains and medical logistics networks throughout India.
+                  </p>
+                </div>
               </div>
             )}
 
             {tab === 'how_it_works' && (
-              <div className="space-y-12 py-12">
+              <div className="space-y-16 py-12">
                 <div className="max-w-[800px] mx-auto text-center space-y-4">
                   <h2 className="text-4xl font-headline font-bold text-[#16202E]">The 5-Stage Audit Lifecycle</h2>
                   <p className="text-[#5A6B80] text-lg">Replacing chaotic spreadsheets with a single secure ledger of truth.</p>
@@ -568,38 +578,38 @@ export default function InvTrackMainApp() {
             )}
 
             {tab === 'request_audit' && (
-              <div className="max-w-[640px] mx-auto text-left space-y-6 py-4">
-                <div className="text-center space-y-1">
-                  <h2 className="text-3xl font-headline font-bold text-[#16202E]">Initiate your site count sequence</h2>
-                  <p className="text-[#5A6B80] text-sm">Our operational crew will verify details and assign field staff within 24 hours.</p>
+              <div className="max-w-[640px] mx-auto text-left space-y-8 py-12">
+                <div className="text-center space-y-2">
+                  <h2 className="text-4xl font-headline font-bold text-[#16202E]">Initiate site sequence</h2>
+                  <p className="text-[#5A6B80] text-base">Our operational crew will verify details and assign field staff within 24 hours.</p>
                 </div>
-                <Card className="border-[#E3EAF2] p-6 shadow-sm bg-white">
-                  <form onSubmit={handleLeadSubmit(onLeadSubmit)} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Company</label>
-                        <Input placeholder="ABC Enterprises" {...regLead('company')} />
+                <Card className="border-[#E3EAF2] p-8 shadow-premium bg-white">
+                  <form onSubmit={handleLeadSubmit(onLeadSubmit)} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-1.5">
+                        <label className="text-[11px] font-bold uppercase tracking-widest text-[#5A6B80]">Company</label>
+                        <Input placeholder="ABC Enterprises" {...regLead('company')} className="h-11 rounded-lg" />
                       </div>
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Contact Name</label>
-                        <Input placeholder="Ravi Teja" {...regLead('name')} />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Email</label>
-                        <Input type="email" placeholder="ravi.teja@abcent.in" {...regLead('email')} />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">Phone</label>
-                        <Input placeholder="9848012345" {...regLead('phone')} />
+                      <div className="space-y-1.5">
+                        <label className="text-[11px] font-bold uppercase tracking-widest text-[#5A6B80]">Contact Name</label>
+                        <Input placeholder="Ravi Teja" {...regLead('name')} className="h-11 rounded-lg" />
                       </div>
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-xs font-bold uppercase tracking-wider text-[#5A6B80]">What should we know?</label>
-                      <Textarea placeholder="Stock value, SKU count, when count is due" {...regLead('notes')} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-1.5">
+                        <label className="text-[11px] font-bold uppercase tracking-widest text-[#5A6B80]">Email</label>
+                        <Input type="email" placeholder="ravi.teja@abcent.in" {...regLead('email')} className="h-11 rounded-lg" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[11px] font-bold uppercase tracking-widest text-[#5A6B80]">Phone</label>
+                        <Input placeholder="9848012345" {...regLead('phone')} className="h-11 rounded-lg" />
+                      </div>
                     </div>
-                    <Button type="submit" className="w-full bg-[#2B7CE9] text-white hover:bg-[#1656B4] py-6 text-sm font-bold uppercase tracking-wider">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold uppercase tracking-widest text-[#5A6B80]">What should we know?</label>
+                      <Textarea placeholder="Stock value, SKU count, when count is due" {...regLead('notes')} className="min-h-[120px] rounded-lg" />
+                    </div>
+                    <Button type="submit" className="w-full bg-[#2B7CE9] text-white hover:bg-[#1656B4] h-12 text-sm font-bold uppercase tracking-widest rounded-lg">
                       Send request
                     </Button>
                   </form>
@@ -686,7 +696,6 @@ export default function InvTrackMainApp() {
                 </Card>
               </div>
             )}
-            {/* other client tabs... */}
           </motion.div>
         )}
 

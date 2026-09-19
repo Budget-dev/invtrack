@@ -28,7 +28,7 @@ export function TooltipDemo({
   labelKey?: string;
 } & ComponentProps<"div">) {
   const tooltipLabel = hideLabel ? null : (
-    <div className="font-headline font-semibold text-[11px] uppercase tracking-wider text-[#5A6B80] mb-1">{label}</div>
+    <div className="font-headline font-semibold text-[10px] uppercase tracking-wider text-[#5A6B80] mb-1.5">{label}</div>
   );
 
   if (!payload?.length) {
@@ -40,12 +40,12 @@ export function TooltipDemo({
   return (
     <div
       className={cn(
-        "grid min-w-[9rem] items-start gap-1.5 rounded-lg border border-[#E3EAF2] bg-white p-3 text-xs shadow-card transition-all duration-300 hover:-translate-y-1",
+        "grid min-w-[9rem] items-start gap-1 rounded-xl border border-[#E3EAF2] bg-white p-3 text-xs shadow-premium transition-all duration-300 hover:-translate-y-1",
         className,
       )}
     >
       {!nestLabel ? tooltipLabel : null}
-      <div className="grid gap-2">
+      <div className="grid gap-1.5">
         {payload.map((item, index) => {
           const indicatorColor = item.fill;
 
@@ -86,10 +86,10 @@ export function TooltipDemo({
                 >
                   <div className="grid gap-1">
                     {nestLabel ? tooltipLabel : null}
-                    <span className="text-[#5A6B80] font-medium text-[13px]">{item.name}</span>
+                    <span className="text-[#5A6B80] font-medium text-[12px]">{item.name}</span>
                   </div>
-                  <span className="font-code font-bold text-[#16202E] tabular-nums text-[13px]">
-                    {typeof item.value === 'number' ? item.value.toLocaleString() : item.value}
+                  <span className="font-code font-bold text-[#16202E] tabular-nums text-[12px]">
+                    {typeof item.value === 'number' && item.name !== 'Shortage' ? item.value.toLocaleString() : item.value}
                   </span>
                 </div>
               </>
@@ -104,8 +104,8 @@ export function TooltipDemo({
 export function FloatingDataDecoration({ className }: { className?: string }) {
   return (
     <div className={cn("relative h-full w-full", className)}>
-      {/* Live Variance Tooltip with Wavy Arrow */}
-      <div className="absolute -top-[10%] -left-[15%] z-20">
+      {/* Live Variance Tooltip (Top Left) */}
+      <div className="absolute top-[0%] left-[-10%] z-20">
         <div className="relative group">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +113,7 @@ export function FloatingDataDecoration({ className }: { className?: string }) {
             width="80"
             height="20"
             fill="none"
-            className="absolute -bottom-4 -right-12 z-10 text-[#2B7CE9] opacity-40 transform rotate-[160deg]"
+            className="absolute -bottom-6 -right-12 z-10 text-[#2B7CE9] opacity-30 transform rotate-[160deg]"
           >
             <path
               fill="currentColor"
@@ -127,21 +127,21 @@ export function FloatingDataDecoration({ className }: { className?: string }) {
               { name: "Value Impact", value: "₹12,750", fill: "#16202E" },
             ]}
             indicator="dot"
-            className="w-[10rem] border-[#C0362C]/20"
+            className="w-[10rem] border-[#E3EAF2]"
           />
         </div>
       </div>
 
-      {/* Current Count Tooltip with Diagonal Arrow */}
-      <div className="absolute top-[35%] -right-[15%] z-20">
+      {/* Current Count Tooltip (Right Side) */}
+      <div className="absolute top-[40%] -right-[15%] z-20">
         <div className="relative group">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="50"
+            width="30"
+            height="60"
             fill="none"
             viewBox="0 0 75 175"
-            className="absolute -bottom-8 -left-8 z-10 rotate-[220deg] text-[#E0762B] opacity-40"
+            className="absolute -bottom-10 -left-10 z-10 rotate-[220deg] text-[#E0762B] opacity-30"
           >
             <path
               fill="currentColor"
@@ -154,13 +154,13 @@ export function FloatingDataDecoration({ className }: { className?: string }) {
               { name: "AUD-002", value: "62%", fill: "#E0762B" },
             ]}
             indicator="dashed"
-            className="w-[11rem] border-[#E0762B]/20"
+            className="w-[9rem] border-[#E3EAF2]"
           />
         </div>
       </div>
 
-      {/* Accuracy Tooltip with Curved Arrow */}
-      <div className="absolute -bottom-[5%] right-[5%] z-20">
+      {/* Accuracy Tooltip (Bottom Right) */}
+      <div className="absolute bottom-[-10%] right-[0%] z-20">
         <div className="relative group">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +168,7 @@ export function FloatingDataDecoration({ className }: { className?: string }) {
             height="50"
             fill="none"
             viewBox="0 0 122 148"
-            className="absolute -top-12 -left-4 z-10 -scale-x-100 rotate-[45deg] text-[#12855A] opacity-40"
+            className="absolute -top-12 -left-6 z-10 -scale-x-100 rotate-[45deg] text-[#12855A] opacity-30"
           >
             <path
               fill="currentColor"
@@ -182,7 +182,7 @@ export function FloatingDataDecoration({ className }: { className?: string }) {
               { name: "Lines", value: 1842, fill: "#2B7CE9" },
             ]}
             indicator="line"
-            className="w-[10rem] border-[#12855A]/20"
+            className="w-[10rem] border-[#E3EAF2]"
           />
         </div>
       </div>
