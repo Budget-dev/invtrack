@@ -17,7 +17,8 @@ import {
   Menu, FilePlus, FileCheck2, PlaySquare, MoreVertical, LayoutDashboard,
   BarChart3, Calendar as CalendarIcon, FileBarChart, UserCog, ListChecks,
   FileWarning, ActivitySquare, PlusSquare, Trash2, CheckCircle2 as CheckIcon,
-  Globe, Mail, Phone, Linkedin, Twitter, Facebook, ExternalLink, Eye, ChevronRight
+  Globe, Mail, Phone, Linkedin, Twitter, Facebook, ExternalLink, Eye, ChevronRight,
+  TrendingUp as TrendingIcon, ShieldCheck as ShieldIcon
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area, BarChart, Bar, Legend, LineChart, Line, PieChart as RePie, Pie, Cell } from 'recharts';
 import { cn, formatCurrency, formatNumber, initials } from '@/lib/utils';
@@ -158,7 +159,6 @@ function PortalShell({
       { id: 'my_audits', name: 'My Audits', icon: ClipboardList },
       { id: 'today', name: 'Today\'s Audits', icon: PlaySquare },
       { id: 'count_sheet', name: 'Count Sheet', icon: Boxes },
-      { id: 'discrepancies', name: 'Discrepancies', icon: ShieldAlert },
       { id: 'completed', name: 'Completed Logs', icon: FileCheck2 }
     ],
     admin: [
@@ -327,7 +327,7 @@ export default function InvTrackMainApp() {
     <PortalShell currentRole={role} onRoleChange={setRole} activeTab={tab} onTabChange={setTab}>
       <AnimatePresence mode="wait">
         {role === 'marketing' && (
-          <motion.div key="marketing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-0">
+          <motion.div key="marketing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-0 text-left">
             {tab === 'home' && (
               <div className="space-y-0">
                 <div className="px-6 md:px-8">
@@ -371,7 +371,7 @@ export default function InvTrackMainApp() {
             )}
             
             {tab === 'request_audit' && (
-              <div className="max-w-[640px] mx-auto py-12 px-6 text-left">
+              <div className="max-w-[640px] mx-auto py-12 px-6">
                 <Card className="border-[#E3EAF2] bg-white p-8 shadow-premium">
                   <h2 className="text-3xl font-headline font-bold mb-6">Initiate your first count</h2>
                   <form onSubmit={handleLeadSubmit(() => { toast.success("Request sent!"); setTab('home'); })} className="space-y-6">
@@ -390,7 +390,7 @@ export default function InvTrackMainApp() {
               </div>
             )}
             
-            <div className="bg-[#2B7CE9] py-20 px-6">
+            <div className="bg-[#2B7CE9] py-20 px-6 mt-20">
               <div className="max-w-[1320px] mx-auto text-center text-white space-y-8">
                 <h2 className="text-4xl md:text-5xl font-headline font-bold tracking-tight">Ready to clarify your inventory?</h2>
                 <p className="text-white/80 text-lg max-w-[600px] mx-auto font-medium">Join hundreds of warehouse managers who have eliminated spreadsheet chaos and regained control over their stock accuracy.</p>
@@ -409,22 +409,22 @@ export default function InvTrackMainApp() {
                     <p className="text-[#5A6B80] text-sm max-w-[320px] leading-relaxed font-medium">Enterprise-grade inventory audit management for modern logistics hubs.</p>
                   </div>
                   <div>
-                    <h5 className="font-bold text-[#16202E] uppercase text-[12px] tracking-widest mb-6">Product</h5>
-                    <ul className="space-y-4 text-sm text-[#5A6B80] font-medium">
+                    <h5 className="font-bold text-[#16202E] uppercase text-[12px] tracking-widest mb-6 text-left">Product</h5>
+                    <ul className="space-y-4 text-sm text-[#5A6B80] font-medium text-left">
                       <li><button className="hover:text-[#2B7CE9]">Auditor Portal</button></li>
                       <li><button className="hover:text-[#2B7CE9]">Inventory Ledger</button></li>
                       <li><button className="hover:text-[#2B7CE9]">Discrepancy Control</button></li>
                     </ul>
                   </div>
                   <div>
-                    <h5 className="font-bold text-[#16202E] uppercase text-[12px] tracking-widest mb-6">Company</h5>
-                    <ul className="space-y-4 text-sm text-[#5A6B80] font-medium">
+                    <h5 className="font-bold text-[#16202E] uppercase text-[12px] tracking-widest mb-6 text-left">Company</h5>
+                    <ul className="space-y-4 text-sm text-[#5A6B80] font-medium text-left">
                       <li><button className="hover:text-[#2B7CE9]">About Us</button></li>
                       <li><button className="hover:text-[#2B7CE9]">Case Studies</button></li>
                       <li><button className="hover:text-[#2B7CE9]">Contact</button></li>
                     </ul>
                   </div>
-                  <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-6 text-left">
                     <h5 className="font-bold text-[#16202E] uppercase text-[12px] tracking-widest mb-2">Connect</h5>
                     <div className="flex gap-4">
                       <button className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-[#2B7CE9] hover:text-white transition-colors"><Linkedin size={16} /></button>
@@ -577,6 +577,21 @@ export default function InvTrackMainApp() {
                 </Card>
               </div>
             )}
+            {tab === 'my_audits' && (
+              <div className="space-y-6">
+                <header><h2 className="text-3xl font-headline font-bold">Assigned Audits</h2><p className="text-[#5A6B80]">Global list of all counts assigned to your credential.</p></header>
+                <Card className="border-[#E3EAF2] overflow-hidden">
+                  <Table>
+                    <TableHeader><TableRow><TableHead>Audit Reference</TableHead><TableHead>Site</TableHead><TableHead>Date</TableHead><TableHead>Status</TableHead><TableHead className="text-right">Action</TableHead></TableRow></TableHeader>
+                    <TableBody>
+                      {audits.filter(a => a.auditorId === 'aud_naveen').map(a => (
+                        <TableRow key={a.id}><TableCell className="font-bold">{a.reference}</TableCell><TableCell className="text-sm">{warehouses.find(w => w.id === a.warehouseId)?.name}</TableCell><TableCell className="text-xs">{a.scheduledDate}</TableCell><TableCell><AuditStatusBadge status={a.status} /></TableCell><TableCell className="text-right"><Button variant="outline" size="sm" className="h-8 font-bold" onClick={() => a.status === 'in_progress' ? setTab('count_sheet') : null}>View</Button></TableCell></TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Card>
+              </div>
+            )}
             {tab === 'today' && (
               <div className="space-y-6">
                 <header><h2 className="text-3xl font-headline font-bold">Today's Audits</h2><p className="text-[#5A6B80]">Your assigned shifts for the next 24 hours.</p></header>
@@ -674,6 +689,21 @@ export default function InvTrackMainApp() {
                 </Card>
               </div>
             )}
+            {tab === 'warehouses' && (
+              <div className="space-y-6">
+                <header><h2 className="text-3xl font-headline font-bold">Master Site Registry</h2><p className="text-[#5A6B80]">Global list of all onboarded warehouse sites across all clients.</p></header>
+                <Card className="border-[#E3EAF2] overflow-hidden">
+                   <Table>
+                      <TableHeader><TableRow><TableHead>Client</TableHead><TableHead>Site Name</TableHead><TableHead>Code</TableHead><TableHead>City</TableHead><TableHead className="text-right">SKU Registry</TableHead></TableRow></TableHeader>
+                      <TableBody>
+                        {warehouses.map(w => (
+                          <TableRow key={w.id}><TableCell className="text-xs font-bold uppercase">{clients.find(c => c.id === w.clientId)?.name}</TableCell><TableCell className="font-bold">{w.name}</TableCell><TableCell className="text-xs font-mono">{w.code}</TableCell><TableCell className="text-sm">{w.city}</TableCell><TableCell className="text-right font-bold">{formatNumber(w.skuCount)}</TableCell></TableRow>
+                        ))}
+                      </TableBody>
+                   </Table>
+                </Card>
+              </div>
+            )}
             {tab === 'auditors' && (
               <div className="space-y-6">
                 <header><h2 className="text-3xl font-headline font-bold">Field Agents</h2><p className="text-[#5A6B80]">Certified auditor roster and availability.</p></header>
@@ -683,6 +713,21 @@ export default function InvTrackMainApp() {
                       <TableBody>
                         {auditors.map(a => (
                           <TableRow key={a.id}><TableCell className="font-bold">{a.name}</TableCell><TableCell className="text-xs font-mono">{a.email}</TableCell><TableCell className="text-[10px] text-muted-foreground">{a.lastActiveDate}</TableCell><TableCell><Badge className="bg-green-100 text-green-700 hover:bg-green-100 capitalize">{a.status}</Badge></TableCell></TableRow>
+                        ))}
+                      </TableBody>
+                   </Table>
+                </Card>
+              </div>
+            )}
+            {tab === 'inventory' && (
+              <div className="space-y-6">
+                <header><h2 className="text-3xl font-headline font-bold">Master Inventory Ledger</h2><p className="text-[#5A6B80]">Global view of SKU registries across all clients.</p></header>
+                <Card className="border-[#E3EAF2] overflow-hidden">
+                   <Table>
+                      <TableHeader><TableRow><TableHead>SKU</TableHead><TableHead>Item Name</TableHead><TableHead>Warehouse</TableHead><TableHead className="text-right">System Qty</TableHead><TableHead className="text-right">Unit Value</TableHead></TableRow></TableHeader>
+                      <TableBody>
+                        {inventoryItems.map(item => (
+                          <TableRow key={item.sku}><TableCell className="font-mono text-xs font-bold">{item.sku}</TableCell><TableCell className="font-medium">{item.name}</TableCell><TableCell className="text-xs uppercase">{warehouses.find(w => w.id === item.warehouseId)?.name}</TableCell><TableCell className="text-right font-bold">{item.systemQty}</TableCell><TableCell className="text-right">{formatCurrency(item.unitValue)}</TableCell></TableRow>
                         ))}
                       </TableBody>
                    </Table>
@@ -705,7 +750,10 @@ export default function InvTrackMainApp() {
                     </CardContent>
                   </Card>
                   <Card className="border-[#E3EAF2]">
-                    <CardHeader className="p-4"><CardTitle className="text-sm font-bold uppercase tracking-wider text-[#16202E]">Operational Escalations Routing Inbox</CardTitle><CardDescription className="text-xs pt-1">Who is notified immediately when a critical severity discrepancy ledger breaches tolerance parameters during active floor verify shifts.</CardDescription></CardHeader>
+                    <CardHeader className="p-4">
+                      <CardTitle className="text-sm font-bold uppercase tracking-wider text-[#16202E]">Escalations Routing</CardTitle>
+                      <CardDescription className="text-xs pt-1">Configure immediate escalation triggers.</CardDescription>
+                    </CardHeader>
                     <CardContent className="p-4 space-y-4">
                       <div>
                         <span className="text-xs text-[#5A6B80] block mb-1">Operations Inbox Email:</span>
@@ -723,3 +771,4 @@ export default function InvTrackMainApp() {
     </PortalShell>
   );
 }
+
