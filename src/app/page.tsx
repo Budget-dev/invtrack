@@ -16,7 +16,8 @@ import {
   ChevronsRight, Bell, Settings, HelpCircle, User, Download, TrendingDown,
   Menu, FilePlus, FileCheck2, PlaySquare, MoreVertical, LayoutDashboard,
   BarChart3, Calendar as CalendarIcon, FileBarChart, UserCog, ListChecks,
-  FileWarning, ActivitySquare, PlusSquare, Trash2, CheckCircle2 as CheckIcon
+  FileWarning, ActivitySquare, PlusSquare, Trash2, CheckCircle2 as CheckIcon,
+  Globe, Mail, Phone, Linkedin, Twitter, Facebook
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area, BarChart, Bar, Legend, LineChart, Line } from 'recharts';
 import { cn, formatCurrency, formatNumber, initials } from '@/lib/utils';
@@ -53,6 +54,82 @@ export function Logo({ className = "" }: { className?: string }) {
         <span className="text-[#163E77]">Inv</span>
         <span className="text-[#2B7CE9]">Track</span>
       </span>
+    </div>
+  );
+}
+
+// --- FOOTER COMPONENT ---
+function MarketingFooter() {
+  return (
+    <div className="space-y-0">
+      {/* Pre-footer CTA */}
+      <div className="bg-[#2B7CE9] py-20 px-6">
+        <div className="max-w-[1320px] mx-auto text-center text-white space-y-8">
+          <h2 className="text-4xl md:text-5xl font-headline font-bold tracking-tight">Ready to clarify your inventory?</h2>
+          <p className="text-white/80 text-lg max-w-[600px] mx-auto font-medium">Join hundreds of warehouse managers who have eliminated spreadsheet chaos and regained control over their stock accuracy.</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button className="bg-white text-[#2B7CE9] hover:bg-white/90 h-12 px-10 font-bold uppercase tracking-widest rounded-md transition-all shadow-lg hover:shadow-xl">
+              Request a Free Audit
+            </Button>
+            <Button variant="outline" className="border-white/40 text-white hover:bg-white/10 h-12 px-10 font-bold uppercase tracking-widest rounded-md backdrop-blur-sm">
+              Talk to an Expert
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <footer className="bg-white border-t border-[#E3EAF2] pt-20 pb-10">
+        <div className="max-w-[1320px] mx-auto px-6 md:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
+            <div className="col-span-2 lg:col-span-2 space-y-8">
+              <Logo className="scale-110 origin-left" />
+              <p className="text-[#5A6B80] text-sm max-w-[320px] leading-relaxed font-medium">
+                Enterprise-grade inventory audit management for modern logistics and retail hubs. Accuracy delivered at scale through physical verify cycles.
+              </p>
+              <div className="flex gap-4">
+                <button className="w-10 h-10 rounded-full bg-[#EEF5FF] flex items-center justify-center text-[#2B7CE9] hover:bg-[#2B7CE9] hover:text-white transition-all shadow-sm hover:shadow-md"><Linkedin size={18} /></button>
+                <button className="w-10 h-10 rounded-full bg-[#EEF5FF] flex items-center justify-center text-[#2B7CE9] hover:bg-[#2B7CE9] hover:text-white transition-all shadow-sm hover:shadow-md"><Twitter size={18} /></button>
+                <button className="w-10 h-10 rounded-full bg-[#EEF5FF] flex items-center justify-center text-[#2B7CE9] hover:bg-[#2B7CE9] hover:text-white transition-all shadow-sm hover:shadow-md"><Facebook size={18} /></button>
+              </div>
+            </div>
+            <div className="space-y-6">
+              <h4 className="font-headline font-bold text-[12px] uppercase tracking-[0.2em] text-[#16202E]">Product</h4>
+              <ul className="space-y-4 text-[14px] text-[#5A6B80] font-medium">
+                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer flex items-center gap-2"><ArrowRight size={12} className="opacity-0 -ml-4 group-hover:opacity-100 transition-all" />Features</li>
+                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Mobile Count App</li>
+                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Live Analytics</li>
+                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Integrations</li>
+              </ul>
+            </div>
+            <div className="space-y-6">
+              <h4 className="font-headline font-bold text-[12px] uppercase tracking-[0.2em] text-[#16202E]">Resources</h4>
+              <ul className="space-y-4 text-[14px] text-[#5A6B80] font-medium">
+                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Audit Checklists</li>
+                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Case Studies</li>
+                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Knowledge Base</li>
+                <li className="hover:text-[#2B7CE9] transition-colors cursor-pointer">Support Center</li>
+              </ul>
+            </div>
+            <div className="space-y-6">
+              <h4 className="font-headline font-bold text-[12px] uppercase tracking-[0.2em] text-[#16202E]">Contact</h4>
+              <ul className="space-y-4 text-[14px] text-[#5A6B80] font-medium">
+                <li className="flex items-center gap-3"><Mail size={16} className="text-[#2B7CE9]" /> contact@invtrack.in</li>
+                <li className="flex items-center gap-3"><Phone size={16} className="text-[#2B7CE9]" /> +91 98860 12345</li>
+                <li className="flex items-center gap-3"><Globe size={16} className="text-[#2B7CE9]" /> Global Distribution</li>
+              </ul>
+            </div>
+          </div>
+          <div className="pt-10 border-t border-[#E3EAF2] flex flex-col md:flex-row justify-between items-center gap-6 text-[12px] text-[#8494A8] font-bold tracking-tight">
+            <p>© 2024 InvTrack Systems India Pvt Ltd. All rights reserved.</p>
+            <div className="flex flex-wrap justify-center gap-8">
+              <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-[#12855A]" /> SOC2 COMPLIANT</span>
+              <span className="flex items-center gap-2"><Activity size={16} className="text-[#2B7CE9]" /> UPTIME: 99.99%</span>
+              <span className="hover:text-[#16202E] cursor-pointer transition-colors uppercase tracking-widest">Privacy</span>
+              <span className="hover:text-[#16202E] cursor-pointer transition-colors uppercase tracking-widest">Terms</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -262,7 +339,9 @@ function PortalShell({
           </header>
 
           <main className="flex-1 overflow-y-auto bg-[#F7F9FC]">
-            <div className="max-w-[1320px] mx-auto p-6 md:p-8">{children}</div>
+            <div className="max-w-[1320px] mx-auto">
+              {children}
+            </div>
           </main>
         </div>
       </div>
@@ -310,30 +389,32 @@ export default function InvTrackMainApp() {
             {tab === 'home' && (
               <div className="space-y-0">
                 {/* Hero Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12 pb-24 items-center relative border-b border-[#E3EAF2]">
-                  <div className="space-y-8">
-                    <span className="text-[#2B7CE9] text-[13px] font-bold tracking-widest uppercase block">From stock to clarity</span>
-                    <h1 className="text-[48px] md:text-[56px] font-headline font-bold text-[#16202E] leading-tight tracking-tight">Accurate inventory audits for a stronger tomorrow</h1>
-                    <p className="text-[#5A6B80] text-lg max-w-[540px]">InvTrack replaces chaotic spreadsheets with physical verify cycles. Freeze quantities, track variances live, and produce reconciled reports instantly.</p>
-                    <div className="flex items-center gap-4">
-                      <Button onClick={() => setTab('request_audit')} className="bg-[#2B7CE9] text-white px-8 h-12 font-semibold">Request an audit</Button>
-                      <Button variant="outline" onClick={() => setTab('how_it_works')} className="h-12 px-8 font-semibold bg-white">See how it works</Button>
+                <div className="px-6 md:px-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12 pb-24 items-center relative border-b border-[#E3EAF2]">
+                    <div className="space-y-8">
+                      <span className="text-[#2B7CE9] text-[13px] font-bold tracking-widest uppercase block">From stock to clarity</span>
+                      <h1 className="text-[48px] md:text-[56px] font-headline font-bold text-[#16202E] leading-tight tracking-tight">Accurate inventory audits for a stronger tomorrow</h1>
+                      <p className="text-[#5A6B80] text-lg max-w-[540px]">InvTrack replaces chaotic spreadsheets with physical verify cycles. Freeze quantities, track variances live, and produce reconciled reports instantly.</p>
+                      <div className="flex items-center gap-4">
+                        <Button onClick={() => setTab('request_audit')} className="bg-[#2B7CE9] text-white px-8 h-12 font-semibold">Request an audit</Button>
+                        <Button variant="outline" onClick={() => setTab('how_it_works')} className="h-12 px-8 font-semibold bg-white">See how it works</Button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="relative flex items-center justify-center">
-                    <div className="absolute inset-0 hidden lg:block z-20"><FloatingDataDecoration /></div>
-                    <div className="grid grid-cols-2 gap-5 relative z-10 w-full max-w-[520px]">
-                      {[
-                        { val: '99.2%', label: 'Average accuracy' },
-                        { val: '6 hrs', label: 'Turnaround' },
-                        { val: '1,842', label: 'Daily SKU count' },
-                        { val: '4 Roles', label: 'One platform' }
-                      ].map((item, i) => (
-                        <Card key={i} className="bg-white border border-[#E3EAF2] p-6 shadow-card transition-transform hover:-translate-y-1">
-                          <div className="text-4xl font-headline font-bold text-[#16202E] mb-2 tabular-nums">{item.val}</div>
-                          <div className="text-[13px] text-[#5A6B80] font-medium">{item.label}</div>
-                        </Card>
-                      ))}
+                    <div className="relative flex items-center justify-center">
+                      <div className="absolute inset-0 hidden lg:block z-20"><FloatingDataDecoration /></div>
+                      <div className="grid grid-cols-2 gap-5 relative z-10 w-full max-w-[520px]">
+                        {[
+                          { val: '99.2%', label: 'Average accuracy' },
+                          { val: '6 hrs', label: 'Turnaround' },
+                          { val: '1,842', label: 'Daily SKU count' },
+                          { val: '4 Roles', label: 'One platform' }
+                        ].map((item, i) => (
+                          <Card key={i} className="bg-white border border-[#E3EAF2] p-6 shadow-card transition-transform hover:-translate-y-1">
+                            <div className="text-4xl font-headline font-bold text-[#16202E] mb-2 tabular-nums">{item.val}</div>
+                            <div className="text-[13px] text-[#5A6B80] font-medium">{item.label}</div>
+                          </Card>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -360,7 +441,7 @@ export default function InvTrackMainApp() {
               </div>
             )}
             {tab === 'request_audit' && (
-              <div className="max-w-[640px] mx-auto py-12">
+              <div className="max-w-[640px] mx-auto py-12 px-6">
                 <Card className="border-[#E3EAF2] bg-white p-8 shadow-premium">
                   <h2 className="text-3xl font-headline font-bold mb-6">Initiate your first count</h2>
                   <form onSubmit={handleLeadSubmit(() => { toast.success("Request sent!"); setTab('home'); })} className="space-y-6">
@@ -378,11 +459,14 @@ export default function InvTrackMainApp() {
                 </Card>
               </div>
             )}
+            
+            {/* Global Marketing Footer */}
+            <MarketingFooter />
           </motion.div>
         )}
 
         {role === 'client' && (
-          <motion.div key="client" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-8">
+          <motion.div key="client" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-8 p-6 md:p-8">
             {tab === 'dashboard' && (
               <div className="space-y-8 text-left">
                 <header>
@@ -501,7 +585,7 @@ export default function InvTrackMainApp() {
         )}
 
         {role === 'auditor' && (
-          <motion.div key="auditor" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-8 text-left">
+          <motion.div key="auditor" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-8 text-left p-6 md:p-8">
             {tab === 'dashboard' && (
               <div className="space-y-6">
                 <header><h2 className="text-3xl font-headline font-bold">Auditor Dashboard</h2><p className="text-[#5A6B80]">Active and upcoming floor verify assignments.</p></header>
@@ -549,7 +633,7 @@ export default function InvTrackMainApp() {
         )}
 
         {role === 'admin' && (
-          <motion.div key="admin" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-8 text-left">
+          <motion.div key="admin" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-8 text-left p-6 md:p-8">
             {tab === 'dashboard' && (
               <div className="space-y-8">
                 <header><h2 className="text-3xl font-headline font-bold">Admin Control Hub</h2><p className="text-[#5A6B80]">Global operational overview and request management.</p></header>
